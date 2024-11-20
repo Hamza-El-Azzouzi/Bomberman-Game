@@ -1,19 +1,19 @@
 const player = document.getElementById('player');
-const frameWidth = 48; 
-const frameHeight = 32; 
+const frameWidth = 48;
+const frameHeight = 32;
 const spriteDirections = {
-    down: 0, 
-    left: 1, 
-    right: 2, 
-    up: 3, 
+    down: 0,
+    left: 1,
+    right: 2,
+    up: 3,
 };
 
 const playerState = {
     x: 100,
     y: 100,
-    speed: 200, 
-    direction: 'down', 
-    frame: 0, 
+    speed: 200,
+    direction: 'down',
+    frame: 0,
 };
 
 const keys = {
@@ -49,9 +49,11 @@ export function update(deltaTime) {
         playerState.direction = 'right';
         moving = true;
     }
+    // player.x = Math.max(0, Math.min(containerWidth - 48, player.x));
+    // player.y = Math.max(0, Math.min(containerHeight - 32, player.y));
     if (moving) {
-        if (performance.now() - lastFrameTime > 200) { 
-            playerState.frame = (playerState.frame + 1) % 4; 
+        if (performance.now() - lastFrameTime > 200) {
+            playerState.frame = (playerState.frame + 1) % 4;
             lastFrameTime = performance.now();
         }
     } else {
