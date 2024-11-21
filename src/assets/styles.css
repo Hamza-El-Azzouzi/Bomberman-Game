@@ -118,3 +118,12 @@ body {
     background: transparent;
     box-shadow: inset 0 3px 8px #000;
 }
+
+.player {
+  position: absolute;
+  width: 48px; 
+  height: 32px; 
+  background-image: url('./assets/moroccan_f1.png'); 
+  background-size: 192px 128px; 
+  background-position: 0 0;
+}
