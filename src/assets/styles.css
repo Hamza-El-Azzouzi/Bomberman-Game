@@ -1,15 +1,20 @@
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  overflow-y: auto;
+  
   margin: 0;
   background-color: #f0f0f0;
 }
 
+.container{
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .map {
   width: 750px;
+ 
   height: 650px;
   display: flex;
   background-image: url("./empty-space.png");
