@@ -27,7 +27,7 @@ body {
   height: 48px; 
   background-image: url('./altima2.png'); 
   background-size: 192px 192px; 
-  background-position: 0 0;
+  will-change: transform, background-position;
 }
 
 .lands {
