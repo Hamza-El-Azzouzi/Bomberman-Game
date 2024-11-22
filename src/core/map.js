@@ -1,60 +1,106 @@
-
-export function MapGenerator(){
+export function MapGenerator() {
   const map = document.querySelector(".map");
-  var tils = [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  ];
+  const ROWS = 13;
+  const COLS = 15;
   
-  for (let i = 1; i < tils.length - 1; i++) {
-    let blockCount = 0;
-    for (let j = 1; j < tils[i].length - 1; j++) {
-      if (Math.random() < 0.2 && blockCount < 2) {
+  const tils = Array(ROWS).fill().map(() => Array(COLS).fill(0));
+
+  for (let i = 0; i < ROWS; i++) {
+    for (let j = 0; j < COLS; j++) {
+      if (i === 0 || i === ROWS - 1 || j === 0 || j === COLS - 1) {
         tils[i][j] = 1;
-        blockCount++;
-      } else if (Math.random() < 0.3 && tils[i][j] !== 1) {
-        tils[i][j] = 2;
       }
     }
   }
-  
-  let doorPlaced = false;
-  while (!doorPlaced) {
-    const randomRow = Math.floor(Math.random() * (tils.length - 2)) + 1;
-    const randomCol = Math.floor(Math.random() * (tils[0].length - 2)) + 1;
-  
-    if (tils[randomRow][randomCol] === 2) {
-      tils[randomRow][randomCol] = 4;
-      doorPlaced = true;
+
+  function countConsecutiveBlocks(row, col, isHorizontal) {
+    let count = 0;
+    if (isHorizontal) {
+      for (let j = Math.max(1, col - 2); j <= Math.min(COLS - 2, col + 2); j++) {
+        if (tils[row][j] === 2) count++;
+      }
+    } else {
+      for (let i = Math.max(1, row - 2); i <= Math.min(ROWS - 2, row + 2); i++) {
+        if (tils[i][col] === 2) count++;
+      }
+    }
+    return count;
+  }
+
+  for (let i = 1; i < ROWS - 1; i++) {
+    for (let j = 1; j < COLS - 1; j++) {
+      if (i % 2 === 0 && j % 2 === 0) {
+        tils[i][j] = 1;
+        continue;
+      }
+
+      const horizontalCount = countConsecutiveBlocks(i, j, true);
+      const verticalCount = countConsecutiveBlocks(i, j, false);
+
+      if (horizontalCount < 2 && verticalCount < 2) {
+        if (Math.random() < 0.6) {
+          tils[i][j] = 2;
+        }
+      }
     }
   }
-  for (let i = 0; i < tils.length; i++) {
-    for (let j = 0; j < tils[i].length; j++) {
+
+  const safeZones = [
+    [1, 1], [1, 2], [2, 1],            
+    [1, COLS-2], [2, COLS-2],          
+    [ROWS-2, 1], [ROWS-3, 1],           
+    [ROWS-2, COLS-2], [ROWS-3, COLS-2]
+  ];
+
+  safeZones.forEach(([row, col]) => {
+    tils[row][col] = 0;
+  });
+
+  let doorPlaced = false;
+  const potentialDoorSpots = [];
+  
+  for (let i = 2; i < ROWS - 2; i++) {
+    for (let j = 2; j < COLS - 2; j++) {
+      if (tils[i][j] === 2) {
+        potentialDoorSpots.push([i, j]);
+      }
+    }
+  }
+
+  if (potentialDoorSpots.length > 0) {
+    const [doorRow, doorCol] = potentialDoorSpots[
+      Math.floor(Math.random() * potentialDoorSpots.length)
+    ];
+    tils[doorRow][doorCol] = 4;
+    doorPlaced = true;
+  }
+
+  // Render the map
+  for (let i = 0; i < ROWS; i++) {
+    for (let j = 0; j < COLS; j++) {
       const block = document.createElement("div");
-      block.className =
-        tils[i][j] === 0
-          ? "lands"
-          : tils[i][j] === 1
-          ? "block"
-          : tils[i][j] === 2 || tils[i][j] === 4
-          ? "rock"
-          : "door";
-      if (tils[i][j] === 4) block.dataset.hiddenDoor = "true";
+      
+      switch (tils[i][j]) {
+        case 0: // Empty space
+          block.className = "lands";
+          break;
+        case 1: // Solid block
+          block.className = "block";
+          break;
+        case 2: // Destructible rock
+          block.className = "rock";
+          break;
+        case 4: // Hidden door
+          block.className = "rock";
+          block.dataset.hiddenDoor = "true";
+          break;
+      }
+      
       map.appendChild(block);
     }
   }
-  
+
+  // Add click handlers for rocks
   document.querySelectorAll(".rock").forEach((rock) => {
     rock.addEventListener("click", () => {
       if (rock.dataset.hiddenDoor === "true") {
@@ -63,5 +109,5 @@ export function MapGenerator(){
     });
   });
 
-  return tils
+  return tils;
 }
