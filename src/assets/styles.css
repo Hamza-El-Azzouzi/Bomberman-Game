@@ -1,5 +1,4 @@
 body {
-  
   margin: 0;
   background-color: #f0f0f0;
 }
@@ -18,12 +17,10 @@ body {
   height: 650px;
   display: flex;
   background-image: url("./empty-space.png");
-  /* background-color: green; Add this */
   flex-wrap: wrap;
 }
 
 .lands {
-  /* background-color: green; Add this */
   height: 50px;
   width: 50px;
   margin: 0 0 0 0;

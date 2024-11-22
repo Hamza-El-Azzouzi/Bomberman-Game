@@ -59,14 +59,9 @@ export function MapGenerator(){
     rock.addEventListener("click", () => {
       if (rock.dataset.hiddenDoor === "true") {
         rock.className = "door";
-        rock.textContent = "🚪";
       }
     });
   });
 
   return tils
 }
-
-
-
-
