@@ -20,6 +20,8 @@ body {
 }
 
 .player {
+  margin-top: 50px;
+  margin-left: 50px;
   position: absolute;
   width: 48px; 
   height: 48px; 

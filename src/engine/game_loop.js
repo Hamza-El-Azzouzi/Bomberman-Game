@@ -6,7 +6,6 @@ export function gameLoop(currentTime) {
     lastTime = currentTime;
     //const fps = Math.round(1 / deltaTime);
     //console.log("FPS: " + fps)
-
     update(deltaTime);
     render();
     requestAnimationFrame(gameLoop);
