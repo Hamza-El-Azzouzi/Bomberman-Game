@@ -1,6 +1,7 @@
 const player = document.getElementById('player');
+const container = document.querySelector('.map');
 const frameWidth = 48;
-const frameHeight = 32;
+const frameHeight = 48;
 const spriteDirections = {
     down: 0,
     left: 1,
@@ -26,6 +27,7 @@ const keys = {
     s: false,
     d: false,
 };
+
 let lastFrameTime = 0;
 export function update(deltaTime) {
     let moving = false;
@@ -49,8 +51,8 @@ export function update(deltaTime) {
         playerState.direction = 'right';
         moving = true;
     }
-    // player.x = Math.max(0, Math.min(containerWidth - 48, player.x));
-    // player.y = Math.max(0, Math.min(containerHeight - 32, player.y));
+    playerState.x = Math.max(51, Math.min(container.offsetWidth - (49*2), playerState.x));
+    playerState.y = Math.max(51, Math.min(container.offsetHeight - (49*2), playerState.y));
     if (moving) {
         if (performance.now() - lastFrameTime > 200) {
             playerState.frame = (playerState.frame + 1) % 4;
