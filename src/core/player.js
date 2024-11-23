@@ -10,8 +10,8 @@ const spriteDirections = {
 };
 
 export const playerState = {
-    x: 1,
-    y: 1,
+    x: 0,
+    y: 0,
     speed: 200,
     direction: 'down',
     frame: 0,
