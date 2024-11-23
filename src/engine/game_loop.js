@@ -1,14 +1,17 @@
 import { render, update } from "../core/player.js";
+import { FPSMonitor } from "./fps_monitor.js";
 
-let lastTime = 0;
+let lastTime = performance.now();
+const fpsMonitor = new FPSMonitor();
+
 export function gameLoop(currentTime) {
-    const deltaTime = (currentTime - lastTime) / 1000;
-    lastTime = currentTime;
+  const deltaTime = (currentTime - lastTime) / 1000;
+  lastTime = currentTime;
 
-    update(deltaTime); 
-    render();         
+  update(deltaTime);
+  render();
 
-    requestAnimationFrame(gameLoop);
+  fpsMonitor.update(currentTime);
+
+  requestAnimationFrame(gameLoop);
 }
-
-requestAnimationFrame(gameLoop);

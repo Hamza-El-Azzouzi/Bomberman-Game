@@ -3,4 +3,4 @@ import { MapGenerator } from "./core/map.js";
 
 export const tils = MapGenerator();
 
-requestAnimationFrame(gameLoop);
+gameLoop();

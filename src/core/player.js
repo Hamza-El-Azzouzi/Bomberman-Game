@@ -9,7 +9,7 @@ const spriteDirections = {
     up: 3,
 };
 
-const playerState = {
+export const playerState = {
     x: 1,
     y: 1,
     speed: 200,
