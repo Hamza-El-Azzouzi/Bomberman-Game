@@ -3,7 +3,7 @@ body {
   background-color: #f0f0f0;
 }
 
-.container{
+.container {
   height: 100vh;
   overflow-y: auto;
   display: flex;
@@ -23,10 +23,10 @@ body {
   margin-top: 50px;
   margin-left: 50px;
   position: absolute;
-  width: 48px; 
-  height: 48px; 
-  background-image: url('./altima2.png'); 
-  background-size: 192px 192px; 
+  width: 48px;
+  height: 48px;
+  background-image: url('./altima2.png');
+  background-size: 192px 192px;
   will-change: transform, background-position;
 }
 
@@ -48,85 +48,119 @@ body {
   background-color: #8b4513;
   border: 2px solid #654321;
   box-shadow: inset 0 0 5px #3e2c1c, 0 3px 6px rgba(0, 0, 0, 0.5);
-  background-image: linear-gradient(
-    45deg,
-    #9e6738 25%,
-    #8b4513 25%,
-    #8b4513 50%,
-    #9e6738 50%,
-    #9e6738 75%,
-    #8b4513 75%
-  );
+  background-image: linear-gradient(45deg,
+      #9e6738 25%,
+      #8b4513 25%,
+      #8b4513 50%,
+      #9e6738 50%,
+      #9e6738 75%,
+      #8b4513 75%);
   background-size: 20px 20px;
   display: inline-block;
   margin: 0;
   padding: 0;
 }
+
 .rock {
-    height: 46px;
-    width: 46px;             
-    background-color: #7F7F7F; 
-    border: 2px solid #5C5C5C; 
-    border-radius: 10%;       
-    box-shadow: inset 0 3px 6px #3F3F3F, 
-                0 4px 8px rgba(0, 0, 0, 0.5);
-    background-image: radial-gradient(circle at 30% 30%, #9A9A9A, #6E6E6E, #4C4C4C);
-    background-size: cover;  
-    display: inline-block;     
-    margin: 0;               
-    padding: 0;               
-    position: relative;      
-    transition: transform 0.2s ease-in, opacity 0.2s ease-in; 
+  height: 46px;
+  width: 46px;
+  background-color: #7F7F7F;
+  border: 2px solid #5C5C5C;
+  border-radius: 10%;
+  box-shadow: inset 0 3px 6px #3F3F3F,
+    0 4px 8px rgba(0, 0, 0, 0.5);
+  background-image: radial-gradient(circle at 30% 30%, #9A9A9A, #6E6E6E, #4C4C4C);
+  background-size: cover;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  transition: transform 0.2s ease-in, opacity 0.2s ease-in;
 }
 
 .door {
-    height: 44px;
-    width: 44px;               
-    background-color: #444;      
-    border: 3px solid #222; 
-    border-radius: 5%;
-    box-shadow: 
-        inset 0 3px 8px #000,  
-        0 0 15px #00FF00,   
-        0 4px 6px rgba(0, 0, 0, 0.5);
-    background-image: linear-gradient(
-        to bottom,
-        #666,
-        #555 40%,
-        #444 60%,
-        #222
-    );                           
-    display: inline-block;       
-    position: relative;          
-    transition: transform 0.2s ease-in-out;
+  height: 44px;
+  width: 44px;
+  background-color: #444;
+  border: 3px solid #222;
+  border-radius: 5%;
+  box-shadow:
+    inset 0 3px 8px #000,
+    0 0 15px #00FF00,
+    0 4px 6px rgba(0, 0, 0, 0.5);
+  background-image: linear-gradient(to bottom,
+      #666,
+      #555 40%,
+      #444 60%,
+      #222);
+  display: inline-block;
+  position: relative;
+  transition: transform 0.2s ease-in-out;
 }
+
 .door.active {
-    box-shadow: 
-        0 0 25px #00FF00,      
-        0 0 50px #00FF00;      
-    transform: scale(1.1);  
+  box-shadow:
+    0 0 25px #00FF00,
+    0 0 50px #00FF00;
+  transform: scale(1.1);
 }
+
 .door::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 10%;
-    width: 50%;
-    height: 5px;
-    background: #888;
-    border-radius: 5px;
-    transform: translateY(-50%);
-    box-shadow: inset 0 1px 3px #000;
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  width: 50%;
+  height: 5px;
+  background: #888;
+  border-radius: 5px;
+  transform: translateY(-50%);
+  box-shadow: inset 0 1px 3px #000;
 }
 
 .door::after {
-    content: '';
-    position: absolute;
-    top: 10%;
-    left: 20%;
-    width: 60%;
-    height: 80%;
-    border: 3px solid #222;
-    background: transparent;
-    box-shadow: inset 0 3px 8px #000;
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  width: 60%;
+  height: 80%;
+  border: 3px solid #222;
+  background: transparent;
+  box-shadow: inset 0 3px 8px #000;
+}
+
+.bomb {
+  margin-top: 50px;
+  margin-left: 50px;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: url("bomb_sprite.png") no-repeat center center;
+  background-size: cover;
+  animation: bomb-fuse 3s steps(3) infinite;
+}
+
+@keyframes bomb-fuse {
+  0% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(4);
+  }
+
+  100% {
+    filter: brightness(1);
+  }
+}
+
+.explosion {
+  margin-top: 50px;
+  margin-left: 50px;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle, rgba(255, 100, 0, 1) 0%, rgba(255, 0, 0, 0.7) 60%, rgba(255, 255, 255, 0) 100%);
+  animation: 0.5s ease-out;
 }

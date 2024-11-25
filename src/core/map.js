@@ -39,7 +39,7 @@ export function MapGenerator() {
 
       if (horizontalCount < 2 && verticalCount < 2) {
         if (Math.random() < 0.6) {
-          tils[i][j] = 2;
+          //tils[i][j] = 2;
         }
       }
     }
@@ -75,22 +75,21 @@ export function MapGenerator() {
     doorPlaced = true;
   }
 
-  // Render the map
   for (let i = 0; i < ROWS; i++) {
     for (let j = 0; j < COLS; j++) {
       const block = document.createElement("div");
       
       switch (tils[i][j]) {
-        case 0: // Empty space
+        case 0: 
           block.className = "lands";
           break;
-        case 1: // Solid block
+        case 1:
           block.className = "block";
           break;
-        case 2: // Destructible rock
+        case 2: 
           block.className = "rock";
           break;
-        case 4: // Hidden door
+        case 4: 
           block.className = "rock";
           block.dataset.hiddenDoor = "true";
           break;
@@ -100,7 +99,6 @@ export function MapGenerator() {
     }
   }
 
-  // Add click handlers for rocks
   document.querySelectorAll(".rock").forEach((rock) => {
     rock.addEventListener("click", () => {
       if (rock.dataset.hiddenDoor === "true") {
