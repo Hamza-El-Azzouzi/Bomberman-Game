@@ -39,7 +39,7 @@ export function MapGenerator() {
 
       if (horizontalCount < 2 && verticalCount < 2) {
         if (Math.random() < 0.6) {
-          //tils[i][j] = 2;
+          tils[i][j] = 2;
         }
       }
     }

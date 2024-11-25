@@ -160,7 +160,9 @@ body {
   margin-left: 50px;
   position: absolute;
   width: 50px;
-  height: 50px;
-  background: radial-gradient(circle, rgba(255, 100, 0, 1) 0%, rgba(255, 0, 0, 0.7) 60%, rgba(255, 255, 255, 0) 100%);
-  animation: 0.5s ease-out;
+  height: 50px; 
+  background: url("../assets/exp2.png") no-repeat;
+  background-size: 200px 200px;
+  opacity: 1;
 }
+
