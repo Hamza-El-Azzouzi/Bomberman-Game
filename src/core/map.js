@@ -1,9 +1,15 @@
+import { playerState } from './player.js';
+
+
 export function MapGenerator() {
-  const map = document.querySelector(".map");
+  const map = document.querySelector('.map');
   const ROWS = 13;
   const COLS = 15;
-  
-  const tils = Array(ROWS).fill().map(() => Array(COLS).fill(0));
+  const TILE_SIZE = 48;
+
+  const tils = Array(ROWS)
+    .fill()
+    .map(() => Array(COLS).fill(0));
 
   for (let i = 0; i < ROWS; i++) {
     for (let j = 0; j < COLS; j++) {
@@ -26,7 +32,6 @@ export function MapGenerator() {
     }
     return count;
   }
-
   for (let i = 1; i < ROWS - 1; i++) {
     for (let j = 1; j < COLS - 1; j++) {
       if (i % 2 === 0 && j % 2 === 0) {
@@ -46,15 +51,20 @@ export function MapGenerator() {
   }
 
   const safeZones = [
-    [1, 1], [1, 2], [2, 1],            
-    [1, COLS-2], [2, COLS-2],          
-    [ROWS-2, 1], [ROWS-3, 1],           
-    [ROWS-2, COLS-2], [ROWS-3, COLS-2]
+    [1, 1], [1, 2], [2, 1],
+    [1, COLS - 2], [2, COLS - 2],
+    [ROWS - 2, 1], [ROWS - 3, 1],
+    [ROWS - 2, COLS - 2], [ROWS - 3, COLS - 2],
   ];
 
   safeZones.forEach(([row, col]) => {
     tils[row][col] = 0;
   });
+  
+  const [startRow, startCol] = safeZones[0];
+  playerState.x = startCol * TILE_SIZE; 
+  playerState.y = startRow * TILE_SIZE; 
+
 
   let doorPlaced = false;
   const potentialDoorSpots = [];
@@ -75,34 +85,34 @@ export function MapGenerator() {
     doorPlaced = true;
   }
 
+
   for (let i = 0; i < ROWS; i++) {
     for (let j = 0; j < COLS; j++) {
-      const block = document.createElement("div");
-      
+      const block = document.createElement('div');
+
       switch (tils[i][j]) {
-        case 0: 
-          block.className = "lands";
+        case 0:
+          block.className = 'lands';
           break;
         case 1:
-          block.className = "block";
+          block.className = 'block';
           break;
-        case 2: 
-          block.className = "rock";
+        case 2:
+          block.className = 'rock';
           break;
-        case 4: 
-          block.className = "rock";
-          block.dataset.hiddenDoor = "true";
+        case 4:
+          block.className = 'rock';
+          block.dataset.hiddenDoor = 'true';
           break;
       }
-      
       map.appendChild(block);
     }
   }
 
-  document.querySelectorAll(".rock").forEach((rock) => {
-    rock.addEventListener("click", () => {
-      if (rock.dataset.hiddenDoor === "true") {
-        rock.className = "door";
+  document.querySelectorAll('.rock').forEach((rock) => {
+    rock.addEventListener('click', () => {
+      if (rock.dataset.hiddenDoor === 'true') {
+        rock.className = 'door';
       }
     });
   });

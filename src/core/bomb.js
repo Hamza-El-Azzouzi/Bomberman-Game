@@ -34,7 +34,7 @@ function showExplosionEffect(bombX, bombY) {
     const frameInterval = 100;
 
     const interval = setInterval(() => {
-        if (frame >= totalFrames) {
+        if (frame * row >= totalFrames) {
             clearInterval(interval); 
             explosion.remove();
             return;

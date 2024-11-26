@@ -10,6 +10,12 @@ body {
   justify-content: center;
   align-items: center;
 }
+.field{
+  width: 700px;
+  height: 600px;
+
+
+}
 
 .map {
   width: 750px;
@@ -20,11 +26,9 @@ body {
 }
 
 .player {
-  margin-top: 50px;
-  margin-left: 50px;
-  position: absolute;
   width: 48px;
   height: 48px;
+  position: absolute;
   background-image: url('./altima2.png');
   background-size: 192px 192px;
   will-change: transform, background-position;
