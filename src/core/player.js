@@ -38,11 +38,9 @@ export function update(deltaTime) {
   let moving = false;
   const lastKey = activeKeys[activeKeys.length - 1];
 
-  // Get the player's current grid position
   const currentRow = Math.floor(playerState.y / TILE_SIZE);
   const currentCol = Math.floor(playerState.x / TILE_SIZE);
 
-  // Determine the intended next position in grid terms
   let nextRow = currentRow;
   let nextCol = currentCol;
 
@@ -50,30 +48,28 @@ export function update(deltaTime) {
     case "ArrowUp":
     case "w":
       nextRow = currentRow - 1;
-    //   playerState.y -= playerState.speed * deltaTime;
+      playerState.y -= playerState.speed * deltaTime;
       playerState.direction = "up";
       moving = true;
       break;
     case "ArrowDown":
     case "s":
       nextRow = currentRow + 1;
+      playerState.y += playerState.speed * deltaTime;
       playerState.direction = "down";
       moving = true;
       break;
     case "ArrowLeft":
     case "a":
       nextCol = currentCol - 1;
+      playerState.x -= playerState.speed * deltaTime;
       playerState.direction = "left";
       moving = true;
       break;
     case "ArrowRight":
     case "d":
-    //   nextCol = currentCol + 1;
-    //   playerState.x += playerState.speed * deltaTime;
-    //   playerState.direction = "right";
-    //   moving = true;
-    //   break;
-      nextCol = currentCol + 1; // Move right
+      nextCol = currentCol + 1;
+      playerState.x += playerState.speed * deltaTime;
       playerState.direction = 'right';
       moving = true;
       break;
@@ -86,9 +82,10 @@ export function update(deltaTime) {
   playerState.y = Math.max(50, Math.min(mapPixelHeight - 50, playerState.y));
 
   if (moving || Collision(currentRow,currentCol,Tils)) {
-    playerState.x = nextCol * 1;
-    playerState.y = nextRow * 1;
-    // console.log(Tils)
+    playerState.direction === 'right' ?  playerState.x += playerState.speed * deltaTime : 0
+    playerState.direction === 'up' ?   playerState.y -= playerState.speed * deltaTime : 0
+    playerState.direction === 'down' ?  playerState.y += playerState.speed * deltaTime : 0
+    playerState.direction === 'left' ?  playerState.x -= playerState.speed * deltaTime : 0
     const currentTime = performance.now();
     if (currentTime - lastAnimationTime > frameInterval) {
       playerState.frame = (playerState.frame + 1) % 4;
