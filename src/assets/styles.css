@@ -146,8 +146,16 @@ body {
     filter: brightness(1);
   }
 
+  25% {
+    filter: brightness(2);
+  }
+
   50% {
-    filter: brightness(4);
+    filter: brightness(3);
+  }
+
+  75% {
+    filter: brightness(2);
   }
 
   100% {
