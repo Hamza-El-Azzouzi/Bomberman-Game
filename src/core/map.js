@@ -5,7 +5,7 @@ export function MapGenerator() {
   const map = document.querySelector('.map');
   const ROWS = 13;
   const COLS = 15;
-  const TILE_SIZE = 48;
+  const TILE_SIZE = 50;
 
   const tils = Array(ROWS)
     .fill()
@@ -42,11 +42,11 @@ export function MapGenerator() {
       const horizontalCount = countConsecutiveBlocks(i, j, true);
       const verticalCount = countConsecutiveBlocks(i, j, false);
 
-      if (horizontalCount < 2 && verticalCount < 2) {
-        if (Math.random() < 0.6) {
-          tils[i][j] = 2;
-        }
-      }
+      // if (horizontalCount < 2 && verticalCount < 2) {
+      //   if (Math.random() < 0.6) {
+      //     tils[i][j] = 2;
+      //   }
+      // }
     }
   }
 

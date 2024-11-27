@@ -30,66 +30,65 @@ const frameInterval = 200;
 let lastAnimationTime = 0;
 
 export function update(deltaTime) {
-
-    if (activeKeys.length === 0) {
-        playerState.frame = 0;
-        return;
-    }
-    const surroundings = utils.checkSurroundings(playerState, Tils, TILE_SIZE);
-    console.log(surroundings)
-    let moving = false;
-    const lastKey = activeKeys[activeKeys.length - 1];
-
-    switch (lastKey) {
-      case 'ArrowUp':
-      case 'w':
-          if (surroundings.up) {
-              playerState.y -= playerState.speed * deltaTime;
-              playerState.direction = 'up';
-              moving = true;
-          }
-          break;
-      case 'ArrowDown':
-      case 's':
-          if (surroundings.down) {
-              playerState.y += playerState.speed * deltaTime;
-              playerState.direction = 'down';
-              moving = true;
-          }
-          break;
-      case 'ArrowLeft':
-      case 'a':
-          if (surroundings.left) {
-              playerState.x -= playerState.speed * deltaTime;
-              playerState.direction = 'left';
-              moving = true;
-          }
-          break;
-      case 'ArrowRight':
-      case 'd':
-          if (surroundings.right) {
-              playerState.x += playerState.speed * deltaTime;
-              playerState.direction = 'right';
-              moving = true;
-          }
-          break;
+  if (activeKeys.length === 0) {
+      playerState.frame = 0;
+      return;
   }
-    playerState.x = Math.max(50, Math.min(mapBounds.width-50, playerState.x));
-    playerState.y = Math.max(50, Math.min(mapBounds.height-50, playerState.y));
 
-    if (moving) {
-        const currentTime = performance.now();
-        if (currentTime - lastAnimationTime > frameInterval) {
-            playerState.frame = (playerState.frame + 1) % 4;
-            lastAnimationTime = currentTime;
-        }
-    } else {
-        playerState.frame = 0;
-    }
-    console.log(surroundings)
-   
-    utils.processSurroundings(surroundings, Tils);
+  const lastKey = activeKeys[activeKeys.length - 1];
+  const surroundings = utils.checkSurroundings(playerState, Tils, TILE_SIZE);
+
+  let moving = false;
+
+  switch (lastKey) {
+    case 'ArrowUp':
+    case 'w':
+      if (surroundings.up) {
+        playerState.y -= playerState.speed * deltaTime;
+        playerState.direction = 'up';
+        moving = true;
+      }
+      break;
+    case 'ArrowDown':
+    case 's':
+      if (surroundings.down) {
+        playerState.y += playerState.speed * deltaTime;
+        playerState.direction = 'down';
+        moving = true;
+      }
+      break;
+    case 'ArrowLeft':
+    case 'a':
+      if (surroundings.left) {
+        playerState.x -= playerState.speed * deltaTime;
+        playerState.direction = 'left';
+        moving = true;
+      }
+      break;
+    case 'ArrowRight':
+    case 'd':
+      if (surroundings.right) {
+        playerState.x += playerState.speed * deltaTime;
+        playerState.direction = 'right';
+        moving = true;
+      }
+      break;
+  }
+
+  playerState.x = Math.max(48, Math.min(mapBounds.width - 48, playerState.x));
+  playerState.y = Math.max(48, Math.min(mapBounds.height - 48, playerState.y));
+
+  if (moving) {
+      const currentTime = performance.now();
+      if (currentTime - lastAnimationTime > frameInterval) {
+          playerState.frame = (playerState.frame + 1) % 4;
+          lastAnimationTime = currentTime;
+      }
+  } else {
+      playerState.frame = 0;
+  }
 }
+
 
 export function render() {
     player.style.transform = `translate3d(${Math.round(playerState.x)}px, ${Math.round(playerState.y)}px, 0)`;
