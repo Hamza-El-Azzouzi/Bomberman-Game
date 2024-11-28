@@ -1,13 +1,10 @@
-// Import necessary modules and constants
 import { placeBomb } from "./bomb.js";
-import * as utils from "../utils/collision.js";
-import { Tils } from "../main.js";
-
-const TILE_SIZE = 50;
-const player = document.getElementById("player");
-const frameWidth = 48;
-const frameHeight = 48;
-
+import * as utils from "../utils/collision.js"
+import { Tils } from "../main.js"
+const TILE_SIZE = 50
+const player = document.getElementById('player');
+const frameWidth = 50;
+const frameHeight = 50;
 const spriteDirections = {
   down: 0,
   left: 1,
@@ -18,13 +15,8 @@ const spriteDirections = {
 export const playerState = {
   x: 0,
   y: 0,
-  speed: 200,
-  direction: 'down',
-  frame: 0,
-  x: 0,
-  y: 0,
   speed: 150,
-  direction: "down",
+  direction: 'down',
   frame: 0,
 };
 
@@ -42,51 +34,14 @@ const keys = {
 const mapBounds = {
   width: 750,
   height: 650,
-  width: 750,
-  height: 650,
 };
 
 const frameInterval = 200;
 let lastAnimationTime = 0;
 
-const obstacles = [
-  { x: 2 * TILE_SIZE, y: 2 * TILE_SIZE, width: TILE_SIZE, height: TILE_SIZE },
-  { x: 4 * TILE_SIZE, y: 2 * TILE_SIZE, width: TILE_SIZE, height: TILE_SIZE },
-];
-
-function isColliding(rect1, rect2) {
-  return (
-    rect1.x < rect2.x + rect2.width &&
-    rect1.x + rect1.width > rect2.x &&
-    rect1.y < rect2.y + rect2.height &&
-    rect1.y + rect1.height > rect2.y
-  );
-}
-
-function updatePlayerPosition(playerState, deltaX, deltaY) {
-  const futurePosition = {
-    x: playerState.x + deltaX,
-    y: playerState.y + deltaY,
-    width: TILE_SIZE,
-    height: TILE_SIZE,
-  };
-
-  futurePosition.x = Math.max(TILE_SIZE, Math.min(mapBounds.width - TILE_SIZE, futurePosition.x));
-  futurePosition.y = Math.max(TILE_SIZE, Math.min(mapBounds.height - TILE_SIZE, futurePosition.y));
-
-
-  const isBlocked = obstacles.some((obstacle) => isColliding(futurePosition, obstacle));
-
-  if (!isBlocked) {
-    playerState.x = futurePosition.x;
-    playerState.y = futurePosition.y;
-  }
-}
-
-// Update function for movement
 export function update(deltaTime) {
   const surroundings = utils.checkSurroundings(playerState, Tils, TILE_SIZE);
-  const threshold = TILE_SIZE / 20;
+  const threshold = TILE_SIZE / 25;
   let moving = false;
 
   if (keys.ArrowUp || keys.w) {
@@ -119,7 +74,6 @@ export function update(deltaTime) {
     ) {
       playerState.x -= playerState.speed * deltaTime;
       playerState.y = Math.round(playerState.y / TILE_SIZE) * TILE_SIZE;
-
     }
     moving = true;
   }
@@ -152,7 +106,6 @@ export function update(deltaTime) {
     }
   } else {
     playerState.frame = 0;
-    playerState.frame = 0;
   }
 }
 
@@ -160,11 +113,8 @@ export function update(deltaTime) {
 
 export function render() {
   player.style.transform = `translate3d(${Math.round(playerState.x)}px, ${Math.round(playerState.y)}px, 0)`;
-  player.style.transform = `translate3d(${Math.round(playerState.x)}px, ${Math.round(playerState.y)}px, 0)`;
 
-  let row = spriteDirections[playerState.direction];
-  player.style.backgroundPosition = `-${playerState.frame * frameWidth}px -${row * frameHeight}px`;
-  row = spriteDirections[playerState.direction];
+  const row = spriteDirections[playerState.direction];
   player.style.backgroundPosition = `-${playerState.frame * frameWidth}px -${row * frameHeight}px`;
 }
 
@@ -184,10 +134,6 @@ document.addEventListener('keydown', handleKeydown);
 document.addEventListener('keyup', handleKeyup);
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === " ") {
-    event.preventDefault();
-    placeBomb(playerState);
-  }
   if (event.key === " ") {
     event.preventDefault();
     placeBomb(playerState);

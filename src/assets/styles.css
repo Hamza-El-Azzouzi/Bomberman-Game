@@ -20,11 +20,11 @@ body {
 }
 
 .player {
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
   position: absolute;
   background-image: url('./altima2.png');
-  background-size: 192px 192px;
+  background-size: 200px 200px;
   will-change: transform, background-position;
 }
 

@@ -30,17 +30,3 @@ export function checkSurroundings(playerState, tils, tileSize) {
     right: col < tils[0].length - 1 && tils[row][col + 1] === 0,
   };
 }
-
-export function processSurroundings(surroundings) {
-  console.log("worked - ProcessSurroundings");
-  for (const [direction, value] of Object.entries(surroundings)) {
-    console.log(`Direction: ${direction}, Value: ${value}`);
-  }
-}
-
-// Example: Break tile logic (destructible tiles)
-export function breakTile(row, col, tils) {
-  for (const [direction, value] of Object.entries(surroundings)) {
-    console.log(`Direction: ${direction}, Value: ${value}`);
-  }
-}
