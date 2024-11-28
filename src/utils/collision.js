@@ -1,7 +1,13 @@
 export function getPlayerTilePosition(playerState, tileSize) {
   console.log("worked - getPlayerTilePosition");
-  const row = Math.floor(playerState.y / tileSize);
-  const col = Math.floor(playerState.x / tileSize);
+  let row,col = 0
+  if (playerState.direction === "up" || playerState.direction === "left"){
+    row = Math.ceil(playerState.y / tileSize);
+    col = Math.ceil(playerState.x / tileSize);
+  }else{
+    row = Math.floor(playerState.y / tileSize);
+    col = Math.floor(playerState.x / tileSize);
+  }
   console.log(`Player is at row: ${row}, col: ${col}`);
   return { row, col };
 }

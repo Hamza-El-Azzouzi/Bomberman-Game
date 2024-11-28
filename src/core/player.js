@@ -1,10 +1,10 @@
 import { placeBomb } from "./bomb.js";
 import * as utils from "../utils/collision.js"
 import {Tils} from "../main.js"
-const TILE_SIZE = 48
+const TILE_SIZE = 50
 const player = document.getElementById('player');
-const frameWidth = 48;
-const frameHeight = 48;
+const frameWidth = 50;
+const frameHeight = 50;
 const spriteDirections = {
     down: 0,
     left: 1,
@@ -43,40 +43,41 @@ export function update(deltaTime) {
   switch (lastKey) {
     case 'ArrowUp':
     case 'w':
-      if (surroundings.up) {
+      playerState.direction = 'up';
+      if (playerState.x %50 === 0 && surroundings.up) {
         playerState.y -= playerState.speed * deltaTime;
-        playerState.direction = 'up';
-        moving = true;
       }
+      moving = true;
       break;
     case 'ArrowDown':
     case 's':
-      if (surroundings.down) {
+      playerState.direction = 'down';
+      if (playerState.x %50 === 0 && surroundings.down) {
         playerState.y += playerState.speed * deltaTime;
-        playerState.direction = 'down';
-        moving = true;
       }
+      moving = true;
       break;
     case 'ArrowLeft':
     case 'a':
-      if (surroundings.left) {
+      playerState.direction = 'left';
+      if (playerState.y %50 === 0 && surroundings.left) {
         playerState.x -= playerState.speed * deltaTime;
-        playerState.direction = 'left';
-        moving = true;
       }
+      moving = true;
       break;
     case 'ArrowRight':
     case 'd':
-      if (surroundings.right) {
+      playerState.direction = 'right';
+      console.log(playerState.y,surroundings.right)
+      if (playerState.y %50 === 0 && surroundings.right) {
         playerState.x += playerState.speed * deltaTime;
-        playerState.direction = 'right';
-        moving = true;
       }
+      moving = true;
       break;
   }
 
-  playerState.x = Math.max(48, Math.min(mapBounds.width - 48, playerState.x));
-  playerState.y = Math.max(48, Math.min(mapBounds.height - 48, playerState.y));
+  playerState.x = Math.max(TILE_SIZE, Math.min(mapBounds.width - TILE_SIZE, playerState.x));
+  playerState.y = Math.max(TILE_SIZE, Math.min(mapBounds.height - TILE_SIZE, playerState.y));
 
   if (moving) {
       const currentTime = performance.now();
