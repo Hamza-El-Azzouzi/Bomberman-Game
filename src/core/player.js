@@ -162,7 +162,7 @@ export function render() {
   player.style.transform = `translate3d(${Math.round(playerState.x)}px, ${Math.round(playerState.y)}px, 0)`;
   player.style.transform = `translate3d(${Math.round(playerState.x)}px, ${Math.round(playerState.y)}px, 0)`;
 
-  const row = spriteDirections[playerState.direction];
+  let row = spriteDirections[playerState.direction];
   player.style.backgroundPosition = `-${playerState.frame * frameWidth}px -${row * frameHeight}px`;
   row = spriteDirections[playerState.direction];
   player.style.backgroundPosition = `-${playerState.frame * frameWidth}px -${row * frameHeight}px`;
