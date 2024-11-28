@@ -78,10 +78,10 @@ export function update(deltaTime) {
     playerState.direction = "right";
     if (Math.abs(playerState.y % TILE_SIZE) < threshold && surroundings.right) {
       playerState.x += Math.round(playerState.speed * deltaTime);
-      playerState.x = Math.round(playerState.x / 5) * 5; // Align to nearest multiple of 5
+      playerState.x = Math.round(playerState.x / 5) * 5;
 
-      playerState.y = Math.round(playerState.y / TILE_SIZE) * TILE_SIZE; // Align to grid
-      playerState.y = Math.round(playerState.y / 5) * 5; // Align to nearest multiple of 5
+      playerState.y = Math.round(playerState.y / TILE_SIZE) * TILE_SIZE;
+      playerState.y = Math.round(playerState.y / 5) * 5;
     }
     moving = true;
   }
