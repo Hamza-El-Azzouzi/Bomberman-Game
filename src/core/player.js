@@ -41,16 +41,14 @@ let lastAnimationTime = 0;
 
 export function update(deltaTime) {
   const surroundings = utils.checkSurroundings(playerState, Tils, TILE_SIZE);
-  const threshold = TILE_SIZE / 10;
+  const threshold = TILE_SIZE / 2.5;
   let moving = false;
 
   if (keys.ArrowUp || keys.w) {
     playerState.direction = "up";
     if (Math.abs(playerState.x % TILE_SIZE) < threshold && surroundings.up) {
       playerState.y -= Math.round(playerState.speed * deltaTime);
-      playerState.y = Math.round(playerState.y / 5) * 5;
       playerState.x = Math.round(playerState.x / TILE_SIZE) * TILE_SIZE;
-      playerState.x = Math.round(playerState.x / 5) * 5;
     }
     moving = true;
   }
@@ -58,9 +56,7 @@ export function update(deltaTime) {
     playerState.direction = "down";
     if (Math.abs(playerState.x % TILE_SIZE) < threshold && surroundings.down) {
       playerState.y += Math.round(playerState.speed * deltaTime);
-      playerState.y = Math.round(playerState.y / 5) * 5;
       playerState.x = Math.round(playerState.x / TILE_SIZE) * TILE_SIZE;
-      playerState.x = Math.round(playerState.x / 5) * 5;
     }
     moving = true;
   }
@@ -68,9 +64,7 @@ export function update(deltaTime) {
     playerState.direction = "left";
     if (Math.abs(playerState.y % TILE_SIZE) < threshold && surroundings.left) {
       playerState.x -= Math.round(playerState.speed * deltaTime);
-      playerState.x = Math.round(playerState.x / 5) * 5;
       playerState.y = Math.round(playerState.y / TILE_SIZE) * TILE_SIZE;
-      playerState.y = Math.round(playerState.y / 5) * 5;
     }
     moving = true;
   }
@@ -78,10 +72,7 @@ export function update(deltaTime) {
     playerState.direction = "right";
     if (Math.abs(playerState.y % TILE_SIZE) < threshold && surroundings.right) {
       playerState.x += Math.round(playerState.speed * deltaTime);
-      playerState.x = Math.round(playerState.x / 5) * 5;
-
       playerState.y = Math.round(playerState.y / TILE_SIZE) * TILE_SIZE;
-      playerState.y = Math.round(playerState.y / 5) * 5;
     }
     moving = true;
   }
