@@ -18,17 +18,34 @@ const spriteDirections = {
 export const playerState = {
   x: 0,
   y: 0,
+  speed: 200,
+  direction: 'down',
+  frame: 0,
+  x: 0,
+  y: 0,
   speed: 150,
   direction: "down",
   frame: 0,
 };
 
+const keys = {
+  ArrowUp: false,
+  ArrowDown: false,
+  ArrowLeft: false,
+  ArrowRight: false,
+  w: false,
+  a: false,
+  s: false,
+  d: false,
+};
+
 const mapBounds = {
+  width: 750,
+  height: 650,
   width: 750,
   height: 650,
 };
 
-const activeKeys = [];
 const frameInterval = 200;
 let lastAnimationTime = 0;
 
@@ -68,41 +85,66 @@ function updatePlayerPosition(playerState, deltaX, deltaY) {
 
 // Update function for movement
 export function update(deltaTime) {
-  if (activeKeys.length === 0) {
-    playerState.frame = 0;
-    return;
+  const surroundings = utils.checkSurroundings(playerState, Tils, TILE_SIZE);
+  const threshold = TILE_SIZE / 20;
+  let moving = false;
+
+  if (keys.ArrowUp || keys.w) {
+    playerState.direction = "up";
+    if (
+      Math.abs(playerState.x % TILE_SIZE) < threshold &&
+      surroundings.up
+    ) {
+      playerState.y -= playerState.speed * deltaTime;
+      playerState.x = Math.round(playerState.x / TILE_SIZE) * TILE_SIZE;
+    }
+    moving = true;
+  }
+  if (keys.ArrowDown || keys.s) {
+    playerState.direction = "down";
+    if (
+      Math.abs(playerState.x % TILE_SIZE) < threshold &&
+      surroundings.down
+    ) {
+      playerState.y += playerState.speed * deltaTime;
+      playerState.x = Math.round(playerState.x / TILE_SIZE) * TILE_SIZE;
+    }
+    moving = true;
+  }
+  if (keys.ArrowLeft || keys.a) {
+    playerState.direction = "left";
+    if (
+      Math.abs(playerState.y % TILE_SIZE) < threshold &&
+      surroundings.left
+    ) {
+      playerState.x -= playerState.speed * deltaTime;
+      playerState.y = Math.round(playerState.y / TILE_SIZE) * TILE_SIZE;
+
+    }
+    moving = true;
+  }
+  if (keys.ArrowRight || keys.d) {
+    playerState.direction = "right";
+    if (
+      Math.abs(playerState.y % TILE_SIZE) < threshold &&
+      surroundings.right
+    ) {
+      playerState.x += playerState.speed * deltaTime;
+      playerState.y = Math.round(playerState.y / TILE_SIZE) * TILE_SIZE;
+    }
+    moving = true;
   }
 
-  const lastKey = activeKeys[activeKeys.length - 1];
-  let deltaX = 0;
-  let deltaY = 0;
+  playerState.x = Math.max(
+    TILE_SIZE,
+    Math.min(mapBounds.width - TILE_SIZE, playerState.x)
+  );
+  playerState.y = Math.max(
+    TILE_SIZE,
+    Math.min(mapBounds.height - TILE_SIZE, playerState.y)
+  );
 
-  switch (lastKey) {
-    case "ArrowUp":
-    case "w":
-      playerState.direction = "up";
-      deltaY = -playerState.speed * deltaTime;
-      break;
-    case "ArrowDown":
-    case "s":
-      playerState.direction = "down";
-      deltaY = playerState.speed * deltaTime;
-      break;
-    case "ArrowLeft":
-    case "a":
-      playerState.direction = "left";
-      deltaX = -playerState.speed * deltaTime;
-      break;
-    case "ArrowRight":
-    case "d":
-      playerState.direction = "right";
-      deltaX = playerState.speed * deltaTime;
-      break;
-  }
-
-  updatePlayerPosition(playerState, deltaX, deltaY);
-
-  if (deltaX !== 0 || deltaY !== 0) {
+  if (moving) {
     const currentTime = performance.now();
     if (currentTime - lastAnimationTime > frameInterval) {
       playerState.frame = (playerState.frame + 1) % 4;
@@ -110,38 +152,42 @@ export function update(deltaTime) {
     }
   } else {
     playerState.frame = 0;
+    playerState.frame = 0;
   }
 }
 
+
+
 export function render() {
+  player.style.transform = `translate3d(${Math.round(playerState.x)}px, ${Math.round(playerState.y)}px, 0)`;
   player.style.transform = `translate3d(${Math.round(playerState.x)}px, ${Math.round(playerState.y)}px, 0)`;
 
   const row = spriteDirections[playerState.direction];
   player.style.backgroundPosition = `-${playerState.frame * frameWidth}px -${row * frameHeight}px`;
+  row = spriteDirections[playerState.direction];
+  player.style.backgroundPosition = `-${playerState.frame * frameWidth}px -${row * frameHeight}px`;
 }
 
-document.addEventListener(
-  "keydown",
-  (event) => {
-    if (!activeKeys.includes(event.key)) {
-      activeKeys.push(event.key);
-    }
-  },
-  { passive: true }
-);
+function handleKeydown(event) {
+  if (keys.hasOwnProperty(event.key)) {
+    keys[event.key] = true;
+  }
+}
 
-document.addEventListener(
-  "keyup",
-  (event) => {
-    const index = activeKeys.indexOf(event.key);
-    if (index !== -1) {
-      activeKeys.splice(index, 1);
-    }
-  },
-  { passive: true }
-);
+function handleKeyup(event) {
+  if (keys.hasOwnProperty(event.key)) {
+    keys[event.key] = false;
+  }
+}
+
+document.addEventListener('keydown', handleKeydown);
+document.addEventListener('keyup', handleKeyup);
 
 document.addEventListener("keydown", (event) => {
+  if (event.key === " ") {
+    event.preventDefault();
+    placeBomb(playerState);
+  }
   if (event.key === " ") {
     event.preventDefault();
     placeBomb(playerState);
