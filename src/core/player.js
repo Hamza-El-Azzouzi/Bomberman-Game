@@ -1,8 +1,8 @@
 import { placeBomb } from "./bomb.js";
-import * as utils from "../utils/collision.js"
-import { Tils } from "../main.js"
-const TILE_SIZE = 50
-const player = document.getElementById('player');
+import * as utils from "../utils/collision.js";
+import { Tils } from "../main.js";
+const TILE_SIZE = 50;
+const player = document.getElementById("player");
 const frameWidth = 50;
 const frameHeight = 50;
 const spriteDirections = {
@@ -16,7 +16,7 @@ export const playerState = {
   x: 0,
   y: 0,
   speed: 150,
-  direction: 'down',
+  direction: "down",
   frame: 0,
 };
 
@@ -41,50 +41,47 @@ let lastAnimationTime = 0;
 
 export function update(deltaTime) {
   const surroundings = utils.checkSurroundings(playerState, Tils, TILE_SIZE);
-  const threshold = TILE_SIZE / 25;
+  const threshold = TILE_SIZE / 10;
   let moving = false;
 
   if (keys.ArrowUp || keys.w) {
     playerState.direction = "up";
-    if (
-      Math.abs(playerState.x % TILE_SIZE) < threshold &&
-      surroundings.up
-    ) {
-      playerState.y -= playerState.speed * deltaTime;
+    if (Math.abs(playerState.x % TILE_SIZE) < threshold && surroundings.up) {
+      playerState.y -= Math.round(playerState.speed * deltaTime);
+      playerState.y = Math.round(playerState.y / 5) * 5;
       playerState.x = Math.round(playerState.x / TILE_SIZE) * TILE_SIZE;
+      playerState.x = Math.round(playerState.x / 5) * 5;
     }
     moving = true;
   }
   if (keys.ArrowDown || keys.s) {
     playerState.direction = "down";
-    if (
-      Math.abs(playerState.x % TILE_SIZE) < threshold &&
-      surroundings.down
-    ) {
-      playerState.y += playerState.speed * deltaTime;
+    if (Math.abs(playerState.x % TILE_SIZE) < threshold && surroundings.down) {
+      playerState.y += Math.round(playerState.speed * deltaTime);
+      playerState.y = Math.round(playerState.y / 5) * 5;
       playerState.x = Math.round(playerState.x / TILE_SIZE) * TILE_SIZE;
+      playerState.x = Math.round(playerState.x / 5) * 5;
     }
     moving = true;
   }
   if (keys.ArrowLeft || keys.a) {
     playerState.direction = "left";
-    if (
-      Math.abs(playerState.y % TILE_SIZE) < threshold &&
-      surroundings.left
-    ) {
-      playerState.x -= playerState.speed * deltaTime;
+    if (Math.abs(playerState.y % TILE_SIZE) < threshold && surroundings.left) {
+      playerState.x -= Math.round(playerState.speed * deltaTime);
+      playerState.x = Math.round(playerState.x / 5) * 5;
       playerState.y = Math.round(playerState.y / TILE_SIZE) * TILE_SIZE;
+      playerState.y = Math.round(playerState.y / 5) * 5;
     }
     moving = true;
   }
   if (keys.ArrowRight || keys.d) {
     playerState.direction = "right";
-    if (
-      Math.abs(playerState.y % TILE_SIZE) < threshold &&
-      surroundings.right
-    ) {
-      playerState.x += playerState.speed * deltaTime;
-      playerState.y = Math.round(playerState.y / TILE_SIZE) * TILE_SIZE;
+    if (Math.abs(playerState.y % TILE_SIZE) < threshold && surroundings.right) {
+      playerState.x += Math.round(playerState.speed * deltaTime);
+      playerState.x = Math.round(playerState.x / 5) * 5; // Align to nearest multiple of 5
+
+      playerState.y = Math.round(playerState.y / TILE_SIZE) * TILE_SIZE; // Align to grid
+      playerState.y = Math.round(playerState.y / 5) * 5; // Align to nearest multiple of 5
     }
     moving = true;
   }
@@ -109,13 +106,15 @@ export function update(deltaTime) {
   }
 }
 
-
-
 export function render() {
-  player.style.transform = `translate3d(${Math.round(playerState.x)}px, ${Math.round(playerState.y)}px, 0)`;
+  player.style.transform = `translate3d(${Math.round(
+    playerState.x
+  )}px, ${Math.round(playerState.y)}px, 0)`;
 
   const row = spriteDirections[playerState.direction];
-  player.style.backgroundPosition = `-${playerState.frame * frameWidth}px -${row * frameHeight}px`;
+  player.style.backgroundPosition = `-${playerState.frame * frameWidth}px -${
+    row * frameHeight
+  }px`;
 }
 
 function handleKeydown(event) {
@@ -130,8 +129,8 @@ function handleKeyup(event) {
   }
 }
 
-document.addEventListener('keydown', handleKeydown);
-document.addEventListener('keyup', handleKeyup);
+document.addEventListener("keydown", handleKeydown);
+document.addEventListener("keyup", handleKeyup);
 
 document.addEventListener("keydown", (event) => {
   if (event.key === " ") {
