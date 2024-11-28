@@ -24,7 +24,7 @@ body {
   height: 48px;
   position: absolute;
   background-image: url('./altima2.png');
-  background-size: 200px 200px;
+  background-size: 192px 192px;
   will-change: transform, background-position;
 }
 

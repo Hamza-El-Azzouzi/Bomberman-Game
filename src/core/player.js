@@ -5,8 +5,8 @@ import { Tils } from "../main.js";
 
 const TILE_SIZE = 50;
 const player = document.getElementById("player");
-const frameWidth = 50;
-const frameHeight = 50;
+const frameWidth = 48;
+const frameHeight = 48;
 
 const spriteDirections = {
   down: 0,
