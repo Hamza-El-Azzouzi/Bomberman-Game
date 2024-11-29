@@ -15,8 +15,11 @@ const spriteDirections = {
 export const playerState = {
   x: 0,
   y: 0,
+  prevX: 0,
+  prevY: 0,
   speed: 150,
   direction: "down",
+  lastMove: "up-to-down",
   frame: 0,
 };
 
@@ -40,38 +43,79 @@ const frameInterval = 200;
 let lastAnimationTime = 0;
 
 export function update(deltaTime) {
-  const surroundings = utils.checkSurroundings(playerState, Tils, TILE_SIZE);
   const threshold = TILE_SIZE / 2.5;
   let moving = false;
 
+  playerState.prevX = playerState.x;
+  playerState.prevY = playerState.y;
+
+  console.log("Last Move:", playerState.lastMove);
+
+  let row = 1, col = 1
   if (keys.ArrowUp || keys.w) {
     playerState.direction = "up";
-    if (Math.abs(playerState.x % TILE_SIZE) < threshold && surroundings.up) {
-      playerState.y -= Math.round(playerState.speed * deltaTime);
+    row = Math.ceil(playerState.y / TILE_SIZE);
+    if (playerState.lastMove === "left-to-right") {
+      col = Math.ceil(playerState.x / TILE_SIZE);
+    } else if (playerState.lastMove === "right-to-left") {
+      col = Math.floor(playerState.x / TILE_SIZE);
+    }
+    const surroundings = utils.checkSurroundings(row, col, Tils);
+    if (surroundings.up) {
+      if (Math.abs(playerState.x % TILE_SIZE) < threshold) {
+        playerState.y -= Math.round(playerState.speed * deltaTime);
+      }
       playerState.x = Math.round(playerState.x / TILE_SIZE) * TILE_SIZE;
     }
     moving = true;
   }
   if (keys.ArrowDown || keys.s) {
     playerState.direction = "down";
-    if (Math.abs(playerState.x % TILE_SIZE) < threshold && surroundings.down) {
-      playerState.y += Math.round(playerState.speed * deltaTime);
+    row = Math.floor(playerState.y / TILE_SIZE);
+    if (playerState.lastMove === "left-to-right") {
+      col = Math.ceil(playerState.x / TILE_SIZE);
+    } else if (playerState.lastMove === "right-to-left") {
+      col = Math.floor(playerState.x / TILE_SIZE);
+    }
+    const surroundings = utils.checkSurroundings(row, col, Tils);
+    if (surroundings.down) {
+      if (Math.abs(playerState.x % TILE_SIZE) < threshold) {
+        playerState.y += Math.round(playerState.speed * deltaTime);
+      }
       playerState.x = Math.round(playerState.x / TILE_SIZE) * TILE_SIZE;
     }
     moving = true;
   }
   if (keys.ArrowLeft || keys.a) {
     playerState.direction = "left";
-    if (Math.abs(playerState.y % TILE_SIZE) < threshold && surroundings.left) {
-      playerState.x -= Math.round(playerState.speed * deltaTime);
+    if (playerState.lastMove === "up-to-down") {
+      row = Math.ceil(playerState.y / TILE_SIZE);
+    } else if (playerState.lastMove === "down-to-up") {
+      row = Math.floor(playerState.y / TILE_SIZE);
+    }
+    col = Math.ceil(playerState.x / TILE_SIZE);
+    const surroundings = utils.checkSurroundings(row, col, Tils);
+    if (surroundings.left) {
+      if (Math.abs(playerState.y % TILE_SIZE) < threshold) {
+        playerState.x -= Math.round(playerState.speed * deltaTime);
+      }
       playerState.y = Math.round(playerState.y / TILE_SIZE) * TILE_SIZE;
     }
     moving = true;
   }
   if (keys.ArrowRight || keys.d) {
     playerState.direction = "right";
-    if (Math.abs(playerState.y % TILE_SIZE) < threshold && surroundings.right) {
-      playerState.x += Math.round(playerState.speed * deltaTime);
+    if (playerState.lastMove === "up-to-down") {
+      row = Math.ceil(playerState.y / TILE_SIZE);
+    } else if (playerState.lastMove === "down-to-up") {
+      row = Math.floor(playerState.y / TILE_SIZE);
+    }
+    col = Math.floor(playerState.x / TILE_SIZE);
+    const surroundings = utils.checkSurroundings(row, col, Tils);
+    if (surroundings.right) {
+      if (Math.abs(playerState.y % TILE_SIZE) < threshold) {
+        playerState.x += Math.round(playerState.speed * deltaTime);
+      }
       playerState.y = Math.round(playerState.y / TILE_SIZE) * TILE_SIZE;
     }
     moving = true;
@@ -85,6 +129,16 @@ export function update(deltaTime) {
     TILE_SIZE,
     Math.min(mapBounds.height - TILE_SIZE, playerState.y)
   );
+
+  if (playerState.y > playerState.prevY) {
+    playerState.lastMove = "up-to-down";
+  } else if (playerState.y < playerState.prevY) {
+    playerState.lastMove = "down-to-up";
+  } else if (playerState.x > playerState.prevX) {
+    playerState.lastMove = "left-to-right";
+  } else if (playerState.x < playerState.prevX) {
+    playerState.lastMove = "right-to-left";
+  }
 
   if (moving) {
     const currentTime = performance.now();
@@ -103,9 +157,8 @@ export function render() {
   )}px, ${Math.round(playerState.y)}px, 0)`;
 
   const row = spriteDirections[playerState.direction];
-  player.style.backgroundPosition = `-${playerState.frame * frameWidth}px -${
-    row * frameHeight
-  }px`;
+  player.style.backgroundPosition = `-${playerState.frame * frameWidth}px -${row * frameHeight
+    }px`;
 }
 
 function handleKeydown(event) {
