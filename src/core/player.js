@@ -51,7 +51,7 @@ export function update(deltaTime) {
 
   console.log("Last Move:", playerState.lastMove);
 
-  let row = 1, col = 1
+  let row, col;
   if (keys.ArrowUp || keys.w) {
     playerState.direction = "up";
     row = Math.ceil(playerState.y / TILE_SIZE);
@@ -59,6 +59,8 @@ export function update(deltaTime) {
       col = Math.ceil(playerState.x / TILE_SIZE);
     } else if (playerState.lastMove === "right-to-left") {
       col = Math.floor(playerState.x / TILE_SIZE);
+    } else {
+      col = Math.round(playerState.x / TILE_SIZE);
     }
     const surroundings = utils.checkSurroundings(row, col, Tils);
     if (surroundings.up) {
@@ -76,14 +78,25 @@ export function update(deltaTime) {
       col = Math.ceil(playerState.x / TILE_SIZE);
     } else if (playerState.lastMove === "right-to-left") {
       col = Math.floor(playerState.x / TILE_SIZE);
+    } else {
+      col = Math.round(playerState.x / TILE_SIZE);
     }
     const surroundings = utils.checkSurroundings(row, col, Tils);
+    console.log(playerState.x,playerState.y)
     if (surroundings.down) {
+      console.log(Math.abs(playerState.x % TILE_SIZE), threshold);
       if (Math.abs(playerState.x % TILE_SIZE) < threshold) {
         playerState.y += Math.round(playerState.speed * deltaTime);
+        playerState.x = Math.round(playerState.x / TILE_SIZE) * TILE_SIZE;
       }
-      playerState.x = Math.round(playerState.x / TILE_SIZE) * TILE_SIZE;
+      if (
+        playerState.lastMove === "left-to-right" &&
+        Math.abs(playerState.x % TILE_SIZE) >= threshold
+      ) {
+        playerState.x = Math.round(playerState.x / TILE_SIZE) * TILE_SIZE;
+      }
     }
+    console.log(playerState.x,playerState.y)
     moving = true;
   }
   if (keys.ArrowLeft || keys.a) {
@@ -92,6 +105,8 @@ export function update(deltaTime) {
       row = Math.ceil(playerState.y / TILE_SIZE);
     } else if (playerState.lastMove === "down-to-up") {
       row = Math.floor(playerState.y / TILE_SIZE);
+    } else {
+      row = Math.round(playerState.y / TILE_SIZE);
     }
     col = Math.ceil(playerState.x / TILE_SIZE);
     const surroundings = utils.checkSurroundings(row, col, Tils);
@@ -109,6 +124,8 @@ export function update(deltaTime) {
       row = Math.ceil(playerState.y / TILE_SIZE);
     } else if (playerState.lastMove === "down-to-up") {
       row = Math.floor(playerState.y / TILE_SIZE);
+    } else {
+      row = Math.round(playerState.y / TILE_SIZE);
     }
     col = Math.floor(playerState.x / TILE_SIZE);
     const surroundings = utils.checkSurroundings(row, col, Tils);
@@ -123,11 +140,11 @@ export function update(deltaTime) {
 
   playerState.x = Math.max(
     TILE_SIZE,
-    Math.min(mapBounds.width - TILE_SIZE, playerState.x)
+    Math.min(mapBounds.width - TILE_SIZE * 2, playerState.x)
   );
   playerState.y = Math.max(
     TILE_SIZE,
-    Math.min(mapBounds.height - TILE_SIZE, playerState.y)
+    Math.min(mapBounds.height - TILE_SIZE * 2, playerState.y)
   );
 
   if (playerState.y > playerState.prevY) {
@@ -157,8 +174,9 @@ export function render() {
   )}px, ${Math.round(playerState.y)}px, 0)`;
 
   const row = spriteDirections[playerState.direction];
-  player.style.backgroundPosition = `-${playerState.frame * frameWidth}px -${row * frameHeight
-    }px`;
+  player.style.backgroundPosition = `-${playerState.frame * frameWidth}px -${
+    row * frameHeight
+  }px`;
 }
 
 function handleKeydown(event) {
