@@ -15,29 +15,11 @@ const spriteDirections = {
 export const playerState = {
   x: 0,
   y: 0,
-  prevX: 0,
-  prevY: 0,
   speed: 150,
   direction: "down",
-  lastMove: "up-to-down",
   frame: 0,
 };
 
-const keys = {
-  ArrowUp: false,
-  ArrowDown: false,
-  ArrowLeft: false,
-  ArrowRight: false,
-  w: false,
-  a: false,
-  s: false,
-  d: false,
-};
-
-const mapBounds = {
-  width: 750,
-  height: 650,
-};
 
 const activeKeys = [];
 const frameInterval = 200;
@@ -50,31 +32,32 @@ export function update(deltaTime) {
   }
 
   const lastKey = activeKeys[activeKeys.length - 1];
-  const threshold = TILE_SIZE / 2.5;
+  const threshold = 25;
   let moving = false;
 
-  playerState.prevX = playerState.x;
-  playerState.prevY = playerState.y;
+  let row, col, surroundings;
 
-  console.log("Last Move:", playerState.lastMove);
-
-  let row, col,surroundings;
+  if (playerState.x % TILE_SIZE > threshold) {
+    col = Math.ceil(playerState.x / TILE_SIZE);
+  } else {
+    col = Math.floor(playerState.x / TILE_SIZE);
+  }
+  if (playerState.y % TILE_SIZE > threshold) {
+    row = Math.ceil(playerState.y / TILE_SIZE);
+  } else {
+    row = Math.floor(playerState.y / TILE_SIZE);
+  }
 
   switch (lastKey) {
     case "ArrowUp":
     case "w":
       playerState.direction = "up";
       row = Math.ceil(playerState.y / TILE_SIZE);
-      if (playerState.x % TILE_SIZE > threshold) {
-        col = Math.ceil(playerState.x / TILE_SIZE);
-      }else{
-        col = Math.floor(playerState.x / TILE_SIZE);
-      }
       surroundings = utils.checkSurroundings(row, col, Tils);
-      if (surroundings.down) {
+      if (surroundings.up) {
         if (playerState.x % TILE_SIZE > threshold) {
           playerState.x = Math.ceil(playerState.x / TILE_SIZE) * TILE_SIZE;
-        }else{
+        } else {
           playerState.x = Math.floor(playerState.x / TILE_SIZE) * TILE_SIZE;
         }
         playerState.y -= Math.round(playerState.speed * deltaTime);
@@ -85,16 +68,11 @@ export function update(deltaTime) {
     case "s":
       playerState.direction = "down";
       row = Math.floor(playerState.y / TILE_SIZE);
-      if (playerState.x % TILE_SIZE > threshold) {
-        col = Math.ceil(playerState.x / TILE_SIZE);
-      }else{
-        col = Math.floor(playerState.x / TILE_SIZE);
-      }
       surroundings = utils.checkSurroundings(row, col, Tils);
       if (surroundings.down) {
         if (playerState.x % TILE_SIZE > threshold) {
           playerState.x = Math.ceil(playerState.x / TILE_SIZE) * TILE_SIZE;
-        }else{
+        } else {
           playerState.x = Math.floor(playerState.x / TILE_SIZE) * TILE_SIZE;
         }
         playerState.y += Math.round(playerState.speed * deltaTime);
@@ -104,17 +82,12 @@ export function update(deltaTime) {
     case "ArrowLeft":
     case "a":
       playerState.direction = "left";
-      if (playerState.y % TILE_SIZE > threshold) {
-        row = Math.ceil(playerState.y / TILE_SIZE);
-      }else{
-        row = Math.floor(playerState.y / TILE_SIZE);
-      }
       col = Math.ceil(playerState.x / TILE_SIZE);
       surroundings = utils.checkSurroundings(row, col, Tils);
       if (surroundings.left) {
         if (playerState.y % TILE_SIZE > threshold) {
           playerState.y = Math.ceil(playerState.y / TILE_SIZE) * TILE_SIZE;
-        }else{
+        } else {
           playerState.y = Math.floor(playerState.y / TILE_SIZE) * TILE_SIZE;
         }
         playerState.x -= Math.round(playerState.speed * deltaTime);
@@ -124,42 +97,18 @@ export function update(deltaTime) {
     case "ArrowRight":
     case "d":
       playerState.direction = "right";
-      if (playerState.y % TILE_SIZE > threshold) {
-        row = Math.ceil(playerState.y / TILE_SIZE);
-      }else{
-        row = Math.floor(playerState.y / TILE_SIZE);
-      }
       col = Math.floor(playerState.x / TILE_SIZE);
       surroundings = utils.checkSurroundings(row, col, Tils);
       if (surroundings.right) {
         if (playerState.y % TILE_SIZE > threshold) {
           playerState.y = Math.ceil(playerState.y / TILE_SIZE) * TILE_SIZE;
-        }else{
+        } else {
           playerState.y = Math.floor(playerState.y / TILE_SIZE) * TILE_SIZE;
         }
         playerState.x += Math.round(playerState.speed * deltaTime);
       }
       moving = true;
       break;
-  }
-
-  playerState.x = Math.max(
-    TILE_SIZE,
-    Math.min(mapBounds.width - TILE_SIZE * 2, playerState.x)
-  );
-  playerState.y = Math.max(
-    TILE_SIZE,
-    Math.min(mapBounds.height - TILE_SIZE * 2, playerState.y)
-  );
-
-  if (playerState.y > playerState.prevY) {
-    playerState.lastMove = "up-to-down";
-  } else if (playerState.y < playerState.prevY) {
-    playerState.lastMove = "down-to-up";
-  } else if (playerState.x > playerState.prevX) {
-    playerState.lastMove = "left-to-right";
-  } else if (playerState.x < playerState.prevX) {
-    playerState.lastMove = "right-to-left";
   }
 
   if (moving) {
@@ -179,21 +128,20 @@ export function render() {
   )}px, ${Math.round(playerState.y)}px, 0)`;
 
   const row = spriteDirections[playerState.direction];
-  player.style.backgroundPosition = `-${playerState.frame * frameWidth}px -${
-    row * frameHeight
-  }px`;
+  player.style.backgroundPosition = `-${playerState.frame * frameWidth}px -${row * frameHeight
+    }px`;
 }
 
 document.addEventListener('keydown', (event) => {
   if (!activeKeys.includes(event.key)) {
-      activeKeys.push(event.key);
+    activeKeys.push(event.key);
   }
 }, { passive: true });
 
 document.addEventListener('keyup', (event) => {
   const index = activeKeys.indexOf(event.key);
   if (index !== -1) {
-      activeKeys.splice(index, 1);
+    activeKeys.splice(index, 1);
   }
 }, { passive: true });
 
