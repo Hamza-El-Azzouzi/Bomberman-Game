@@ -28,6 +28,15 @@ body {
   will-change: transform, background-position;
 }
 
+.enemy {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background-image: url('./ifrit.png');
+  background-size: 200px 200px;
+  will-change: transform, background-position;
+}
+
 .lands {
   height: 50px;
   width: 50px;

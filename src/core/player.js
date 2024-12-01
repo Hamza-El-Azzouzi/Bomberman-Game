@@ -3,9 +3,7 @@ import * as utils from "../utils/collision.js";
 import { Tils } from "../main.js";
 const TILE_SIZE = 50;
 const player = document.getElementById("player");
-const frameWidth = 50;
-const frameHeight = 50;
-const spriteDirections = {
+export const spriteDirections = {
   down: 0,
   left: 1,
   right: 2,
@@ -20,9 +18,8 @@ export const playerState = {
   frame: 0,
 };
 
-
 const activeKeys = [];
-const frameInterval = 200;
+const frameInterval = 150;
 let lastAnimationTime = 0;
 
 export function update(deltaTime) {
@@ -128,22 +125,31 @@ export function render() {
   )}px, ${Math.round(playerState.y)}px, 0)`;
 
   const row = spriteDirections[playerState.direction];
-  player.style.backgroundPosition = `-${playerState.frame * frameWidth}px -${row * frameHeight
-    }px`;
+  player.style.backgroundPosition = `-${playerState.frame * TILE_SIZE}px -${
+    row * TILE_SIZE
+  }px`;
 }
 
-document.addEventListener('keydown', (event) => {
-  if (!activeKeys.includes(event.key)) {
-    activeKeys.push(event.key);
-  }
-}, { passive: true });
+document.addEventListener(
+  "keydown",
+  (event) => {
+    if (!activeKeys.includes(event.key)) {
+      activeKeys.push(event.key);
+    }
+  },
+  { passive: true }
+);
 
-document.addEventListener('keyup', (event) => {
-  const index = activeKeys.indexOf(event.key);
-  if (index !== -1) {
-    activeKeys.splice(index, 1);
-  }
-}, { passive: true });
+document.addEventListener(
+  "keyup",
+  (event) => {
+    const index = activeKeys.indexOf(event.key);
+    if (index !== -1) {
+      activeKeys.splice(index, 1);
+    }
+  },
+  { passive: true }
+);
 
 document.addEventListener("keydown", (event) => {
   if (event.key === " ") {
