@@ -110,13 +110,5 @@ export function MapGenerator() {
     }
   }
 
-  document.querySelectorAll('.rock').forEach((rock) => {
-    rock.addEventListener('click', () => {
-      if (rock.dataset.hiddenDoor === 'true') {
-        rock.className = 'door';
-      }
-    });
-  });
-
   return tils;
 }

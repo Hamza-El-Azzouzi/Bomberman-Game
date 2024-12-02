@@ -26,6 +26,7 @@ body {
   background-image: url('./altima2.png');
   background-size: 200px 200px;
   will-change: transform, background-position;
+  z-index: 1;
 }
 
 .enemy {
@@ -102,6 +103,7 @@ body {
       #222);
   display: inline-block;
   position: relative;
+  z-index: 0;
   transition: transform 0.2s ease-in-out;
 }
 
