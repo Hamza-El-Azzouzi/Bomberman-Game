@@ -13,8 +13,7 @@ export function placeBomb() {
 
     bombX = Math.round(playerState.x / frameWidth);
     bombY = Math.round(playerState.y / frameWidth);
-    console.log(bombX,bombY)
-
+    
     const bomb = document.createElement("div");
     bomb.className = "bomb";
     bomb.style.transform = `translate3d(${bombX * frameWidth}px, ${bombY * frameWidth}px, 0)`;
