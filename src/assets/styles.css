@@ -209,3 +209,16 @@ body {
     opacity: 0;
   }
 }
+
+#error-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: red;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 18px;
+  display: none; /* Hidden by default */
+}
