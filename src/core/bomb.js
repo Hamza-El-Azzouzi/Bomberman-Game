@@ -1,5 +1,5 @@
 import { Tils } from "../main.js";
-import { checkSurroundingsBombs } from "../utils/collision.js";
+import { checkSurroundingsBombs, checkSurroundingsBombsByEnemy } from "../utils/collision.js";
 import { playerState } from "./player.js";
 let activeBomb = null;
 const frameWidth = 50;
@@ -29,6 +29,7 @@ export function placeBomb() {
 }
 function getElementFromGrid(row, col) {
     let mapchlidern = container.children
+    console.log(mapchlidern)
     const totalCells = rows * cols;
 
     if (row < 0 || row >= rows || col < 0 || col >= cols) {
@@ -38,7 +39,9 @@ function getElementFromGrid(row, col) {
     if (index >= 0 && index < totalCells) {
 
         Tils[row][col] = 0
-        return mapchlidern[index + 1];
+        console.log(mapchlidern[index+1])
+        if (mapchlidern[index + 1].className === "rock" || mapchlidern[index + 1].className === "enemy" )return mapchlidern[index + 1];
+        
     }
     return null;
 }
@@ -46,7 +49,13 @@ function getElementFromGrid(row, col) {
 function showExplosionEffect(bombX, bombY) {
     const explosion = document.createElement("div");
     const surrounding = checkSurroundingsBombs(bombY, bombX, Tils);
-    if (surrounding.up) {
+    console.log(Tils)
+    const surroundingEnemy = checkSurroundingsBombsByEnemy(bombY,bombX,Tils)
+    console.log(surroundingEnemy)
+
+    if (surrounding.up || surroundingEnemy.up ) {
+        const enemy = getElementFromGrid(bombY - 1, bombX);
+        console.log(enemy)
         const element = getElementFromGrid(bombY - 1, bombX);
         if (element) {
              let decider =  "lands"
@@ -60,7 +69,10 @@ function showExplosionEffect(bombX, bombY) {
             
         }
     }
-    if (surrounding.down) {
+    if (surrounding.down || surroundingEnemy.down) {
+        if (surroundingEnemy.down) Tils[bombY + 1][bombX] = 0
+        const enemy = getElementFromGrid(bombY + 1, bombX);
+        console.log(enemy)
         const element = getElementFromGrid(bombY + 1, bombX);
         if (element) {
              let decider =  "lands"
@@ -74,8 +86,10 @@ function showExplosionEffect(bombX, bombY) {
             },900)
         }
     }
-    if (surrounding.left) {
-        const element = getElementFromGrid(bombY, bombX - 1);
+    if (surrounding.left || surroundingEnemy.left) {
+        const element = getElementFromGrid(bombY +1, bombX);
+        const enemy = getElementFromGrid(bombY + 1, bombX);
+        console.log(enemy)
         if (element) {
             let decider =  "lands"
             if ( element.dataset.hiddenDoor === 'true') decider =  "door"
@@ -88,8 +102,10 @@ function showExplosionEffect(bombX, bombY) {
             },900)
         }
     }
-    if (surrounding.right) {
+    if (surrounding.right || surroundingEnemy.right) {
         const element = getElementFromGrid(bombY, bombX + 1);
+        const enemy = getElementFromGrid(bombY, bombX+1);
+        console.log(enemy)
         if (element) {
              let decider =  "lands"
             if ( element.dataset.hiddenDoor === 'true') decider =  "door"
