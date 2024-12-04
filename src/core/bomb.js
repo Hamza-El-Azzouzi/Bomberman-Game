@@ -1,17 +1,19 @@
 import { Tils } from "../main.js";
 import { checkSurroundingsBombs } from "../utils/collision.js";
+import { playerState } from "./player.js";
 let activeBomb = null;
 const frameWidth = 50;
 const container = document.querySelector('.map');
 var rows = 13
 var cols = 15
-export function placeBomb(playerState) {
+export let bombX = 0
+export let bombY = 0
+export function placeBomb() {
     if (activeBomb) return;
-    // console.info(Tils)
 
-    const bombX = Math.round(playerState.x / frameWidth);
-    const bombY = Math.round(playerState.y / frameWidth);
-
+    bombX = Math.round(playerState.x / frameWidth);
+    bombY = Math.round(playerState.y / frameWidth);
+    
     const bomb = document.createElement("div");
     bomb.className = "bomb";
     bomb.style.transform = `translate3d(${bombX * frameWidth}px, ${bombY * frameWidth}px, 0)`;
@@ -27,7 +29,6 @@ export function placeBomb(playerState) {
 }
 function getElementFromGrid(row, col) {
     let mapchlidern = container.children
-    console.log(mapchlidern)
     const totalCells = rows * cols;
 
     if (row < 0 || row >= rows || col < 0 || col >= cols) {
@@ -45,58 +46,61 @@ function getElementFromGrid(row, col) {
 function showExplosionEffect(bombX, bombY) {
     const explosion = document.createElement("div");
     const surrounding = checkSurroundingsBombs(bombY, bombX, Tils);
-    // console.info(`bombe placed in : ${bombY} ${bombX}`);
-    console.info(surrounding)
-    console.log(Tils)
     if (surrounding.up) {
         const element = getElementFromGrid(bombY - 1, bombX);
-         console.log(element.dataset.hiddenDoor ?element.dataset.hiddenDoor : "not found" )
-        if (element) {;
-            console.log(element.dataset.hiddenDoor)
-            console.log(`Element at up [${bombX},${bombY}]:`, element);
+        if (element) {
+             let decider =  "lands"
+            if ( element.dataset.hiddenDoor === 'true') decider =  "door"
             element.classList.remove("rock");
-            // element.classList.add("lands");
-            element.dataset.hiddenDoor === 'true'? element.classList.add("door") : element.classList.add("lands");
+            element.classList.add("rock-destroy");
+            setTimeout(()=>{
+                element.classList.add(decider)
+                element.classList.remove("rock-destroy");
+            },900)
+            
         }
     }
     if (surrounding.down) {
         const element = getElementFromGrid(bombY + 1, bombX);
-      console.log(element.dataset.hiddenDoor ?element.dataset.hiddenDoor : "not found" )
         if (element) {
-            console.log(`Element at down [${bombX},${bombY}]:`, element);
+             let decider =  "lands"
+            if ( element.dataset.hiddenDoor === 'true') decider =  "door"
             element.classList.remove("rock");
-            // element.classList.add("lands");
-            // console.log(element.dataset.hiddenDoor)
-            element.dataset.hiddenDoor === 'true'? element.classList.add("door") : element.classList.add("lands");
-
+            element.classList.add("rock-destroy");
+           
+            setTimeout(()=>{
+                element.classList.add(decider)
+                element.classList.remove("rock-destroy");
+            },900)
         }
     }
     if (surrounding.left) {
         const element = getElementFromGrid(bombY, bombX - 1);
-        console.log(element.dataset.hiddenDoor ?element.dataset.hiddenDoor : "not found" )
         if (element) {
-            const hiddenDoor = element.getAttribute('data-hidden-door');
-            console.log(hiddenDoor)
-            console.log(`Element at left [${bombX},${bombY}]:`, element);
+            let decider =  "lands"
+            if ( element.dataset.hiddenDoor === 'true') decider =  "door"
             element.classList.remove("rock");
-            // element.classList.add("lands");
-            // console.log(element.dataset.hiddenDoor)
-            element.dataset.hiddenDoor === 'true'? element.classList.add("door") : element.classList.add("lands");
+            element.classList.add("rock-destroy");
+            
+            setTimeout(()=>{
+                element.classList.add(decider)
+                element.classList.remove("rock-destroy");
+            },900)
         }
     }
     if (surrounding.right) {
         const element = getElementFromGrid(bombY, bombX + 1);
-      console.log(element.dataset.hiddenDoor ?element.dataset.hiddenDoor : "not found" )
         if (element) {
-            const hiddenDoor = element.getAttribute('data-hidden-door');
-            console.log(hiddenDoor)
-            console.log(`Element at right [${bombX},${bombY}]:`, element);   
+             let decider =  "lands"
+            if ( element.dataset.hiddenDoor === 'true') decider =  "door"
             element.classList.remove("rock");
-            // element.classList.add("lands");
-            console.log(element.getAttributeNode("data-hidden-door"))
-            
-            element.dataset.hiddenDoor === 'true'? element.classList.add("door") : element.classList.add("lands");
-
+            element.classList.add("rock-destroy");
+           
+            setTimeout(()=>{
+                element.classList.add(decider)
+                element.classList.remove("rock-destroy");
+                
+            },900)
         }
     }
 

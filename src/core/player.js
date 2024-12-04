@@ -1,6 +1,7 @@
 import { placeBomb } from "./bomb.js";
 import * as utils from "../utils/collision.js";
 import { Tils } from "../main.js";
+import { bombX,bombY } from "./bomb.js";
 const TILE_SIZE = 50;
 const player = document.getElementById("player");
 export const spriteDirections = {
@@ -45,13 +46,16 @@ export function update(deltaTime) {
     row = Math.floor(playerState.y / TILE_SIZE);
   }
 
+  const isBlockedByBomb = () => {
+    return bombX === Math.round(playerState.x/TILE_SIZE)&& bombY === Math.round(playerState.y/TILE_SIZE); // Prevent moving into the bomb tile
+  };
   switch (lastKey) {
     case "ArrowUp":
     case "w":
       playerState.direction = "up";
       row = Math.ceil(playerState.y / TILE_SIZE);
       surroundings = utils.checkSurroundings(row, col, Tils);
-      if (surroundings.up) {
+      if (surroundings.up || isBlockedByBomb()) {
         if (playerState.x % TILE_SIZE > threshold) {
           playerState.x = Math.ceil(playerState.x / TILE_SIZE) * TILE_SIZE;
         } else {
@@ -66,7 +70,7 @@ export function update(deltaTime) {
       playerState.direction = "down";
       row = Math.floor(playerState.y / TILE_SIZE);
       surroundings = utils.checkSurroundings(row, col, Tils);
-      if (surroundings.down) {
+      if (surroundings.down || isBlockedByBomb()) {
         if (playerState.x % TILE_SIZE > threshold) {
           playerState.x = Math.ceil(playerState.x / TILE_SIZE) * TILE_SIZE;
         } else {
@@ -81,7 +85,7 @@ export function update(deltaTime) {
       playerState.direction = "left";
       col = Math.ceil(playerState.x / TILE_SIZE);
       surroundings = utils.checkSurroundings(row, col, Tils);
-      if (surroundings.left) {
+      if (surroundings.left || isBlockedByBomb()) {
         if (playerState.y % TILE_SIZE > threshold) {
           playerState.y = Math.ceil(playerState.y / TILE_SIZE) * TILE_SIZE;
         } else {
@@ -96,7 +100,7 @@ export function update(deltaTime) {
       playerState.direction = "right";
       col = Math.floor(playerState.x / TILE_SIZE);
       surroundings = utils.checkSurroundings(row, col, Tils);
-      if (surroundings.right) {
+      if (surroundings.right || isBlockedByBomb()) {
         if (playerState.y % TILE_SIZE > threshold) {
           playerState.y = Math.ceil(playerState.y / TILE_SIZE) * TILE_SIZE;
         } else {
@@ -154,6 +158,6 @@ document.addEventListener(
 document.addEventListener("keydown", (event) => {
   if (event.key === " ") {
     event.preventDefault();
-    placeBomb(playerState);
+    placeBomb();
   }
 });
