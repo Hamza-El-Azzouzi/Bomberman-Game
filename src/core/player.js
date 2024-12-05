@@ -1,7 +1,10 @@
 import { placeBomb } from "./bomb.js";
 import * as utils from "../utils/collision.js";
 import { Tils } from "../main.js";
-import { bombX,bombY } from "./bomb.js";
+import { bombX, bombY } from "./bomb.js";
+import { gameLoop } from "../engine/game_loop.js";
+
+export let running = true;
 const TILE_SIZE = 50;
 const player = document.getElementById("player");
 export const spriteDirections = {
@@ -47,7 +50,10 @@ export function update(deltaTime) {
   }
 
   const isBlockedByBomb = () => {
-    return bombX === Math.round(playerState.x/TILE_SIZE)&& bombY === Math.round(playerState.y/TILE_SIZE); // Prevent moving into the bomb tile
+    return (
+      bombX === Math.round(playerState.x / TILE_SIZE) &&
+      bombY === Math.round(playerState.y / TILE_SIZE)
+    ); // Prevent moving into the bomb tile
   };
   switch (lastKey) {
     case "ArrowUp":
@@ -134,6 +140,13 @@ export function render() {
   }px`;
 }
 
+function pauseGame(){
+  running = !running;
+  if(running){
+      gameLoop();
+  }
+};
+
 document.addEventListener(
   "keydown",
   (event) => {
@@ -160,4 +173,9 @@ document.addEventListener("keydown", (event) => {
     event.preventDefault();
     placeBomb();
   }
+  if (event.key === "Escape") {
+    event.preventDefault();
+    pauseGame();
+  }
 });
+

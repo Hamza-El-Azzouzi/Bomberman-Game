@@ -3,9 +3,15 @@ import { MapGenerator } from "./core/map.js";
 import { checkResizing } from "./utils/check_resizing.js";
 import { placeEnemies } from "./core/enemy.js";
 
-export const Tils = MapGenerator();
+export let Tils
 
-checkResizing()
+export function init() {
+  Tils = MapGenerator();
 
-placeEnemies();
-gameLoop();
+  checkResizing();
+
+  placeEnemies();
+  gameLoop();
+}
+
+init();
