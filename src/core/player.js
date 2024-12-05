@@ -47,7 +47,7 @@ export function update(deltaTime) {
   }
 
   const isBlockedByBomb = () => {
-    return bombX === Math.round(playerState.x/TILE_SIZE)&& bombY === Math.round(playerState.y/TILE_SIZE); // Prevent moving into the bomb tile
+    return bombX === Math.floor(playerState.x/TILE_SIZE)&& bombY === Math.floor(playerState.y/TILE_SIZE); // Prevent moving into the bomb tile
   };
   switch (lastKey) {
     case "ArrowUp":
@@ -55,7 +55,7 @@ export function update(deltaTime) {
       playerState.direction = "up";
       row = Math.ceil(playerState.y / TILE_SIZE);
       surroundings = utils.checkSurroundings(row, col, Tils);
-      if (surroundings.up || isBlockedByBomb()) {
+      if (surroundings.up || (surroundings.up && isBlockedByBomb())) {
         if (playerState.x % TILE_SIZE > threshold) {
           playerState.x = Math.ceil(playerState.x / TILE_SIZE) * TILE_SIZE;
         } else {
@@ -70,7 +70,7 @@ export function update(deltaTime) {
       playerState.direction = "down";
       row = Math.floor(playerState.y / TILE_SIZE);
       surroundings = utils.checkSurroundings(row, col, Tils);
-      if (surroundings.down || isBlockedByBomb()) {
+      if (surroundings.down || (surroundings.down && isBlockedByBomb())) {
         if (playerState.x % TILE_SIZE > threshold) {
           playerState.x = Math.ceil(playerState.x / TILE_SIZE) * TILE_SIZE;
         } else {
@@ -85,7 +85,7 @@ export function update(deltaTime) {
       playerState.direction = "left";
       col = Math.ceil(playerState.x / TILE_SIZE);
       surroundings = utils.checkSurroundings(row, col, Tils);
-      if (surroundings.left || isBlockedByBomb()) {
+      if (surroundings.left || (surroundings.left && isBlockedByBomb())) {
         if (playerState.y % TILE_SIZE > threshold) {
           playerState.y = Math.ceil(playerState.y / TILE_SIZE) * TILE_SIZE;
         } else {
@@ -100,7 +100,7 @@ export function update(deltaTime) {
       playerState.direction = "right";
       col = Math.floor(playerState.x / TILE_SIZE);
       surroundings = utils.checkSurroundings(row, col, Tils);
-      if (surroundings.right || isBlockedByBomb()) {
+      if (surroundings.right || (surroundings.right && isBlockedByBomb())) {
         if (playerState.y % TILE_SIZE > threshold) {
           playerState.y = Math.ceil(playerState.y / TILE_SIZE) * TILE_SIZE;
         } else {
