@@ -1,5 +1,5 @@
 import { init } from "../main.js";
-import { playerState } from "../core/player.js";
+import { playerState } from "../core/player.js"
 import { gameLoop } from "../engine/game_loop.js";
 
 export let isPaused = false;
@@ -56,6 +56,13 @@ function handleMenuNavigation(event) {
     menuOptions[selectedOptionIndex].click();
   }
 }
+
+menuOptions.forEach((button, index) => {
+  button.addEventListener("mouseenter", () => {
+    selectedOptionIndex = index; 
+    highlightSelectedOption();
+  });
+});
 
 continueButton.addEventListener("click", continueGame);
 restartButton.addEventListener("click", restartGame);
