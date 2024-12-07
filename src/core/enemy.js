@@ -164,7 +164,7 @@ function moveEnemy(enemy) {
   }
 }
 
-export function updateEnemies(deltaTime) {
+export function   updateEnemies(deltaTime) {
   enemies.forEach((enemy) => {
     moveEnemy(enemy, deltaTime);
   });

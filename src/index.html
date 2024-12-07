@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/styles.css">
-    <link rel="shortcut icon" href="./assets/favico.png" type="image/x-icon">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="shortcut icon" href="./assets/favico.png" type="image/x-icon" />
     <title>Super BomberMan</title>
-</head>
-<body>
-    <div id="error-message">Window too small! Resize to at least 800px width to continue.</div>
-<div id="map-container"></div>
+  </head>
+  <body>
+    <div id="error-message">
+      Window too small! Resize to at least 800px width to continue.
+    </div>
     <div class="container">
-      <div class="map" id="map">
-          <div id="player" class="player"></div>
+    </div>
+    <div id="pauseMenu" class="pause-menu hidden">
+      <div class="pause-content">
+        <h1>Game Paused</h1>
+        <button id="continueButton">Continue</button>
+        <button id="restartButton">Restart</button>
       </div>
     </div>
     <script type="module" src="main.js"></script>
-</body>
+  </body>
 </html>

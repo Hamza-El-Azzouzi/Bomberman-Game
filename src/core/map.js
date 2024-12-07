@@ -1,5 +1,16 @@
 import { playerState } from './player.js';
 
+export function initMap(){
+  const container = document.querySelector(".container");
+  const map = document.createElement('div');
+  map.id = "map";
+  map.className = "map";
+  const player = document.createElement('div');
+  player.id = "player";
+  player.className = "player";
+  map.append(player)
+  container.appendChild(map);
+}
 
 export function MapGenerator() {
   const map = document.querySelector('.map');
