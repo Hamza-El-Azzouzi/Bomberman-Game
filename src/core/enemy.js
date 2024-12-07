@@ -156,8 +156,6 @@ function moveEnemy(enemy) {
     Tils[newRow][newCol] === 0 
   ) {
     enemy.isMoving = true;
-    Tils[currentRow][currentCol] = 0;
-    Tils[newRow][newCol] = 3;
     smoothMoveEnemy(enemy, enemy.direction, TILE_STEP_COUNT, STEP_SIZE, () => {
       enemy.isMoving = false;
       enemy.x = newCol * TILE_SIZE;
@@ -166,7 +164,7 @@ function moveEnemy(enemy) {
   }
 }
 
-export function updateEnemies(deltaTime) {
+export function   updateEnemies(deltaTime) {
   enemies.forEach((enemy) => {
     moveEnemy(enemy, deltaTime);
   });

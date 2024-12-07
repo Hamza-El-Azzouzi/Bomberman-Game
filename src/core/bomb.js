@@ -3,12 +3,13 @@ import { checkSurroundingsBombs } from "../utils/collision.js";
 import { playerState } from "./player.js";
 let activeBomb = null;
 const frameWidth = 50;
-const container = document.querySelector('.map');
+let container;
 var rows = 13
 var cols = 15
 export let bombX = 0
 export let bombY = 0
 export function placeBomb() {
+    container = document.querySelector('.map');
     if (activeBomb) return;
 
     bombX = Math.round(playerState.x / frameWidth);

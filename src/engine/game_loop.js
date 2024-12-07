@@ -1,7 +1,7 @@
 import { render, update } from "../core/player.js";
 import { FPSMonitor } from "./fps_monitor.js";
 import { updateEnemies } from "../core/enemy.js";
-import { running } from "../core/player.js";
+import { isPaused } from "../utils/pause_menu.js";
 
 let lastTime = performance.now();
 const fpsMonitor = new FPSMonitor();
@@ -15,7 +15,7 @@ export function gameLoop(currentTime,tils) {
   render();
 
   fpsMonitor.update(currentTime);
-  if (running){
+  if (!isPaused){
     requestAnimationFrame(gameLoop);
   }
 }
