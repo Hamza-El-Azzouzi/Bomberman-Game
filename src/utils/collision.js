@@ -12,6 +12,7 @@ export function checkSurroundings(row, col, tils) {
 }
 
 export function checkSurroundingsBombs(row, col, tils) {
+  console.log(row,col)
   if (!Array.isArray(tils) || tils.length === 0 || !Array.isArray(tils[0])) {
     throw new Error("Invalid tiles array");
   }

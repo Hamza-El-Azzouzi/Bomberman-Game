@@ -51,7 +51,6 @@ function getElementFromGrid(row, col) {
     return null;
 }
 function getElementByTranslate3D(row, col) {
-    console.log(row, col)
     const allEnemies = document.querySelectorAll(".enemy");
     for (const enemy of allEnemies) {
         const style = window.getComputedStyle(enemy);
@@ -74,14 +73,12 @@ function showExplosionEffect(bombX, bombY) {
     const explosion = document.createElement("div");
     const surroundingBombe = checkSurroundingsBombs(bombY, bombX,Tils);
     const surroundingEnemy = checkSurroundingsBombsByEnemy(bombY, bombX,Tils)
-    console.log(surroundingEnemy)
 
     if (surroundingBombe.up || surroundingEnemy.up) {
         const enemy = getElementByTranslate3D((bombY - 1), bombX);
         if (enemy){
             enemy.remove()
         }
-        console.log(Tils)
         const element = getElementFromGrid(bombY - 1, bombX);
         if (element) {
             let decider = "lands"
@@ -101,7 +98,6 @@ function showExplosionEffect(bombX, bombY) {
         if (enemy){
             enemy.remove()
         }
-        console.log(Tils)
 
         const element = getElementFromGrid(bombY + 1, bombX);
         if (element) {

@@ -1,4 +1,3 @@
-import { gameLoop } from "./engine/game_loop.js";
 import { initMap, MapGenerator } from "./core/map.js";
 import { checkResizing } from "./utils/check_resizing.js";
 import { placeEnemies } from "./core/enemy.js";

@@ -2,7 +2,6 @@ import { Tils } from "../main.js";
 
 import { placeBomb } from "./bomb.js";
 import * as utils from "../utils/collision.js";
-import { Tils } from "../main.js";
 import { bombX, bombY } from "./bomb.js";
 
 const TILE_SIZE = 50;
