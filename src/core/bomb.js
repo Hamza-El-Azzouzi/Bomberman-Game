@@ -2,8 +2,6 @@ import { Tils } from "../main.js";
 import { checkSurroundingsBombs, checkSurroundingsBombsByEnemy } from "../utils/collision.js";
 import { playerState } from "./player.js";
 let activeBomb = null;
-// const Tils = TilsContainer.Tils;
-// console.log("form bomb", Tils)
 const frameWidth = 50;
 let container;
 var rows = 13
@@ -94,7 +92,6 @@ function showExplosionEffect(bombX, bombY) {
     }
     if (surroundingBombe.down || surroundingEnemy.down) {
         const enemy = getElementByTranslate3D(bombY + 1, bombX);
-        console.log("2nd down:\n", Tils)
         if (enemy){
             enemy.remove()
         }
@@ -114,12 +111,12 @@ function showExplosionEffect(bombX, bombY) {
     }
     if (surroundingBombe.left || surroundingEnemy.left) {
         const enemy = getElementByTranslate3D(bombY, bombX - 1);
-        console.log("2nd left:\n", Tils)
+    
         if (enemy){
             enemy.remove()
         }
 
-        const element = getElementFromGrid(bombY + 1, bombX);
+        const element = getElementFromGrid(bombY, bombX-1);
 
         if (element) {
             let decider = "lands"
@@ -135,7 +132,6 @@ function showExplosionEffect(bombX, bombY) {
     }
     if (surroundingBombe.right || surroundingEnemy.right) {
         const enemy = getElementByTranslate3D(bombY, bombX + 1);
-        console.log("2nd right:\n", Tils)
         if (enemy){
             enemy.remove()
         }
