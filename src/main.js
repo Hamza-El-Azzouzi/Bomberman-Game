@@ -1,11 +1,14 @@
-import { gameLoop } from "./engine/game_loop.js";
 import { MapGenerator } from "./core/map.js";
 import { checkResizing } from "./utils/check_resizing.js";
 import { placeEnemies } from "./core/enemy.js";
+import { gameLoop } from "./engine/game_loop.js";
 
-export const Tils = MapGenerator();
+export let Tils = MapGenerator();
 
-checkResizing()
 
+console.log("Tils initialized:", Tils);
+
+
+checkResizing();
 placeEnemies();
 gameLoop();

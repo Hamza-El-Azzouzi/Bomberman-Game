@@ -2,6 +2,8 @@ import { Tils } from "../main.js";
 import { checkSurroundingsBombs, checkSurroundingsBombsByEnemy } from "../utils/collision.js";
 import { playerState } from "./player.js";
 let activeBomb = null;
+// const Tils = TilsContainer.Tils;
+// console.log("form bomb", Tils)
 const frameWidth = 50;
 const container = document.querySelector('.map');
 var rows = 13
@@ -9,15 +11,17 @@ var cols = 15
 export let bombX = 0
 export let bombY = 0
 export function placeBomb() {
+
     if (activeBomb) return;
 
     bombX = Math.round(playerState.x / frameWidth);
     bombY = Math.round(playerState.y / frameWidth);
-    
+
     const bomb = document.createElement("div");
     bomb.className = "bomb";
     bomb.style.transform = `translate3d(${bombX * frameWidth}px, ${bombY * frameWidth}px, 0)`;
     container.appendChild(bomb);
+
     Tils[bombY][bombX] = 7
     activeBomb = bomb;
     setTimeout(() => {
@@ -25,11 +29,12 @@ export function placeBomb() {
         showExplosionEffect(bombX, bombY);
         activeBomb = null;
         Tils[bombY][bombX] = 0
+        
+
     }, 3000);
 }
 function getElementFromGrid(row, col) {
     let mapchlidern = container.children
-    // console.log(mapchlidern)
     const totalCells = rows * cols;
 
     if (row < 0 || row >= rows || col < 0 || col >= cols) {
@@ -37,148 +42,120 @@ function getElementFromGrid(row, col) {
     }
     const index = (row * cols) + col
     if (index >= 0 && index < totalCells) {
-
         Tils[row][col] = 0
-        // console.log(mapchlidern[index+1])
-        if (mapchlidern[index + 1].className === "rock" || mapchlidern[index + 1].className === "enemy" )return mapchlidern[index + 1];
-        
+
+
+        if (mapchlidern[index + 1].className === "rock") return mapchlidern[index + 1];
+
     }
     return null;
 }
-function getElementByTranslate3D(x, y,tile) {
-    // Get all elements with a translate3D transform
-    console.log(y,x)
+function getElementByTranslate3D(row, col) {
+    console.log(row, col)
     const allEnemies = document.querySelectorAll(".enemy");
     for (const enemy of allEnemies) {
         const style = window.getComputedStyle(enemy);
-        const transform = style.transform || style.webkitTransform || style.mozTransform;
-        // console.log(transform)
+        const transform = style.transform
         if (transform && transform.includes("matrix")) {
-            // Extract matrix values
             const match = transform.match(/matrix\((.+?)\)/);
             if (match) {
                 const [a, b, c, d, tx, ty] = match[1].split(", ").map((v) => parseFloat(v));
-                // console.log([a, b, c, d, tx, ty])
-                // Compare coordinates
-                if (tx === y && ty === x) {
-
-                    return enemy; // Return the matched enemy element
+                if (tx === col * 50 && ty === row * 50) {
+                    console.info("good condition worked!")
+                    return enemy;
                 }
             }
         }
     }
-    return null;// No element found
+    return null;
 }
 
 function showExplosionEffect(bombX, bombY) {
     const explosion = document.createElement("div");
-    const surroundingBombe = checkSurroundingsBombs(bombY, bombX, Tils);
-    // console.log(Tils)
-    const surroundingEnemy = checkSurroundingsBombsByEnemy(bombY,bombX,Tils)
-    // console.log(surroundingEnemy)
+    const surroundingBombe = checkSurroundingsBombs(bombY, bombX,Tils);
+    const surroundingEnemy = checkSurroundingsBombsByEnemy(bombY, bombX,Tils)
+    console.log(surroundingEnemy)
 
-    if (surroundingBombe.up || surroundingEnemy.up ) {
-        const enemy = getElementByTranslate3D(50*(bombY - 1), 50*bombX);
-        console.log("2nd up :\n",Tils)
+    if (surroundingBombe.up || surroundingEnemy.up) {
+        const enemy = getElementByTranslate3D((bombY - 1), bombX);
         if (enemy){
-            Tils[bombY-1][bombX] = 0
-            // console.log(enemy)
             enemy.remove()
         }
-        // Tils[bombY-1][bombX] = 0
-        // console.log( "up",Tils[bombY-1][bombX] )
         console.log(Tils)
         const element = getElementFromGrid(bombY - 1, bombX);
         if (element) {
-             let decider =  "lands"
-            if ( element.dataset.hiddenDoor === 'true') decider =  "door"
+            let decider = "lands"
+            if (element.dataset.hiddenDoor === 'true') decider = "door"
             element.classList.remove("rock");
             element.classList.add("rock-destroy");
-            setTimeout(()=>{
+            setTimeout(() => {
                 element.classList.add(decider)
                 element.classList.remove("rock-destroy");
-            },900)
-            
+            }, 900)
+
         }
     }
     if (surroundingBombe.down || surroundingEnemy.down) {
-        // if (surroundingEnemy.down) Tils[bombY + 1][bombX] = 0
-        const enemy = getElementByTranslate3D(50*(bombY + 1), 50*bombX);
-        console.log("2nd down:\n",Tils)
-        if (enemy !== null){
-            Tils[bombY+1][bombX] = 0
-            // console.log(enemy)
+        const enemy = getElementByTranslate3D(bombY + 1, bombX);
+        console.log("2nd down:\n", Tils)
+        if (enemy){
             enemy.remove()
         }
-        // // console.log(Tils)
-        // Tils[bombY+1][bombX] = 0;
-        // console.log("down",Tils[bombY+1][bombX])
         console.log(Tils)
 
         const element = getElementFromGrid(bombY + 1, bombX);
         if (element) {
-            let decider =  "lands"
-            if ( element.dataset.hiddenDoor === 'true') decider =  "door"
+            let decider = "lands"
+            if (element.dataset.hiddenDoor === 'true') decider = "door"
             element.classList.remove("rock");
             element.classList.add("rock-destroy");
-           
-            setTimeout(()=>{
+
+            setTimeout(() => {
                 element.classList.add(decider)
                 element.classList.remove("rock-destroy");
-            },900)
+            }, 900)
         }
     }
     if (surroundingBombe.left || surroundingEnemy.left) {
-        const enemy = getElementByTranslate3D(50*bombY, 50*(bombX-1));
-        console.log("2nd left:\n",Tils)
-        if(enemy !== null){
-            Tils[bombY][bombX-1] = 0
-            // console.log(enemy)
+        const enemy = getElementByTranslate3D(bombY, bombX - 1);
+        console.log("2nd left:\n", Tils)
+        if (enemy){
             enemy.remove()
         }
-        // Tils[bombY][bombX-1] = 0;
-        // console.log("left",Tils[bombY][bombX-1])
-        console.log(Tils)
-        
+
         const element = getElementFromGrid(bombY + 1, bombX);
-  
+
         if (element) {
-            let decider =  "lands"
-            if ( element.dataset.hiddenDoor === 'true') decider =  "door"
+            let decider = "lands"
+            if (element.dataset.hiddenDoor === 'true') decider = "door"
             element.classList.remove("rock");
             element.classList.add("rock-destroy");
-            
-            setTimeout(()=>{
+
+            setTimeout(() => {
                 element.classList.add(decider)
                 element.classList.remove("rock-destroy");
-            },900)
+            }, 900)
         }
     }
     if (surroundingBombe.right || surroundingEnemy.right) {
-        const enemy = getElementByTranslate3D(50*bombY, 50*(bombX + 1));
-        console.log("2nd right:\n",Tils)
-        // console.log(Tils)
-        if (enemy !== null){
-            Tils[bombY][bombX+1] = 0
-            // console.log(enemy)
+        const enemy = getElementByTranslate3D(bombY, bombX + 1);
+        console.log("2nd right:\n", Tils)
+        if (enemy){
             enemy.remove()
         }
-        // Tils[bombY][bombX+1] = 0
-        // console.log("right" ,Tils[bombY][bombX+1])
-        console.log(Tils)
-     
-        const element = getElementFromGrid(bombY, bombX+1);
+
+        const element = getElementFromGrid(bombY, bombX + 1);
 
         if (element) {
-             let decider =  "lands"
-            if ( element.dataset.hiddenDoor === 'true') decider =  "door"
+            let decider = "lands"
+            if (element.dataset.hiddenDoor === 'true') decider = "door"
             element.classList.remove("rock");
             element.classList.add("rock-destroy");
-            setTimeout(()=>{
+            setTimeout(() => {
                 element.classList.add(decider)
                 element.classList.remove("rock-destroy");
-                
-            },900)
+
+            }, 900)
         }
     }
 

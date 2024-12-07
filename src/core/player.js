@@ -1,6 +1,7 @@
+import { Tils } from "../main.js";
+
 import { placeBomb } from "./bomb.js";
 import * as utils from "../utils/collision.js";
-import { Tils } from "../main.js";
 import { bombX,bombY } from "./bomb.js";
 const TILE_SIZE = 50;
 const player = document.getElementById("player");
@@ -24,6 +25,7 @@ const frameInterval = 150;
 let lastAnimationTime = 0;
 
 export function update(deltaTime) {
+
   if (activeKeys.length === 0) {
     playerState.frame = 0;
     return;
