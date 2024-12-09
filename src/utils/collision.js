@@ -35,7 +35,7 @@ export function checkSurroundingsBombsByEnemy(row, col, tils) {
   };
 }
 
-function checkEnemy(col, row, pos, debug = false) {
+function checkEnemy(col, row, pos, debug = true) {
   const allEnemies = document.querySelectorAll(".enemy");
 
   if (debug) console.log(`------------------------start ${pos}-----------------------------`);
@@ -43,10 +43,10 @@ function checkEnemy(col, row, pos, debug = false) {
   // Precompute grid boundaries
   const baseX = col * 50;
   const baseY = row * 50;
-  const minX = baseX - 0 ; // One cell left
-  const maxX = baseX + 0 ; // One cell right + boundary offset
-  const minY = baseY - 0 ; // One cell above
-  const maxY = baseY + 0 ; // One cell below
+  const minX = baseX - 10 ; 
+  const maxX = baseX + 10 ;
+  const minY = baseY - 10 ;
+  const maxY = baseY + 10 ; 
 
   for (const enemy of allEnemies) {
     const style = window.getComputedStyle(enemy);
