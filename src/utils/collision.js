@@ -39,8 +39,6 @@ function checkEnemy(col, row, pos, debug = true) {
   const allEnemies = document.querySelectorAll(".enemy");
 
   if (debug) console.log(`------------------------start ${pos}-----------------------------`);
-
-  // Precompute grid boundaries
   const baseX = col * 50;
   const baseY = row * 50;
   const minX = baseX - 10 ; 
@@ -63,8 +61,6 @@ function checkEnemy(col, row, pos, debug = true) {
           console.log("Enemy Position (floored):", tx, ty);
           console.log("Expected Range (X):", minX, maxX, "Expected Range (Y):", minY, maxY);
         }
-
-        // Check if the enemy's position falls within the calculated range
         if (tx >= minX && tx <= maxX && ty >= minY && ty <= maxY) {
           if (debug) console.log("Enemy detected within range!");
           return true;
@@ -77,32 +73,3 @@ function checkEnemy(col, row, pos, debug = true) {
 
   return false;
 }
-
-
-// function checkEnemy(col, row, pos) {
-//   const allEnemies = document.querySelectorAll(".enemy");
-//   console.log(`------------------------start ${pos}-----------------------------`)
-//   for (const enemy of allEnemies) {
-//     const style = window.getComputedStyle(enemy);
-//     const transform = style.transform
-//     console.log(transform)
-//     if (transform && transform.includes("matrix")) {
-//       const match = transform.match(/matrix\((.+?)\)/);
-//       if (match) {
-
-//         var [a, b, c, d, tx, ty] = match[1].split(", ").map((v) => parseFloat(v));
-//         console.log(" flored before condition x,y", tx, ty)
-//         console.log("col, row", col * 50, row * 50)
-//         console.log(tx <= (col + 1) * 50 && tx >= (col - 1) * 50)
-//         console.log(ty <= (row + 1) * 50 && ty >= (row - 1) * 50)
-//         return ((tx < (col + 2) * 50 && tx > (col - 2) * 50) && (ty < (row + 2) * 50 && ty > (row - 2) * 50))
-//         // if (tx <= col * 50 && tx > col) {
-//         //   console.log("col, row", col, row)
-//         //   console.log("condition true x,y", tx, ty)
-//         //   return true
-//         // }
-//       }
-//     }
-//   }
-//   console.log("-------------------------end---------------------------")
-// }
