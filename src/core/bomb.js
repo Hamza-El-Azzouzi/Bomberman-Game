@@ -27,9 +27,9 @@ export function placeBomb() {
         showExplosionEffect(bombX, bombY);
         activeBomb = null;
         Tils[bombY][bombX] = 0
-        
 
-    }, 3000);
+
+    }, 300);
 }
 function getElementFromGrid(row, col) {
     let mapchlidern = container.children
@@ -57,8 +57,10 @@ function getElementByTranslate3D(row, col) {
             const match = transform.match(/matrix\((.+?)\)/);
             if (match) {
                 const [a, b, c, d, tx, ty] = match[1].split(", ").map((v) => parseFloat(v));
-                if (tx === col * 50 && ty === row * 50) {
+                if ((tx < (col + 2) * 50 && tx > (col - 2) * 50) && (ty < (row + 2) * 50 && ty > (row - 2) * 50)) {
                     console.info("good condition worked!")
+                    console.log(Tils)
+                    enemy.remove()
                     return enemy;
                 }
             }
@@ -69,14 +71,27 @@ function getElementByTranslate3D(row, col) {
 
 function showExplosionEffect(bombX, bombY) {
     const explosion = document.createElement("div");
-    const surroundingBombe = checkSurroundingsBombs(bombY, bombX,Tils);
-    const surroundingEnemy = checkSurroundingsBombsByEnemy(bombY, bombX,Tils)
+    const surroundingBombe = checkSurroundingsBombs(bombY, bombX, Tils);
+    const surroundingEnemy = checkSurroundingsBombsByEnemy(bombY, bombX, Tils)
+    console.log(surroundingEnemy)
+    //|| surroundingEnemy.left || surroundingEnemy.down || surroundingEnemy.up){
+    if (surroundingEnemy.up) {
+        getElementByTranslate3D(bombY - 1, bombX);
+    }
+    if (surroundingEnemy.down) {
+        getElementByTranslate3D(bombY + 1, bombX);
+    }
+    if (surroundingEnemy.left) {
+        getElementByTranslate3D(bombY, bombX - 1);
+    }
+    if (surroundingEnemy.right) {
+        getElementByTranslate3D(bombY, bombX + 1);
+    }
+    
+    if (surroundingBombe.up) {
+        console.log("here")
 
-    if (surroundingBombe.up || surroundingEnemy.up) {
-        const enemy = getElementByTranslate3D((bombY - 1), bombX);
-        if (enemy){
-            enemy.remove()
-        }
+
         const element = getElementFromGrid(bombY - 1, bombX);
         if (element) {
             let decider = "lands"
@@ -90,11 +105,7 @@ function showExplosionEffect(bombX, bombY) {
 
         }
     }
-    if (surroundingBombe.down || surroundingEnemy.down) {
-        const enemy = getElementByTranslate3D(bombY + 1, bombX);
-        if (enemy){
-            enemy.remove()
-        }
+    if (surroundingBombe.down) {
 
         const element = getElementFromGrid(bombY + 1, bombX);
         if (element) {
@@ -109,14 +120,9 @@ function showExplosionEffect(bombX, bombY) {
             }, 900)
         }
     }
-    if (surroundingBombe.left || surroundingEnemy.left) {
-        const enemy = getElementByTranslate3D(bombY, bombX - 1);
-    
-        if (enemy){
-            enemy.remove()
-        }
+    if (surroundingBombe.left) {
 
-        const element = getElementFromGrid(bombY, bombX-1);
+        const element = getElementFromGrid(bombY, bombX - 1);
 
         if (element) {
             let decider = "lands"
@@ -130,11 +136,8 @@ function showExplosionEffect(bombX, bombY) {
             }, 900)
         }
     }
-    if (surroundingBombe.right || surroundingEnemy.right) {
-        const enemy = getElementByTranslate3D(bombY, bombX + 1);
-        if (enemy){
-            enemy.remove()
-        }
+
+    if (surroundingBombe.right) {
 
         const element = getElementFromGrid(bombY, bombX + 1);
 
