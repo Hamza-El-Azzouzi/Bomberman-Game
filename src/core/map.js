@@ -113,7 +113,6 @@ export function MapGenerator() {
           break;
         case 4:
           block.className = 'rock';
-          block.dataset.hiddenDoor = 'true';
           block.textContent = "1 "
           break;
       }

@@ -40,7 +40,7 @@ function getElementFromGrid(row, col) {
     }
     const index = (row * cols) + col
     if (index >= 0 && index < totalCells) {
-        Tils[row][col] = 0
+       
 
 
         if (mapchlidern[index + 1].className === "rock") return mapchlidern[index + 1];
@@ -94,8 +94,10 @@ function showExplosionEffect(bombX, bombY) {
 
         const element = getElementFromGrid(bombY - 1, bombX);
         if (element) {
+            
             let decider = "lands"
-            if (element.dataset.hiddenDoor === 'true') decider = "door"
+            if (Tils[bombY-1][bombX] === 4) decider = "door"
+            Tils[bombY-1][bombX] = 0
             element.classList.remove("rock");
             element.classList.add("rock-destroy");
             setTimeout(() => {
@@ -110,7 +112,9 @@ function showExplosionEffect(bombX, bombY) {
         const element = getElementFromGrid(bombY + 1, bombX);
         if (element) {
             let decider = "lands"
-            if (element.dataset.hiddenDoor === 'true') decider = "door"
+            if ( Tils[bombY+1][bombX]=== 4) decider = "door"
+
+            Tils[bombY+1][bombX] = 0
             element.classList.remove("rock");
             element.classList.add("rock-destroy");
 
@@ -126,7 +130,8 @@ function showExplosionEffect(bombX, bombY) {
 
         if (element) {
             let decider = "lands"
-            if (element.dataset.hiddenDoor === 'true') decider = "door"
+           if ( Tils[bombY][bombX-1]=== 4) decider = "door"
+           Tils[bombY][bombX-1] = 0
             element.classList.remove("rock");
             element.classList.add("rock-destroy");
 
@@ -143,7 +148,8 @@ function showExplosionEffect(bombX, bombY) {
 
         if (element) {
             let decider = "lands"
-            if (element.dataset.hiddenDoor === 'true') decider = "door"
+            if ( Tils[bombY][bombX+1]=== 4) decider = "door"
+            Tils[bombY][bombX+1] = 0
             element.classList.remove("rock");
             element.classList.add("rock-destroy");
             setTimeout(() => {
