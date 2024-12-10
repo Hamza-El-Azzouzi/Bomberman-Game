@@ -6,8 +6,7 @@ export class FPSMonitor {
       this.frameCount = 0;
       this.fps = 0;
       this.keysPressed = {};
-      this.debugOverlay = null;
-  
+      this.debugOverlay = null;  
       this.initOverlay();
       this.setupKeyListeners();
     }

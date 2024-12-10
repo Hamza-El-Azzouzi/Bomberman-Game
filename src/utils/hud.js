@@ -1,7 +1,7 @@
 import { isPaused } from "./pause_menu.js";
 
-let score = 0;
-let lives = 5;
+export let score = 0;
+export let lives = 5;
 let minutes = 5;
 let seconds = 60;
 let timer = minutes * seconds;
