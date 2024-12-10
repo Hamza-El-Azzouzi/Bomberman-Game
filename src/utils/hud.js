@@ -1,14 +1,37 @@
-import { isPaused } from "./pause_menu.js";
+import { isPaused,gameOver } from "./pause_menu.js";
 
 let score = 0;
-let lives = 5;
-let minutes = 5;
-let seconds = 60;
-let timer = minutes * seconds;
+let lives = 0;
+let minutes = 0;
+let seconds = 0;
+let timer = 0;
 
-const scoreElement = document.getElementById("score");
-const livesElement = document.getElementById("lives");
-const timerElement = document.getElementById("timer");
+const container = document.querySelector(".container");
+const hudDiv = document.createElement("div");
+const scoreElement = document.createElement("div");
+const livesElement = document.createElement("div");
+const timerElement = document.createElement("div");
+
+export function initHud() {
+  score = 0;
+  lives = 5;
+  minutes = 5;
+  seconds = 60;
+  timer = minutes*seconds;
+  hudDiv.id = "hud";
+  scoreElement.id = "score";
+  scoreElement.textContent = "Score: 0";
+  livesElement.id = "lives";
+  livesElement.textContent = "Lives: 5";
+  timerElement.id = "timer";
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+  timerElement.textContent = "game ends in: " + minutes + ":" + seconds;
+  hudDiv.appendChild(scoreElement);
+  hudDiv.appendChild(livesElement);
+  hudDiv.appendChild(timerElement);
+  container.appendChild(hudDiv);
+}
 
 function updateHUD() {
   scoreElement.textContent = `Score: ${score}`;
@@ -26,7 +49,7 @@ function updateHUD() {
   }
 }
 
-setInterval(() => {
+let intervalId = setInterval(() => {
   if (!isPaused) {
     timer -= 1;
     updateHUD();
@@ -40,5 +63,8 @@ export function increaseScore(amount) {
 
 export function decreaseLives() {
   lives -= 1;
+  if (lives === 0){
+    gameOver();
+  }
   updateHUD();
 }
