@@ -26,7 +26,7 @@ export function initHud() {
   timerElement.id = "timer";
   minutes = minutes < 10 ? "0" + minutes : minutes;
   seconds = seconds < 10 ? "0" + seconds : seconds;
-  timerElement.textContent = "game ends in: " + minutes + ":" + seconds;
+  timerElement.textContent = "game ends in: 05:00";
   hudDiv.appendChild(scoreElement);
   hudDiv.appendChild(livesElement);
   hudDiv.appendChild(timerElement);
