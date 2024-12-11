@@ -44,24 +44,24 @@ function getElementFromGrid(row, col) {
     throw new Error("Invalid row or column index");
   }
   const index = (row * cols) + col
-  let count = 1
+  let position = 1
   if (index >= 0 && index < totalCells) {
-    if (lives != 5) count = 0
-    if (mapchlidern[index + count].className === "rock") {
+    if (lives != 5) position = 0
+    if (mapchlidern[index + position].className === "rock") {
 
       if (Tils[row][col] === 4) {
         decider = "door"
       }
       Tils[row][col] = 0
-      mapchlidern[index + count].classList.remove("rock");
-      mapchlidern[index + count].classList.add("rock-destroy");
+      mapchlidern[index + position].classList.remove("rock");
+      mapchlidern[index + position].classList.add("rock-destroy");
       increaseScore(100)
-      mapchlidern[index + count].classList.add(decider)
-      mapchlidern[index + count].classList.remove("rock-destroy");
+      mapchlidern[index + position].classList.add(decider)
+      mapchlidern[index + position].classList.remove("rock-destroy");
     };
   }
 }
-function getElementByTranslate3D(row, col, element) {
+export function getElementByTranslate3D(row, col, element) {
   const allElement = document.querySelectorAll(element);
   for (const elem of allElement) {
     const style = window.getComputedStyle(elem);
@@ -83,6 +83,7 @@ function getElementByTranslate3D(row, col, element) {
             playerState.x = 50
             playerState.y = 50
             playerState.direction = "down"
+            console.log(container)
             container.append(player)
             if (score > 0) {
               increaseScore(score - (Math.floor((score * 30) / 100)))

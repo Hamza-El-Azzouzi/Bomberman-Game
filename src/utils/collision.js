@@ -74,6 +74,16 @@ function checkEnemy(col, row, pos, debug = false) {
   return false;
 }
 
+export function checkSurroundingsByPlayer(row, col, tils) {
+  console.log(row > 1 && checkEnemy(col, row - 1, "up") && Tils[row - 1][col] != 1)
+  return {
+    up: row > 1 && checkEnemy(col, row - 1, "up") && Tils[row - 1][col] != 1,
+    down: row < tils.length - 1 && checkEnemy(col, row + 1, "down") && Tils[row + 1][col] != 1,
+    left: col > 1 && checkEnemy(col - 1, row, "left") && Tils[row][col - 1] != 1,
+    right: col < tils[0].length - 1 &&checkEnemy(col + 1, row, "right") && Tils[row][col + 1] != 1,
+  };
+}
+
 export function checkSurroundingsBombsByPlayer(row, col, tils) {
   return {
     up: row > 1 && checkPlayer(col, row - 1, "up") && Tils[row - 1][col] != 1,
@@ -82,7 +92,6 @@ export function checkSurroundingsBombsByPlayer(row, col, tils) {
     right: col < tils[0].length - 1 && checkPlayer(col + 1, row, "right") && Tils[row][col + 1] != 1,
   };
 }
-
 function checkPlayer(col, row, pos, debug = false) {
   const palyer = document.querySelector(".player");
   // console.log(palyer)

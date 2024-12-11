@@ -3,7 +3,25 @@ import { Tils } from "../main.js";
 import { placeBomb } from "./bomb.js";
 import * as utils from "../utils/collision.js";
 import { bombX, bombY } from "./bomb.js";
+import { decreaseLives, increaseScore } from "../utils/hud.js";
+function killPlayer(){
+  const container = document.querySelector('.map');
+  const player = document.querySelector(".player");
 
+    player.remove()
+    decreaseLives()
+    const newPlayer = document.createElement('div');
+    newPlayer.id = "player";
+    newPlayer.className = "player";
+    playerState.x = 50
+    playerState.y = 50
+    playerState.direction = "down"
+    console.log(container)
+    container.append(newPlayer)
+    if (score > 0) {
+      increaseScore(score - (Math.floor((score * 30) / 100)))
+    }
+}
 const TILE_SIZE = 50;
 let player;
 export const spriteDirections = {
@@ -26,6 +44,8 @@ const frameInterval = 150;
 let lastAnimationTime = 0;
 
 export function update(deltaTime) {
+  
+  // console.log(container)
   player = document.getElementById("player");
   if (activeKeys.length === 0) {
     playerState.frame = 0;
@@ -53,13 +73,15 @@ export function update(deltaTime) {
     return (
       bombX === Math.round(playerState.x / TILE_SIZE) &&
       bombY === Math.round(playerState.y / TILE_SIZE)
-    ); 
+    );
   };
   switch (lastKey) {
     case "ArrowUp":
     case "w":
       playerState.direction = "up";
+
       row = Math.ceil(playerState.y / TILE_SIZE);
+      
       surroundings = utils.checkSurroundings(row, col, Tils);
       if (surroundings.up || (surroundings.up && isBlockedByBomb())) {
         if (playerState.x % TILE_SIZE > threshold) {
@@ -117,7 +139,7 @@ export function update(deltaTime) {
       moving = true;
       break;
   }
-
+  
   if (moving) {
     const currentTime = performance.now();
     if (currentTime - lastAnimationTime > frameInterval) {
@@ -130,14 +152,28 @@ export function update(deltaTime) {
 }
 
 export function render() {
+  
+  const surroundingPlayer = utils.checkSurroundingsByPlayer(Math.floor(playerState.y/50), Math.floor(playerState.x/50), Tils)
+  console.log(surroundingPlayer)
+  if (surroundingPlayer.up) {
+    killPlayer()
+  }else
+  if (surroundingPlayer.down) {
+    killPlayer()
+  }
+  if (surroundingPlayer.left) {
+    killPlayer()
+  }
+  if (surroundingPlayer.right) {
+    killPlayer()
+  }
   player.style.transform = `translate3d(${Math.round(
     playerState.x
   )}px, ${Math.round(playerState.y)}px, 0)`;
 
   const row = spriteDirections[playerState.direction];
-  player.style.backgroundPosition = `-${playerState.frame * TILE_SIZE}px -${
-    row * TILE_SIZE
-  }px`;
+  player.style.backgroundPosition = `-${playerState.frame * TILE_SIZE}px -${row * TILE_SIZE
+    }px`;
 }
 
 document.addEventListener(
