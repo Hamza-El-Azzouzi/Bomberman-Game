@@ -34,7 +34,7 @@ function updateHUD() {
   }
 }
 
-let intervalId = setInterval(() => {
+setInterval(() => {
   if (!isPaused) {
     timer -= 1;
     updateHUD();

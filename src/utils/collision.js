@@ -14,7 +14,7 @@ export function checkSurroundings(row, col, tils) {
 }
 
 export function checkSurroundingsBombs(row, col, tils) {
-  console.log(row, col)
+  // console.log(row, col)
   if (!Array.isArray(tils) || tils.length === 0 || !Array.isArray(tils[0])) {
     throw new Error("Invalid tiles array");
   }
@@ -75,7 +75,7 @@ function checkEnemy(col, row, pos, debug = false) {
 }
 
 export function checkSurroundingsByPlayer(row, col, tils) {
-  console.log(row > 1 && checkEnemy(col, row - 1, "up") && Tils[row - 1][col] != 1)
+  // console.log(row > 1 && checkEnemy(col, row - 1, "up") && Tils[row - 1][col] != 1)
   return {
     up: row > 1 && checkEnemy(col, row - 1, "up") && Tils[row - 1][col] != 1,
     down: row < tils.length - 1 && checkEnemy(col, row + 1, "down") && Tils[row + 1][col] != 1,

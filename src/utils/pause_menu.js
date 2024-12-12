@@ -9,6 +9,8 @@ const gameOverDiv = document.getElementById("gameOverScreen");
 const continueButton = document.getElementById("continueButton");
 const restartButton = document.getElementById("restartButton");
 const restartGameOver = document.getElementById("restartGameOver");
+const winnerScreen = document.getElementById("winnerScreen");
+const playAgainButton = document.getElementById("playAgainButton");
 let menuOptions = [continueButton, restartButton];
 let selectedOptionIndex = 0;
 
@@ -24,7 +26,15 @@ function highlightSelectedOption() {
   });
 }
 
-function pauseGame() {
+export function Winner() {
+  isPaused = true;
+  winnerScreen.style.display = "flex";
+  cancelAnimationFrame(gameLoop);
+  playAgainButton.style.backgroundColor = "red";
+  playAgainButton.style.color = "black";
+}
+
+export function pauseGame() {
   isPaused = true;
   pauseMenu.classList.remove("hidden");
   cancelAnimationFrame(gameLoop);
@@ -80,9 +90,19 @@ menuOptions.forEach((button, index) => {
 continueButton.addEventListener("click", continueGame);
 restartButton.addEventListener("click", restartGame);
 restartGameOver.addEventListener("click", restartGame);
+playAgainButton.addEventListener("click", restartGame);
 
 document.addEventListener("keydown", (event) => {
   if (gameOverScreen.style.display === "flex") {
+    if (event.key === "Enter"){
+      restartGameOver.click();
+    }
+    return;
+  }
+  if (!winnerScreen.classList.contains("hidden")){
+    if (event.key === "Enter"){
+      playAgainButton.click();
+    }
     return;
   }
   if (event.key === "Escape") {

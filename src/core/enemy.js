@@ -3,10 +3,10 @@ import { playerState, spriteDirections } from "./player.js";
 import { checkSurroundings } from "../utils/collision.js";
 
 const TILE_SIZE = 50;
-const ENEMY_COUNT = 4;
+const ENEMY_COUNT = 0;
 const ANIMATION_INTERVAL = 150;
 
-const enemies = [];
+export const enemies = [];
 
 function getRandomValidPosition() {
   let row, col;
@@ -34,9 +34,9 @@ export function placeEnemies() {
 
     const enemy = document.createElement("div");
     enemy.className = "enemy";
-    enemy.style.transform = `translate3d(${col * TILE_SIZE}px, ${
+    enemy.style.transform = `translate(${col * TILE_SIZE}px, ${
       row * TILE_SIZE
-    }px, 0)`;
+    }px)`;
     map.appendChild(enemy);
 
     enemies.push({
@@ -74,12 +74,12 @@ function smoothMoveEnemy(enemy, direction, steps, stepSize, onComplete) {
         break;
     }
     animateEnemy(enemy);
-    enemy.element.style.transform = `translate3d(${Math.round(
+    enemy.element.style.transform = `translate(${Math.round(
       enemy.x
-    )}px, ${Math.round(enemy.y)}px, 0)`;
+    )}px, ${Math.round(enemy.y)}px)`;
 
     stepCount++;
-    setTimeout(moveStep, 100); 
+    setTimeout(moveStep, 100);
   }
 
   moveStep();
@@ -104,7 +104,7 @@ function moveEnemy(enemy) {
   const TILE_STEP_COUNT = 20;
   const STEP_SIZE = TILE_SIZE / TILE_STEP_COUNT;
 
-  if (enemy.isMoving) return; 
+  if (enemy.isMoving) return;
 
   const currentRow = Math.floor(enemy.y / TILE_SIZE);
   const currentCol = Math.floor(enemy.x / TILE_SIZE);
@@ -153,7 +153,7 @@ function moveEnemy(enemy) {
     newRow < Tils.length &&
     newCol >= 0 &&
     newCol < Tils[0].length &&
-    Tils[newRow][newCol] === 0 
+    Tils[newRow][newCol] === 0
   ) {
     enemy.isMoving = true;
     smoothMoveEnemy(enemy, enemy.direction, TILE_STEP_COUNT, STEP_SIZE, () => {
@@ -164,7 +164,7 @@ function moveEnemy(enemy) {
   }
 }
 
-export function   updateEnemies(deltaTime) {
+export function updateEnemies(deltaTime) {
   enemies.forEach((enemy) => {
     moveEnemy(enemy, deltaTime);
   });

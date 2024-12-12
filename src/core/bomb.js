@@ -1,17 +1,22 @@
 import { Tils } from "../main.js";
-import { checkSurroundingsBombs, checkSurroundingsBombsByEnemy, checkSurroundingsBombsByPlayer } from "../utils/collision.js";
+import {
+  checkSurroundingsBombs,
+  checkSurroundingsBombsByEnemy,
+  checkSurroundingsBombsByPlayer,
+} from "../utils/collision.js";
 import { playerState } from "./player.js";
 import { increaseScore, decreaseLives, score, lives } from "../utils/hud.js";
+import { enemies } from "./enemy.js";
 
 let activeBomb = null;
 const frameWidth = 50;
 let container;
-var rows = 13
-var cols = 15
-export let bombX = 0
-export let bombY = 0
+var rows = 13;
+var cols = 15;
+export let bombX = 0;
+export let bombY = 0;
 export function placeBomb() {
-  container = document.querySelector('.map');
+  container = document.querySelector(".map");
   if (activeBomb) return;
 
   bombX = Math.round(playerState.x / frameWidth);
@@ -19,74 +24,81 @@ export function placeBomb() {
 
   const bomb = document.createElement("div");
   bomb.className = "bomb";
-  bomb.style.transform = `translate3d(${bombX * frameWidth}px, ${bombY * frameWidth}px, 0)`;
+  bomb.style.transform = `translate(${bombX * frameWidth}px, ${
+    bombY * frameWidth
+  }px)`;
   container.appendChild(bomb);
 
-  Tils[bombY][bombX] = 7
+  Tils[bombY][bombX] = 7;
   activeBomb = bomb;
   setTimeout(() => {
     bomb.remove();
     showExplosionEffect(bombX, bombY);
-    activeBomb = null
-    Tils[bombY][bombX] = 0
+    activeBomb = null;
+    Tils[bombY][bombX] = 0;
   }, 800);
 }
 function getElementFromGrid(row, col) {
-
-  console.log(Tils)
-  console.log("got entred to found the grid")
-  let mapchlidern = container.children
-  let decider = "lands"
-  console.log(mapchlidern)
+  console.log(Tils);
+  console.log("got entred to found the grid");
+  let mapchlidern = container.children;
+  let decider = "lands";
+  console.log(mapchlidern);
   const totalCells = rows * cols;
 
   if (row < 0 || row >= rows || col < 0 || col >= cols) {
     throw new Error("Invalid row or column index");
   }
-  const index = (row * cols) + col
-  let position = 1
+  const index = row * cols + col;
+  let position = 1;
   if (index >= 0 && index < totalCells) {
-    if (lives != 5) position = 0
+    if (lives != 5) position = 0;
     if (mapchlidern[index + position].className === "rock") {
-
       if (Tils[row][col] === 4) {
-        decider = "door"
+        decider = "door";
       }
-      Tils[row][col] = 0
+      Tils[row][col] = 0;
       mapchlidern[index + position].classList.remove("rock");
       mapchlidern[index + position].classList.add("rock-destroy");
-      increaseScore(100)
-      mapchlidern[index + position].classList.add(decider)
+      increaseScore(100);
+      mapchlidern[index + position].classList.add(decider);
       mapchlidern[index + position].classList.remove("rock-destroy");
-    };
+    }
   }
 }
-export function getElementByTranslate3D(row, col, element) {
+export function getElementByTranslate(row, col, element) {
   const allElement = document.querySelectorAll(element);
   for (const elem of allElement) {
     const style = window.getComputedStyle(elem);
-    const transform = style.transform
+    const transform = style.transform;
     if (transform && transform.includes("matrix")) {
       const match = transform.match(/matrix\((.+?)\)/);
       if (match) {
-        const [a, b, c, d, tx, ty] = match[1].split(", ").map((v) => parseFloat(v));
-        if ((tx < (col + 2) * 50 && tx > (col - 2) * 50) && (ty < (row + 2) * 50 && ty > (row - 2) * 50)) {
-          console.info("good condition worked!")
-          elem.remove()
+        const [a, b, c, d, tx, ty] = match[1]
+          .split(", ")
+          .map((v) => parseFloat(v));
+        if (
+          tx < (col + 2) * 50 &&
+          tx > (col - 2) * 50 &&
+          ty < (row + 2) * 50 &&
+          ty > (row - 2) * 50
+        ) {
+          console.info("good condition worked!");
+          elem.remove();
           if (element === ".enemy") {
-            increaseScore(500)
+            enemies.pop();
+            increaseScore(500);
           } else {
-            decreaseLives()
-            const player = document.createElement('div');
+            decreaseLives();
+            const player = document.createElement("div");
             player.id = "player";
             player.className = "player";
-            playerState.x = 50
-            playerState.y = 50
-            playerState.direction = "down"
-            console.log(container)
-            container.append(player)
+            playerState.x = 50;
+            playerState.y = 50;
+            playerState.direction = "down";
+            container.append(player);
             if (score > 0) {
-              increaseScore(score - (Math.floor((score * 30) / 100)))
+              increaseScore(-Math.floor((score * 30) / 100));
             }
           }
         }
@@ -95,60 +107,68 @@ export function getElementByTranslate3D(row, col, element) {
   }
 }
 
-
-
 function showExplosionEffect(bombX, bombY) {
   const explosion = document.createElement("div");
   const surroundingBombe = checkSurroundingsBombs(bombY, bombX, Tils);
-  const surroundingEnemy = checkSurroundingsBombsByEnemy(bombY, bombX, Tils)
-  const surroundingPlayer = checkSurroundingsBombsByPlayer(bombY, bombX, Tils)
-  console.log(surroundingBombe)
+  const surroundingEnemy = checkSurroundingsBombsByEnemy(bombY, bombX, Tils);
+  const surroundingPlayer = checkSurroundingsBombsByPlayer(bombY, bombX, Tils);
   if (surroundingBombe.up) {
     getElementFromGrid(bombY - 1, bombX);
-
   }
   if (surroundingBombe.down) {
-    console.log("entred to down")
     getElementFromGrid(bombY + 1, bombX);
-   
   }
   if (surroundingBombe.left) {
-    console.log("entred to left")
     getElementFromGrid(bombY, bombX - 1);
-  
   }
 
   if (surroundingBombe.right) {
-    console.log("entred to right")
     getElementFromGrid(bombY, bombX + 1);
   }
   if (surroundingPlayer.up) {
-    getElementByTranslate3D(bombY - 1, bombX, ".player");
+    getElementByTranslate(bombY - 1, bombX, ".player");
   }
   if (surroundingPlayer.down) {
-    getElementByTranslate3D(bombY + 1, bombX, ".player");
+    getElementByTranslate(bombY + 1, bombX, ".player");
   }
   if (surroundingPlayer.left) {
-    getElementByTranslate3D(bombY, bombX - 1, ".player");
+    getElementByTranslate(bombY, bombX - 1, ".player");
   }
   if (surroundingPlayer.right) {
-    getElementByTranslate3D(bombY, bombX + 1, ".player");
+    getElementByTranslate(bombY, bombX + 1, ".player");
   }
   if (surroundingEnemy.up) {
-    getElementByTranslate3D(bombY - 1, bombX, ".enemy");
+    getElementByTranslate(bombY - 1, bombX, ".enemy");
   }
   if (surroundingEnemy.down) {
-    getElementByTranslate3D(bombY + 1, bombX, ".enemy");
+    getElementByTranslate(bombY + 1, bombX, ".enemy");
   }
   if (surroundingEnemy.left) {
-    getElementByTranslate3D(bombY, bombX - 1, ".enemy");
+    getElementByTranslate(bombY, bombX - 1, ".enemy");
   }
   if (surroundingEnemy.right) {
-    getElementByTranslate3D(bombY, bombX + 1, ".enemy");
+    getElementByTranslate(bombY, bombX + 1, ".enemy");
   }
 
+  if (
+    Math.round(playerState.x / frameWidth) === bombX &&
+    Math.round(playerState.y / frameWidth) === bombY
+  ) {
+    getElementByTranslate(bombY, bombX, ".player");
+  }
+
+  enemies.forEach((enemy) => {
+    if (
+        Math.round(enemy.x / frameWidth) === bombX &&
+        Math.round(enemy.y / frameWidth) === bombY
+      ) {
+        getElementByTranslate(bombY, bombX, ".enemy");
+      }
+  });
   explosion.className = "explosion";
-  explosion.style.transform = `translate3d(${bombX * frameWidth}px, ${bombY * frameWidth}px, 0)`;
+  explosion.style.transform = `translate(${bombX * frameWidth}px, ${
+    bombY * frameWidth
+  }px)`;
   container.appendChild(explosion);
 
   let frame = 0;
@@ -166,8 +186,9 @@ function showExplosionEffect(bombX, bombY) {
       row++;
       frame = 0;
     }
-    explosion.style.backgroundPosition = `-${frame * frameWidth}px -${row * frameWidth}px`;
+    explosion.style.backgroundPosition = `-${frame * frameWidth}px -${
+      row * frameWidth
+    }px`;
     frame++;
   }, frameInterval);
-
 }

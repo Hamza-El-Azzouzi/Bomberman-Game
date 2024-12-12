@@ -268,7 +268,7 @@ body {
   z-index: 1000;
 }
 
-#gameOverScreen {
+#gameOverScreen,#winnerScreen {
   position: fixed;
   top: 0;
   left: 0;
@@ -292,6 +292,23 @@ body {
 }
 
 .game-over-content button {
+  display: block;
+  margin: 10px auto;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.winner-content {
+  text-align: center;
+}
+
+.winner-content h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.winner-content button {
   font-size: 18px;
   padding: 10px 20px;
   cursor: pointer;
