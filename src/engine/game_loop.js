@@ -8,14 +8,13 @@ let lastTime = performance.now();
 const fpsMonitor = new FPSMonitor();
 
 export function gameLoop(currentTime, tils) {
-  console.log(Tils[Math.round(playerState.y / TILE_SIZE)][Math.round(playerState.x / TILE_SIZE)])
-  if (
-    enemies.length === 0 &&
-    playerState.y % TILE_SIZE === 0 &&
-    playerState.x % TILE_SIZE === 0 &&
-    Tils[Math.round(playerState.y / TILE_SIZE)][Math.round(playerState.x / TILE_SIZE)] === 4
-  ) {
-    Winner();
+  const door = document.querySelector(".door")
+  if (door && enemies.length === 0) {
+    let y = +door.getAttribute("y");
+    let x = +door.getAttribute("x");
+    if (playerState.y === y && playerState.x ===x){
+      Winner();
+    }
   }
 
   const deltaTime = (currentTime - lastTime) / 1000;

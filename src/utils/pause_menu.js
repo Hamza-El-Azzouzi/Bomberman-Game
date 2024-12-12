@@ -53,6 +53,7 @@ function restartGame() {
   isPaused = false;
   pauseMenu.classList.add("hidden");
   gameOverDiv.style.display = "none";
+  winnerScreen.style.display = "none";
   document.querySelector(".map").remove();
   playerState.direction = "down";
   init();

@@ -4,7 +4,7 @@ import {
   checkSurroundingsBombsByEnemy,
   checkSurroundingsBombsByPlayer,
 } from "../utils/collision.js";
-import { playerState } from "./player.js";
+import { playerState, TILE_SIZE } from "./player.js";
 import { increaseScore, decreaseLives, score, lives } from "../utils/hud.js";
 import { enemies } from "./enemy.js";
 
@@ -56,6 +56,8 @@ function getElementFromGrid(row, col) {
     if (mapchlidern[index + position].className === "rock") {
       if (Tils[row][col] === 4) {
         decider = "door";
+        mapchlidern[index + position].setAttribute("y", row*TILE_SIZE);
+        mapchlidern[index + position].setAttribute("x", col*TILE_SIZE);
       }
       Tils[row][col] = 0;
       mapchlidern[index + position].classList.remove("rock");

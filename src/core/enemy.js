@@ -3,7 +3,7 @@ import { playerState, spriteDirections } from "./player.js";
 import { checkSurroundings } from "../utils/collision.js";
 
 const TILE_SIZE = 50;
-const ENEMY_COUNT = 0;
+const ENEMY_COUNT = 4;
 const ANIMATION_INTERVAL = 150;
 
 export const enemies = [];
@@ -79,7 +79,7 @@ function smoothMoveEnemy(enemy, direction, steps, stepSize, onComplete) {
     )}px, ${Math.round(enemy.y)}px)`;
 
     stepCount++;
-    setTimeout(moveStep, 100);
+    setTimeout(moveStep, 30);
   }
 
   moveStep();
