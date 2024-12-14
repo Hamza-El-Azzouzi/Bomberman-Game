@@ -16,7 +16,7 @@ export const spriteDirections = {
 export const playerState = {
   x: 0,
   y: 0,
-  speed: 150,
+  speed: 100,
   direction: "down",
   frame: 0,
 };
@@ -25,18 +25,18 @@ const activeKeys = [];
 const frameInterval = 150;
 let lastAnimationTime = 0;
 
-function killPlayer(){
-  const container = document.querySelector('.map');
+function killPlayer() {
+  const container = document.querySelector(".map");
   const player = document.querySelector(".player");
-    player.remove()
-    decreaseLives()
-    const newPlayer = document.createElement('div');
-    newPlayer.id = "player";
-    newPlayer.className = "player";
-    playerState.x = 50
-    playerState.y = 50
-    playerState.direction = "down"
-    container.append(newPlayer)
+  player.remove();
+  decreaseLives();
+  const newPlayer = document.createElement("div");
+  newPlayer.id = "player";
+  newPlayer.className = "player";
+  playerState.x = TILE_SIZE;
+  playerState.y = TILE_SIZE;
+  playerState.direction = "down";
+  container.append(newPlayer);
 }
 
 export function update(deltaTime) {
@@ -47,7 +47,7 @@ export function update(deltaTime) {
   }
 
   const lastKey = activeKeys[activeKeys.length - 1];
-  const threshold = 25;
+  const threshold = TILE_SIZE / 2;
   let moving = false;
 
   let row, col, surroundings;
@@ -75,7 +75,7 @@ export function update(deltaTime) {
       playerState.direction = "up";
 
       row = Math.ceil(playerState.y / TILE_SIZE);
-      
+
       surroundings = utils.checkSurroundings(row, col, Tils);
       if (surroundings.up || (surroundings.up && isBlockedByBomb())) {
         if (playerState.x % TILE_SIZE > threshold) {
@@ -133,7 +133,7 @@ export function update(deltaTime) {
       moving = true;
       break;
   }
-  
+
   if (moving) {
     const currentTime = performance.now();
     if (currentTime - lastAnimationTime > frameInterval) {
@@ -146,11 +146,14 @@ export function update(deltaTime) {
 }
 
 export function render() {
-  const surroundingPlayer = utils.checkSurroundingsByPlayer(Math.floor(playerState.y/50), Math.floor(playerState.x/50), Tils)
+  const surroundingPlayer = utils.checkSurroundingsByPlayer(
+    Math.floor(playerState.y / TILE_SIZE),
+    Math.floor(playerState.x / TILE_SIZE),
+    Tils
+  );
   if (surroundingPlayer.up) {
     killPlayer();
-  }else
-  if (surroundingPlayer.down) {
+  } else if (surroundingPlayer.down) {
     killPlayer();
   }
   if (surroundingPlayer.left) {
@@ -164,8 +167,9 @@ export function render() {
   )}px, ${Math.round(playerState.y)}px)`;
 
   const row = spriteDirections[playerState.direction];
-  player.style.backgroundPosition = `-${playerState.frame * TILE_SIZE}px -${row * TILE_SIZE
-    }px`;
+  player.style.backgroundPosition = `-${playerState.frame * TILE_SIZE}px -${
+    row * TILE_SIZE
+  }px`;
 }
 
 document.addEventListener(
@@ -195,4 +199,3 @@ document.addEventListener("keydown", (event) => {
     placeBomb();
   }
 });
-

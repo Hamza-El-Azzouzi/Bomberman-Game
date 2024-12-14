@@ -39,11 +39,8 @@ export function placeBomb() {
   }, 800);
 }
 function getElementFromGrid(row, col) {
-  console.log(Tils);
-  console.log("got entred to found the grid");
   let mapchlidern = container.children;
   let decider = "lands";
-  console.log(mapchlidern);
   const totalCells = rows * cols;
 
   if (row < 0 || row >= rows || col < 0 || col >= cols) {
@@ -80,12 +77,11 @@ export function getElementByTranslate(row, col, element) {
           .split(", ")
           .map((v) => parseFloat(v));
         if (
-          tx < (col + 2) * 50 &&
-          tx > (col - 2) * 50 &&
-          ty < (row + 2) * 50 &&
-          ty > (row - 2) * 50
+          tx < (col + 2) * TILE_SIZE &&
+          tx > (col - 2) * TILE_SIZE &&
+          ty < (row + 2) * TILE_SIZE &&
+          ty > (row - 2) * TILE_SIZE
         ) {
-          console.info("good condition worked!");
           elem.remove();
           if (element === ".enemy") {
             enemies.pop();
@@ -95,8 +91,8 @@ export function getElementByTranslate(row, col, element) {
             const player = document.createElement("div");
             player.id = "player";
             player.className = "player";
-            playerState.x = 50;
-            playerState.y = 50;
+            playerState.x = TILE_SIZE;
+            playerState.y = TILE_SIZE;
             playerState.direction = "down";
             container.append(player);
             if (score > 0) {

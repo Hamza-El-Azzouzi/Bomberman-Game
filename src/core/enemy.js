@@ -79,7 +79,7 @@ function smoothMoveEnemy(enemy, direction, steps, stepSize, onComplete) {
     )}px, ${Math.round(enemy.y)}px)`;
 
     stepCount++;
-    setTimeout(moveStep, 30);
+    setTimeout(moveStep, 60);
   }
 
   moveStep();
