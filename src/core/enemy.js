@@ -1,11 +1,9 @@
 import { Tils } from "../main.js";
-import { playerState, spriteDirections,TILE_SIZE } from "./player.js";
+import { TILE_SIZE,playerState,spriteDirections,enemies } from "../constants/constants.js";
 import { checkSurroundings } from "../utils/collision.js";
 
 const ENEMY_COUNT = 4;
 const ANIMATION_INTERVAL = 150;
-
-export const enemies = [];
 
 function getRandomValidPosition() {
   let row, col;

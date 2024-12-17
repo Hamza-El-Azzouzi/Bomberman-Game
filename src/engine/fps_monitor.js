@@ -1,4 +1,4 @@
-import { playerState } from "../core/player.js";
+import { playerState } from "../constants/constants.js";
 
 export class FPSMonitor {
     constructor() {

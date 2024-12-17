@@ -1,26 +1,11 @@
 import { Tils } from "../main.js";
-
+import { TILE_SIZE,spriteDirections,playerState } from "../constants/constants.js";
 import { placeBomb } from "./bomb.js";
 import * as utils from "../utils/collision.js";
 import { bombX, bombY } from "./bomb.js";
 import { decreaseLives } from "../utils/hud.js";
-export const TILE_SIZE = 50;
-let player;
-export const spriteDirections = {
-  down: 0,
-  left: 1,
-  right: 2,
-  up: 3,
-};
 
-export const playerState = {
-  x: 0,
-  y: 0,
-  speed: 100,
-  direction: "down",
-  frame: 0,
-  isDying: false,
-};
+let player;
 
 const activeKeys = [];
 const frameInterval = 150;

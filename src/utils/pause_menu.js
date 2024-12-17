@@ -1,5 +1,5 @@
 import { init } from "../main.js";
-import { playerState } from "../core/player.js";
+import { playerState } from "../constants/constants.js";
 import { gameLoop } from "../engine/game_loop.js";
 import { setHud } from "./hud.js";
 

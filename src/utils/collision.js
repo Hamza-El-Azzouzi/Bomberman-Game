@@ -1,4 +1,4 @@
-import { TILE_SIZE } from "../core/player.js";
+import { TILE_SIZE } from "../constants/constants.js";
 import { Tils } from "../main.js";
 
 export function checkSurroundings(row, col, tils) {

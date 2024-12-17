@@ -4,12 +4,11 @@ import {
   checkSurroundingsBombsByEnemy,
   checkSurroundingsBombsByPlayer,
 } from "../utils/collision.js";
-import { killPlayer, playerState, TILE_SIZE } from "./player.js";
-import { increaseScore, decreaseLives, score, lives } from "../utils/hud.js";
-import { enemies } from "./enemy.js";
+import { TILE_SIZE,playerState,enemies } from "../constants/constants.js";
+import { killPlayer } from "./player.js";
+import { increaseScore, score } from "../utils/hud.js";
 
 let activeBomb = null;
-const frameWidth = 50;
 let container;
 var rows = 13;
 var cols = 15;
@@ -19,13 +18,13 @@ export function placeBomb() {
   container = document.querySelector(".map");
   if (activeBomb) return;
 
-  bombX = Math.round(playerState.x / frameWidth);
-  bombY = Math.round(playerState.y / frameWidth);
+  bombX = Math.round(playerState.x / TILE_SIZE);
+  bombY = Math.round(playerState.y / TILE_SIZE);
 
   const bomb = document.createElement("div");
   bomb.className = "bomb";
-  bomb.style.transform = `translate(${bombX * frameWidth}px, ${
-    bombY * frameWidth
+  bomb.style.transform = `translate(${bombX * TILE_SIZE}px, ${
+    bombY * TILE_SIZE
   }px)`;
   container.appendChild(bomb);
 
@@ -123,8 +122,8 @@ function showExplosionEffect(bombX, bombY) {
     getElementByTranslate(bombY, bombX + 1, ".player");
   } else {
     if (
-      Math.round(playerState.x / frameWidth) === bombX &&
-      Math.round(playerState.y / frameWidth) === bombY
+      Math.round(playerState.x / TILE_SIZE) === bombX &&
+      Math.round(playerState.y / TILE_SIZE) === bombY
     ) {
       getElementByTranslate(bombY, bombX, ".player");
     }
@@ -146,8 +145,8 @@ function showExplosionEffect(bombX, bombY) {
   if (Object.keys(surroundingEnemy).every((k) => !surroundingEnemy[k])) {
     enemies.forEach((enemy) => {
       if (
-        Math.round(enemy.x / frameWidth) === bombX &&
-        Math.round(enemy.y / frameWidth) === bombY
+        Math.round(enemy.x / TILE_SIZE) === bombX &&
+        Math.round(enemy.y / TILE_SIZE) === bombY
       ) {
         getElementByTranslate(bombY, bombX, ".enemy");
       }
@@ -155,8 +154,8 @@ function showExplosionEffect(bombX, bombY) {
   }
 
   explosion.className = "explosion";
-  explosion.style.transform = `translate(${bombX * frameWidth}px, ${
-    bombY * frameWidth
+  explosion.style.transform = `translate(${bombX * TILE_SIZE}px, ${
+    bombY * TILE_SIZE
   }px)`;
   container.appendChild(explosion);
 
@@ -175,8 +174,8 @@ function showExplosionEffect(bombX, bombY) {
       row++;
       frame = 0;
     }
-    explosion.style.backgroundPosition = `-${frame * frameWidth}px -${
-      row * frameWidth
+    explosion.style.backgroundPosition = `-${frame * TILE_SIZE}px -${
+      row * TILE_SIZE
     }px`;
     frame++;
   }, frameInterval);

@@ -1,4 +1,4 @@
-import { playerState,TILE_SIZE } from './player.js';
+import { TILE_SIZE,playerState } from '../constants/constants.js';
 
 export function initMap(){
   const container = document.querySelector(".container");
