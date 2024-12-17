@@ -19,27 +19,48 @@ export const playerState = {
   speed: 100,
   direction: "down",
   frame: 0,
+  isDying: false,
 };
 
 const activeKeys = [];
 const frameInterval = 150;
 let lastAnimationTime = 0;
 
-function killPlayer() {
-  const container = document.querySelector(".map");
-  const player = document.querySelector(".player");
-  player.remove();
+export function killPlayer() {
+  playerState.isDying = true;
   decreaseLives();
-  const newPlayer = document.createElement("div");
-  newPlayer.id = "player";
-  newPlayer.className = "player";
+  player.classList.add("player-death");
+  player.addEventListener(
+    "animationend",
+    () => {
+      resetPlayer();
+    },
+    { once: true }
+  );
+}
+
+function resetPlayer() {
+  playerState.isDying = false;
   playerState.x = TILE_SIZE;
   playerState.y = TILE_SIZE;
   playerState.direction = "down";
-  container.append(newPlayer);
+  playerState.frame = 0;
+  player.classList.remove("player-death");
 }
 
 export function update(deltaTime) {
+  if (playerState.isDying) return;
+
+  const surroundingPlayer = utils.checkSurroundingsByPlayer(
+    Math.floor(playerState.y / TILE_SIZE),
+    Math.floor(playerState.x / TILE_SIZE),
+    Tils
+  );
+
+  if (Object.values(surroundingPlayer).some((item) => item)) {
+    killPlayer();
+  }
+
   player = document.getElementById("player");
   if (activeKeys.length === 0) {
     playerState.frame = 0;
@@ -146,22 +167,6 @@ export function update(deltaTime) {
 }
 
 export function render() {
-  const surroundingPlayer = utils.checkSurroundingsByPlayer(
-    Math.floor(playerState.y / TILE_SIZE),
-    Math.floor(playerState.x / TILE_SIZE),
-    Tils
-  );
-  if (surroundingPlayer.up) {
-    killPlayer();
-  } else if (surroundingPlayer.down) {
-    killPlayer();
-  }
-  if (surroundingPlayer.left) {
-    killPlayer();
-  }
-  if (surroundingPlayer.right) {
-    killPlayer();
-  }
   player.style.transform = `translate(${Math.round(
     playerState.x
   )}px, ${Math.round(playerState.y)}px)`;

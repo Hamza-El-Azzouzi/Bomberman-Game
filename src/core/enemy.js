@@ -1,8 +1,7 @@
 import { Tils } from "../main.js";
-import { playerState, spriteDirections } from "./player.js";
+import { playerState, spriteDirections,TILE_SIZE } from "./player.js";
 import { checkSurroundings } from "../utils/collision.js";
 
-const TILE_SIZE = 50;
 const ENEMY_COUNT = 4;
 const ANIMATION_INTERVAL = 150;
 

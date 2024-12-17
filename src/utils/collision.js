@@ -21,17 +21,28 @@ export function checkSurroundingsBombs(row, col, tils) {
 
   return {
     up: row > 1 && (tils[row - 1][col] === 2 || tils[row - 1][col] === 4),
-    down: row < tils.length - 1 && (tils[row + 1][col] === 2 || tils[row + 1][col] === 4),
+    down:
+      row < tils.length - 1 &&
+      (tils[row + 1][col] === 2 || tils[row + 1][col] === 4),
     left: col > 1 && (tils[row][col - 1] === 2 || tils[row][col - 1] === 4),
-    right: col < tils[0].length - 1 && (tils[row][col + 1] === 2 || tils[row][col + 1] === 4),
+    right:
+      col < tils[0].length - 1 &&
+      (tils[row][col + 1] === 2 || tils[row][col + 1] === 4),
   };
 }
 export function checkSurroundingsBombsByEnemy(row, col, tils) {
   return {
     up: row > 1 && checkEnemy(col, row - 1, "up") && Tils[row - 1][col] != 1,
-    down: row < tils.length - 1 && checkEnemy(col, row + 1, "down") && Tils[row + 1][col] != 1,
-    left: col > 1 && checkEnemy(col - 1, row, "left") && Tils[row][col - 1] != 1,
-    right: col < tils[0].length - 1 && checkEnemy(col + 1, row, "right") && Tils[row][col + 1] != 1,
+    down:
+      row < tils.length - 1 &&
+      checkEnemy(col, row + 1, "down") &&
+      Tils[row + 1][col] != 1,
+    left:
+      col > 1 && checkEnemy(col - 1, row, "left") && Tils[row][col - 1] != 1,
+    right:
+      col < tils[0].length - 1 &&
+      checkEnemy(col + 1, row, "right") &&
+      Tils[row][col + 1] != 1,
   };
 }
 
@@ -53,7 +64,6 @@ function checkEnemy(col, row) {
       const match = transform.match(/matrix\((.+?)\)/);
       if (match) {
         const [a, b, c, d, tx, ty] = match[1].split(", ").map(parseFloat);
-
         if (tx >= minX && tx <= maxX && ty >= minY && ty <= maxY) {
           return true;
         }
@@ -67,18 +77,32 @@ function checkEnemy(col, row) {
 export function checkSurroundingsByPlayer(row, col, tils) {
   return {
     up: row > 1 && checkEnemy(col, row - 1, "up") && Tils[row - 1][col] != 1,
-    down: row < tils.length - 1 && checkEnemy(col, row + 1, "down") && Tils[row + 1][col] != 1,
-    left: col > 1 && checkEnemy(col - 1, row, "left") && Tils[row][col - 1] != 1,
-    right: col < tils[0].length - 1 &&checkEnemy(col + 1, row, "right") && Tils[row][col + 1] != 1,
+    down:
+      row < tils.length - 1 &&
+      checkEnemy(col, row + 1, "down") &&
+      Tils[row + 1][col] != 1,
+    left:
+      col > 1 && checkEnemy(col - 1, row, "left") && Tils[row][col - 1] != 1,
+    right:
+      col < tils[0].length - 1 &&
+      checkEnemy(col + 1, row, "right") &&
+      Tils[row][col + 1] != 1,
   };
 }
 
 export function checkSurroundingsBombsByPlayer(row, col, tils) {
   return {
     up: row > 1 && checkPlayer(col, row - 1, "up") && Tils[row - 1][col] != 1,
-    down: row < tils.length - 1 && checkPlayer(col, row + 1, "down") && Tils[row + 1][col] != 1,
-    left: col > 1 && checkPlayer(col - 1, row, "left") && Tils[row][col - 1] != 1,
-    right: col < tils[0].length - 1 && checkPlayer(col + 1, row, "right") && Tils[row][col + 1] != 1,
+    down:
+      row < tils.length - 1 &&
+      checkPlayer(col, row + 1, "down") &&
+      Tils[row + 1][col] != 1,
+    left:
+      col > 1 && checkPlayer(col - 1, row, "left") && Tils[row][col - 1] != 1,
+    right:
+      col < tils[0].length - 1 &&
+      checkPlayer(col + 1, row, "right") &&
+      Tils[row][col + 1] != 1,
   };
 }
 function checkPlayer(col, row) {
@@ -95,7 +119,7 @@ function checkPlayer(col, row) {
     const match = transform.match(/matrix\((.+?)\)/);
     if (match) {
       const [a, b, c, d, tx, ty] = match[1].split(", ").map(parseFloat);
-      if ((tx >= minX && tx <= maxX && ty >= minY && ty <= maxY)) {
+      if (tx >= minX && tx <= maxX && ty >= minY && ty <= maxY) {
         return true;
       }
     }

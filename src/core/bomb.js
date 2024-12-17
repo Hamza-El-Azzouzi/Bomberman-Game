@@ -4,7 +4,7 @@ import {
   checkSurroundingsBombsByEnemy,
   checkSurroundingsBombsByPlayer,
 } from "../utils/collision.js";
-import { playerState, TILE_SIZE } from "./player.js";
+import { killPlayer, playerState, TILE_SIZE } from "./player.js";
 import { increaseScore, decreaseLives, score, lives } from "../utils/hud.js";
 import { enemies } from "./enemy.js";
 
@@ -36,25 +36,23 @@ export function placeBomb() {
     showExplosionEffect(bombX, bombY);
     activeBomb = null;
     Tils[bombY][bombX] = 0;
-  }, 800);
+  }, 1500);
 }
 function getElementFromGrid(row, col) {
   let mapchlidern = container.children;
   let decider = "lands";
   const totalCells = rows * cols;
-
   if (row < 0 || row >= rows || col < 0 || col >= cols) {
     throw new Error("Invalid row or column index");
   }
   const index = row * cols + col;
   let position = 1;
   if (index >= 0 && index < totalCells) {
-    if (lives != 5) position = 0;
     if (mapchlidern[index + position].className === "rock") {
       if (Tils[row][col] === 4) {
         decider = "door";
-        mapchlidern[index + position].setAttribute("y", row*TILE_SIZE);
-        mapchlidern[index + position].setAttribute("x", col*TILE_SIZE);
+        mapchlidern[index + position].setAttribute("y", row * TILE_SIZE);
+        mapchlidern[index + position].setAttribute("x", col * TILE_SIZE);
       }
       Tils[row][col] = 0;
       mapchlidern[index + position].classList.remove("rock");
@@ -82,19 +80,12 @@ export function getElementByTranslate(row, col, element) {
           ty < (row + 2) * TILE_SIZE &&
           ty > (row - 2) * TILE_SIZE
         ) {
-          elem.remove();
           if (element === ".enemy") {
+            elem.remove();
             enemies.pop();
             increaseScore(500);
           } else {
-            decreaseLives();
-            const player = document.createElement("div");
-            player.id = "player";
-            player.className = "player";
-            playerState.x = TILE_SIZE;
-            playerState.y = TILE_SIZE;
-            playerState.direction = "down";
-            container.append(player);
+            killPlayer();
             if (score > 0) {
               increaseScore(-Math.floor((score * 30) / 100));
             }
@@ -119,22 +110,26 @@ function showExplosionEffect(bombX, bombY) {
   if (surroundingBombe.left) {
     getElementFromGrid(bombY, bombX - 1);
   }
-
   if (surroundingBombe.right) {
     getElementFromGrid(bombY, bombX + 1);
   }
   if (surroundingPlayer.up) {
     getElementByTranslate(bombY - 1, bombX, ".player");
-  }
-  if (surroundingPlayer.down) {
+  } else if (surroundingPlayer.down) {
     getElementByTranslate(bombY + 1, bombX, ".player");
-  }
-  if (surroundingPlayer.left) {
+  } else if (surroundingPlayer.left) {
     getElementByTranslate(bombY, bombX - 1, ".player");
-  }
-  if (surroundingPlayer.right) {
+  } else if (surroundingPlayer.right) {
     getElementByTranslate(bombY, bombX + 1, ".player");
+  } else {
+    if (
+      Math.round(playerState.x / frameWidth) === bombX &&
+      Math.round(playerState.y / frameWidth) === bombY
+    ) {
+      getElementByTranslate(bombY, bombX, ".player");
+    }
   }
+
   if (surroundingEnemy.up) {
     getElementByTranslate(bombY - 1, bombX, ".enemy");
   }
@@ -148,21 +143,17 @@ function showExplosionEffect(bombX, bombY) {
     getElementByTranslate(bombY, bombX + 1, ".enemy");
   }
 
-  if (
-    Math.round(playerState.x / frameWidth) === bombX &&
-    Math.round(playerState.y / frameWidth) === bombY
-  ) {
-    getElementByTranslate(bombY, bombX, ".player");
-  }
-
-  enemies.forEach((enemy) => {
-    if (
+  if (Object.keys(surroundingEnemy).every((k) => !surroundingEnemy[k])) {
+    enemies.forEach((enemy) => {
+      if (
         Math.round(enemy.x / frameWidth) === bombX &&
         Math.round(enemy.y / frameWidth) === bombY
       ) {
         getElementByTranslate(bombY, bombX, ".enemy");
       }
-  });
+    });
+  }
+
   explosion.className = "explosion";
   explosion.style.transform = `translate(${bombX * frameWidth}px, ${
     bombY * frameWidth
