@@ -9,9 +9,9 @@ export let Tils
 export function init() {
   initMap();
   setHud();
-  Tils = MapGenerator();
-  checkResizing();
-  placeEnemies();
+  //Tils = MapGenerator();
+  //checkResizing();
+  //placeEnemies();
   gameLoop();
 }
 

@@ -333,3 +333,10 @@ body {
 .player-death {
   animation: playerDeath 2s forwards; 
 }
+
+@media (max-width: 800px) {
+    .map{
+      width: 90vw;
+      height: calc(90vw * 0.867);
+    }
+}
