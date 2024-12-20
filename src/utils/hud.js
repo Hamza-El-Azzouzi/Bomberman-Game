@@ -37,7 +37,7 @@ function updateHUD() {
 setInterval(() => {
   if (!isPaused) {
     timer -= 1;
-    updateHUD();
+    //updateHUD();
   }
 }, 1000);
 

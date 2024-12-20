@@ -1,5 +1,6 @@
 import { render, update } from "../core/player.js";
-import { playerState,enemies } from "../constants/constants.js";
+import { enemies } from "../constants/constants.js";
+import { playerState } from "../utils/check_resizing.js";
 import { FPSMonitor } from "./fps_monitor.js";
 import { updateEnemies } from "../core/enemy.js";
 import { isPaused, Winner } from "../utils/pause_menu.js";

@@ -4,7 +4,8 @@ import {
   checkSurroundingsBombsByEnemy,
   checkSurroundingsBombsByPlayer,
 } from "../utils/collision.js";
-import { TILE_SIZE,playerState,enemies } from "../constants/constants.js";
+import { enemies } from "../constants/constants.js";
+import { TILE_SIZE,playerState } from "../utils/check_resizing.js";
 import { killPlayer } from "./player.js";
 import { increaseScore, score } from "../utils/hud.js";
 
@@ -23,9 +24,8 @@ export function placeBomb() {
 
   const bomb = document.createElement("div");
   bomb.className = "bomb";
-  bomb.style.transform = `translate(${bombX * TILE_SIZE}px, ${
-    bombY * TILE_SIZE
-  }px)`;
+  bomb.style.transform = `translate(${bombX * TILE_SIZE}px, ${bombY * TILE_SIZE
+    }px)`;
   container.appendChild(bomb);
 
   Tils[bombY][bombX] = 7;
@@ -55,10 +55,8 @@ function getElementFromGrid(row, col) {
       }
       Tils[row][col] = 0;
       mapchlidern[index + position].classList.remove("rock");
-      mapchlidern[index + position].classList.add("rock-destroy");
       increaseScore(100);
       mapchlidern[index + position].classList.add(decider);
-      mapchlidern[index + position].classList.remove("rock-destroy");
     }
   }
 }
@@ -154,9 +152,8 @@ function showExplosionEffect(bombX, bombY) {
   }
 
   explosion.className = "explosion";
-  explosion.style.transform = `translate(${bombX * TILE_SIZE}px, ${
-    bombY * TILE_SIZE
-  }px)`;
+  explosion.style.transform = `translate(${bombX * TILE_SIZE}px, ${bombY * TILE_SIZE
+    }px)`;
   container.appendChild(explosion);
 
   let frame = 0;
@@ -174,9 +171,8 @@ function showExplosionEffect(bombX, bombY) {
       row++;
       frame = 0;
     }
-    explosion.style.backgroundPosition = `-${frame * TILE_SIZE}px -${
-      row * TILE_SIZE
-    }px`;
+    explosion.style.backgroundPosition = `-${frame * TILE_SIZE}px -${row * TILE_SIZE
+      }px`;
     frame++;
   }, frameInterval);
 }

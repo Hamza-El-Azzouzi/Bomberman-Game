@@ -1,4 +1,4 @@
-import { playerState } from "../constants/constants.js";
+import { playerState } from "../utils/check_resizing.js";
 
 export class FPSMonitor {
     constructor() {

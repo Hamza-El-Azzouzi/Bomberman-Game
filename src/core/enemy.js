@@ -1,5 +1,6 @@
 import { Tils } from "../main.js";
-import { TILE_SIZE,playerState,spriteDirections,enemies } from "../constants/constants.js";
+import { spriteDirections, enemies } from "../constants/constants.js";
+import { TILE_SIZE, playerState } from "../utils/check_resizing.js";
 import { checkSurroundings } from "../utils/collision.js";
 
 const ENEMY_COUNT = 4;
@@ -31,15 +32,18 @@ export function placeEnemies() {
 
     const enemy = document.createElement("div");
     enemy.className = "enemy";
-    enemy.style.transform = `translate(${col * TILE_SIZE}px, ${
-      row * TILE_SIZE
-    }px)`;
-    map.appendChild(enemy);
+    enemy.style.width = TILE_SIZE + "px";
+    enemy.style.height = TILE_SIZE + "px";
+    enemy.style.transform = `translate(${col * TILE_SIZE}px, ${row * TILE_SIZE
+      }px)`;
+    map.insertBefore(enemy, map.firstChild);
 
     enemies.push({
       element: enemy,
       x: col * TILE_SIZE,
       y: row * TILE_SIZE,
+      row: row,
+      col: col,
       direction: "down",
       frame: 0,
       lastUpdateTime: performance.now(),
@@ -127,36 +131,36 @@ function moveEnemy(enemy) {
     }
   }
 
-  let newRow = currentRow;
-  let newCol = currentCol;
+  enemy.row = currentRow;
+  enemy.col = currentCol;
 
   switch (enemy.direction) {
     case "up":
-      newRow -= 1;
+      enemy.row -= 1;
       break;
     case "down":
-      newRow += 1;
+      enemy.row += 1;
       break;
     case "left":
-      newCol -= 1;
+      enemy.col -= 1;
       break;
     case "right":
-      newCol += 1;
+      enemy.col += 1;
       break;
   }
 
   if (
-    newRow >= 0 &&
-    newRow < Tils.length &&
-    newCol >= 0 &&
-    newCol < Tils[0].length &&
-    Tils[newRow][newCol] === 0
+    enemy.row >= 0 &&
+    enemy.row < Tils.length &&
+    enemy.col >= 0 &&
+    enemy.col < Tils[0].length &&
+    Tils[enemy.row][enemy.col] === 0
   ) {
     enemy.isMoving = true;
     smoothMoveEnemy(enemy, enemy.direction, TILE_STEP_COUNT, STEP_SIZE, () => {
       enemy.isMoving = false;
-      enemy.x = newCol * TILE_SIZE;
-      enemy.y = newRow * TILE_SIZE;
+      enemy.x = enemy.col * TILE_SIZE;
+      enemy.y = enemy.row * TILE_SIZE;
     });
   }
 }

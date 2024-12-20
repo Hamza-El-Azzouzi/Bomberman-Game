@@ -1,10 +1,9 @@
 body {
-  margin: 0;
   background-color: #f0f0f0;
 }
 
 .container {
-  height: 100vh;
+  height: 90vh;
   overflow-y: auto;
   display: flex;
   justify-content: center;
@@ -13,37 +12,35 @@ body {
 
 .map {
   width: 750px;
+  max-width: 750px;
   height: 650px;
-  display: flex;
+  max-height: 650px;
   background-image: url("./empty-space.png");
-  flex-wrap: wrap;
+}
+
+.row{
+  display: flex;
+  width: 100%;
+  aspect-ratio: 15/1;
 }
 
 .player {
-  width: 50px;
-  height: 50px;
   position: absolute;
   background-image: url('./altima2.png');
-  background-size: 200px 200px;
   will-change: transform, background-position;
   z-index: 1;
 }
 
 .enemy {
-  width: 50px;
-  height: 50px;
   position: absolute;
   background-image: url('./ifrit.png');
-  background-size: 200px 200px;
   will-change: transform, background-position;
   z-index: 2;
 }
 
 .lands {
-  height: 50px;
-  width: 50px;
-  margin: 0 0 0 0;
-  padding: 0 0 0 0;
+  height: 100%;
+  aspect-ratio: 1;
   background-image: url("./empty-space.png");
   background-repeat: no-repeat;
   background-size: contain;
@@ -52,98 +49,39 @@ body {
 }
 
 .block {
-  height: 46px;
-  width: 46px;
-  background-color: #8b4513;
-  border: 2px solid #654321;
-  box-shadow: inset 0 0 5px #3e2c1c, 0 3px 6px rgba(0, 0, 0, 0.5);
-  background-image: linear-gradient(45deg,
-      #9e6738 25%,
-      #8b4513 25%,
-      #8b4513 50%,
-      #9e6738 50%,
-      #9e6738 75%,
-      #8b4513 75%);
-  background-size: 20px 20px;
+  height: 100%;
+  aspect-ratio: 1;
+  background-image: url("./block.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
   display: inline-block;
-  margin: 0;
-  padding: 0;
 }
 
 .rock {
-  height: 46px;
-  width: 46px;
-  background-color: #7F7F7F;
-  border: 2px solid #5C5C5C;
-  border-radius: 10%;
-  box-shadow: inset 0 3px 6px #3F3F3F,
-    0 4px 8px rgba(0, 0, 0, 0.5);
-  background-image: radial-gradient(circle at 30% 30%, #9A9A9A, #6E6E6E, #4C4C4C);
-  background-size: cover;
+  height: 100%;
+  aspect-ratio: 1;
+  background-image: url("./rock.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
   display: inline-block;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  transition: transform 0.2s ease-in, opacity 0.2s ease-in;
 }
 
 .door {
-  height: 44px;
-  width: 44px;
-  background-color: #444;
-  border: 3px solid #222;
-  border-radius: 5%;
-  box-shadow:
-    inset 0 3px 8px #000,
-    0 0 15px #00FF00,
-    0 4px 6px rgba(0, 0, 0, 0.5);
-  background-image: linear-gradient(to bottom,
-      #666,
-      #555 40%,
-      #444 60%,
-      #222);
+  height: 100%;
+  aspect-ratio: 1;
+  background-image: url("./door.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
   display: inline-block;
-  position: relative;
-  z-index: 0;
-  transition: transform 0.2s ease-in-out;
-}
-
-.door.active {
-  box-shadow:
-    0 0 25px #00FF00,
-    0 0 50px #00FF00;
-  transform: scale(1.1);
-}
-
-.door::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 10%;
-  width: 50%;
-  height: 5px;
-  background: #888;
-  border-radius: 5px;
-  transform: translateY(-50%);
-  box-shadow: inset 0 1px 3px #000;
-}
-
-.door::after {
-  content: '';
-  position: absolute;
-  top: 10%;
-  left: 20%;
-  width: 60%;
-  height: 80%;
-  border: 3px solid #222;
-  background: transparent;
-  box-shadow: inset 0 3px 8px #000;
 }
 
 .bomb {
   position: absolute;
-  width: 50px;
-  height: 50px;
+  height: 100%;
+  aspect-ratio: 1;
   background: url("bomb_sprite.png") no-repeat center center;
   background-size: cover;
   animation: bomb-fuse 3s steps(3) infinite;
@@ -178,50 +116,6 @@ body {
   background: url("../assets/exp2.png") no-repeat;
   background-size: 200px 200px;
   opacity: 1;
-}
-.rock-destroy {
-  height: 46px;
-  width: 46px;
-  background-color: #7F7F7F;
-  border: 2px solid #5C5C5C;
-  border-radius: 10%;
-  box-shadow: inset 0 3px 6px #3F3F3F,
-    0 4px 8px rgba(0, 0, 0, 0.5);
-  background-image: radial-gradient(circle at 30% 30%, #9A9A9A, #6E6E6E, #4C4C4C);
-  background-size: cover;
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  transition: transform 0.2s ease-in, opacity 0.2s ease-in;
-  animation: destroyAnimation 1s forwards;
-}
-@keyframes destroyAnimation {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 0.6;
-  }
-  100% {
-    transform: scale(0);
-    opacity: 0;
-  }
-}
-
-#error-message {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: red;
-  color: white;
-  text-align: center;
-  padding: 10px;
-  font-size: 18px;
-  display: none; 
 }
 
 .pause-menu {

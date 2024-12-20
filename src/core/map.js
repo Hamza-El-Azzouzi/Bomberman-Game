@@ -1,6 +1,6 @@
-import { TILE_SIZE,playerState } from '../constants/constants.js';
+import { TILE_SIZE,playerState } from "../utils/check_resizing.js";
 
-export function initMap(){
+export function initMap() {
   const container = document.querySelector(".container");
   const map = document.createElement('div');
   map.id = "map";
@@ -8,6 +8,8 @@ export function initMap(){
   const player = document.createElement('div');
   player.id = "player";
   player.className = "player";
+  player.style.width = "50px";
+  player.style.height = "50px";
   map.append(player)
   container.appendChild(map);
 }
@@ -70,15 +72,15 @@ export function MapGenerator() {
   safeZones.forEach(([row, col]) => {
     tils[row][col] = 0;
   });
-  
+
   const [startRow, startCol] = safeZones[0];
-  playerState.x = startCol * TILE_SIZE; 
-  playerState.y = startRow * TILE_SIZE; 
+  playerState.x = startCol * TILE_SIZE;
+  playerState.y = startRow * TILE_SIZE;
 
 
   let doorPlaced = false;
   const potentialDoorSpots = [];
-  
+
   for (let i = 2; i < ROWS - 2; i++) {
     for (let j = 2; j < COLS - 2; j++) {
       if (tils[i][j] === 2) {
@@ -97,9 +99,10 @@ export function MapGenerator() {
 
 
   for (let i = 0; i < ROWS; i++) {
+    const row = document.createElement('div');
+    row.className = "row";
     for (let j = 0; j < COLS; j++) {
       const block = document.createElement('div');
-
       switch (tils[i][j]) {
         case 0:
           block.className = 'lands';
@@ -115,8 +118,9 @@ export function MapGenerator() {
           block.textContent = "1 "
           break;
       }
-      map.appendChild(block);
+      row.appendChild(block);
     }
+    map.appendChild(row);
   }
 
   return tils;

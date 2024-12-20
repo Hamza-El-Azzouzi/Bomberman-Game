@@ -1,5 +1,6 @@
 import { Tils } from "../main.js";
-import { TILE_SIZE,spriteDirections,playerState } from "../constants/constants.js";
+import { spriteDirections } from "../constants/constants.js";
+import { TILE_SIZE,playerState } from "../utils/check_resizing.js";
 import { placeBomb } from "./bomb.js";
 import * as utils from "../utils/collision.js";
 import { bombX, bombY } from "./bomb.js";
@@ -142,6 +143,8 @@ export function update(deltaTime) {
 
   if (moving) {
     const currentTime = performance.now();
+    playerState.row = Math.round(playerState.y/TILE_SIZE);
+    playerState.col = Math.round(playerState.x/TILE_SIZE);
     if (currentTime - lastAnimationTime > frameInterval) {
       playerState.frame = (playerState.frame + 1) % 4;
       lastAnimationTime = currentTime;
@@ -157,9 +160,8 @@ export function render() {
   )}px, ${Math.round(playerState.y)}px)`;
 
   const row = spriteDirections[playerState.direction];
-  player.style.backgroundPosition = `-${playerState.frame * TILE_SIZE}px -${
-    row * TILE_SIZE
-  }px`;
+  player.style.backgroundPosition = `-${playerState.frame * TILE_SIZE}px -${row * TILE_SIZE
+    }px`;
 }
 
 document.addEventListener(

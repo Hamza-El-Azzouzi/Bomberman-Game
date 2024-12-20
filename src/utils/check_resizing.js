@@ -1,19 +1,61 @@
+import { enemies } from "../constants/constants.js";
+import { pauseGame } from "./pause_menu.js";
 
-export function checkResizing(){
+export let TILE_SIZE = 50;
+
+export const playerState = {
+    x: TILE_SIZE,
+    y: TILE_SIZE,
+    row: 1,
+    col: 1,
+    speed: 100,
+    direction: "down",
+    frame: 0,
+    isDying: false,
+};
+
+let width;
+
+function debounce(func, wait) {
+    let timeout;
+    return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
+
+export function checkResizing() {
     document.addEventListener('DOMContentLoaded', () => {
-    const errorMessage = document.getElementById('error-message');
-    const gameContainer = document.getElementById('map');
-    const minWidth = 800;
-    function checkWindowSize() {
-        if (window.innerWidth < minWidth) {
-            errorMessage.style.display = 'block';
-            gameContainer.style.display = 'none';
-        } else {
-            errorMessage.style.display = 'none';
-            gameContainer.style.display = 'flex';
+        function checkWindowSize() {
+            width = document.querySelector('.block').getBoundingClientRect().width;
+            resizePlayer(width);
+            resizeEnemy(width);
         }
+        checkWindowSize();
+        window.addEventListener('resize', checkWindowSize);
+    });
+}
+
+function resizePlayer(width) {
+    const player = document.getElementById("player");
+    player.style.width = width + "px";
+    player.style.height = width + "px";
+    player.style.backgroundSize = "" + width * 4 + "px " + width * 4 + "px";
+    playerState.x = playerState.col * width;
+    playerState.y = playerState.row * width;
+    TILE_SIZE = width;
+}
+
+function resizeEnemy(width) {
+    const enemiesElements = document.querySelectorAll(".enemy");
+    for (const enemy of enemiesElements) {
+        enemy.style.width = width + "px";
+        enemy.style.height = width + "px";
+        enemy.style.backgroundSize = "" + width * 4 + "px " + width * 4 + "px";
+        TILE_SIZE = width;
     }
-    checkWindowSize();
-    window.addEventListener('resize', checkWindowSize);
-});
+    enemies.forEach((enemy) => {
+        enemy.x = enemy.col * width;
+        enemy.y = enemy.row * width;
+    });
 }

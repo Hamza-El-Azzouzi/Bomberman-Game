@@ -1,4 +1,4 @@
-import { TILE_SIZE } from "../constants/constants.js";
+import { TILE_SIZE } from "./check_resizing.js";
 import { Tils } from "../main.js";
 
 export function checkSurroundings(row, col, tils) {
