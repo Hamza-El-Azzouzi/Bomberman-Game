@@ -82,7 +82,6 @@ export function checkResizing() {
       intervalId = setInterval(blurring, 30);
       width = document.querySelector(".block").getBoundingClientRect().width;
       TILE_SIZE = width;
-      console.log(TILE_SIZE);
       resizePlayer(width);
       resizeEnemy(width);
     }

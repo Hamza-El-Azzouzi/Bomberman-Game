@@ -1,10 +1,10 @@
 import { isPaused,gameOver } from "./pause_menu.js";
 
-export let score = 0;
-export let lives = 5;
-let minutes = 5;
-let seconds = 60;
-let timer = minutes * seconds;
+export let score;
+export let lives;
+let minutes;
+let seconds;
+let timer;
 
 const scoreElement = document.getElementById("score");
 const livesElement = document.getElementById("lives");
@@ -15,7 +15,7 @@ export function setHud(){
   lives = 5;
   minutes = 5;
   seconds = 60;
-  timer = minutes * seconds;
+  timer = minutes * seconds + 3;
 }
 
 function updateHUD() {
@@ -37,7 +37,7 @@ function updateHUD() {
 setInterval(() => {
   if (!isPaused) {
     timer -= 1;
-    //updateHUD();
+    updateHUD();
   }
 }, 1000);
 

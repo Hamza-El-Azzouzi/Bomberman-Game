@@ -13,7 +13,7 @@ export function init() {
     }
   }, 1000);
   initMap();
-  // setHud();
+  setHud();
   Tils = MapGenerator();
   checkResizing();
   placeEnemies();
