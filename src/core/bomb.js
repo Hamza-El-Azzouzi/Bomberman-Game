@@ -24,9 +24,11 @@ export function placeBomb() {
 
   const bomb = document.createElement("div");
   bomb.className = "bomb";
+  bomb.style.width = TILE_SIZE + "px";
+  bomb.style.height = TILE_SIZE + "px";
   bomb.style.transform = `translate(${bombX * TILE_SIZE}px, ${bombY * TILE_SIZE
     }px)`;
-  container.appendChild(bomb);
+  container.insertBefore(bomb, container.firstChild);
 
   Tils[bombY][bombX] = 7;
   activeBomb = bomb;
@@ -38,26 +40,21 @@ export function placeBomb() {
   }, 1500);
 }
 function getElementFromGrid(row, col) {
-  let mapchlidern = container.children;
+  let rows = document.querySelectorAll(".row")
   let decider = "lands";
-  const totalCells = rows * cols;
   if (row < 0 || row >= rows || col < 0 || col >= cols) {
     throw new Error("Invalid row or column index");
   }
-  const index = row * cols + col;
-  let position = 1;
-  if (index >= 0 && index < totalCells) {
-    if (mapchlidern[index + position].className === "rock") {
-      if (Tils[row][col] === 4) {
-        decider = "door";
-        mapchlidern[index + position].setAttribute("y", row * TILE_SIZE);
-        mapchlidern[index + position].setAttribute("x", col * TILE_SIZE);
-      }
-      Tils[row][col] = 0;
-      mapchlidern[index + position].classList.remove("rock");
-      increaseScore(100);
-      mapchlidern[index + position].classList.add(decider);
+  if (rows[row].children[col].className === "rock") {
+    if (Tils[row][col] === 4) {
+      decider = "door";
+      rows[row].children[col].setAttribute("y", row * TILE_SIZE);
+      rows[row].children[col].setAttribute("x", col * TILE_SIZE);
     }
+    Tils[row][col] = 0;
+    rows[row].children[col].classList.remove("rock");
+    increaseScore(100);
+    rows[row].children[col].classList.add(decider);
   }
 }
 export function getElementByTranslate(row, col, element) {
@@ -152,9 +149,12 @@ function showExplosionEffect(bombX, bombY) {
   }
 
   explosion.className = "explosion";
+  explosion.style.width = TILE_SIZE+"px";
+  explosion.style.height = TILE_SIZE+"px";
+  explosion.style.backgroundSize = "" + TILE_SIZE * 4 + "px " + TILE_SIZE * 4 + "px";
   explosion.style.transform = `translate(${bombX * TILE_SIZE}px, ${bombY * TILE_SIZE
     }px)`;
-  container.appendChild(explosion);
+    container.insertBefore(explosion, container.firstChild);
 
   let frame = 0;
   let row = 0;

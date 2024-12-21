@@ -8,7 +8,7 @@ export let Tils
 
 export function init() {
   initMap();
-  //setHud();
+  // setHud();
   Tils = MapGenerator();
   checkResizing();
   placeEnemies();

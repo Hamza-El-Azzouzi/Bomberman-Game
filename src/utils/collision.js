@@ -51,10 +51,10 @@ function checkEnemy(col, row) {
 
   const baseX = col * TILE_SIZE;
   const baseY = row * TILE_SIZE;
-  const minX = baseX - 10;
-  const maxX = baseX + 10;
-  const minY = baseY - 10;
-  const maxY = baseY + 10;
+  const minX = baseX - TILE_SIZE / 5;
+  const maxX = baseX + TILE_SIZE / 5;
+  const minY = baseY - TILE_SIZE / 5;
+  const maxY = baseY + TILE_SIZE / 5;
 
   for (const enemy of allEnemies) {
     const style = window.getComputedStyle(enemy);
@@ -109,10 +109,11 @@ function checkPlayer(col, row) {
   const palyer = document.querySelector(".player");
   const baseX = col * TILE_SIZE;
   const baseY = row * TILE_SIZE;
-  const minX = baseX - 45;
-  const maxX = baseX + 45;
-  const minY = baseY - 45;
-  const maxY = baseY + 45;
+  const num = Math.floor((90 / 100) * TILE_SIZE);
+  const minX = baseX - num;
+  const maxX = baseX + num;
+  const minY = baseY - num;
+  const maxY = baseY + num;
   const style = window.getComputedStyle(palyer);
   const transform = style.transform;
   if (transform && transform.includes("matrix")) {
