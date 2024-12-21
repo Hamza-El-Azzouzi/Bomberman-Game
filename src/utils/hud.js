@@ -12,7 +12,7 @@ const timerElement = document.getElementById("timer");
 
 export function setHud(){
   score = 0;
-  lives = 5;
+  lives = 1;
   minutes = 5;
   seconds = 60;
   timer = minutes * seconds + 3;

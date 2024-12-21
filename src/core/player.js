@@ -4,7 +4,7 @@ import { TILE_SIZE,playerState } from "../utils/check_resizing.js";
 import { placeBomb } from "./bomb.js";
 import * as utils from "../utils/collision.js";
 import { bombX, bombY } from "./bomb.js";
-import { decreaseLives } from "../utils/hud.js";
+import { decreaseLives, lives } from "../utils/hud.js";
 
 let player;
 
@@ -155,6 +155,7 @@ export function update(deltaTime) {
 }
 
 export function render() {
+  console.log("rendering")
   player.style.transform = `translate(${Math.round(
     playerState.x
   )}px, ${Math.round(playerState.y)}px)`;
@@ -186,8 +187,7 @@ document.addEventListener(
 );
 
 document.addEventListener("keydown", (event) => {
-  console.log(player.classList.length)
-  if (event.key === " " && player.classList.length === 1) {
+  if (event.key === " " && player.classList.length === 1 && lives > 0) {
     event.preventDefault();
     placeBomb();
   }

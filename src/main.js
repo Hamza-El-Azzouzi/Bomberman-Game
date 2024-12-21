@@ -7,9 +7,9 @@ import { setHud } from "./utils/hud.js";
 export let Tils
 
 export function init() {
-  let intervalId = setInterval(()=>{
+  setInterval(()=>{
     if (document.querySelector(".loading-container")==null){
-      clearInterval(intervalId);
+      return
     }
   }, 1000);
   initMap();

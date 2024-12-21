@@ -1,7 +1,6 @@
 import { init } from "../main.js";
 import { playerState } from "../utils/check_resizing.js";
 import { gameLoop } from "../engine/game_loop.js";
-import { setHud } from "./hud.js";
 
 export let isPaused = false;
 const pauseMenu = document.getElementById("pauseMenu");
@@ -37,6 +36,7 @@ export function Winner() {
 }
 
 export function pauseGame() {
+  container.style.filter = "";
   isPaused = true;
   pauseMenu.classList.remove("hidden");
   container.classList.add("blurred");
@@ -48,13 +48,14 @@ export function pauseGame() {
 function continueGame() {
   isPaused = false;
   pauseMenu.classList.add("hidden");
+  container.style.filter = "blur(0px)";
   container.classList.remove("blurred");
   requestAnimationFrame(gameLoop);
 }
 
 function restartGame() {
+  container.style.filter = "blur(0px)";
   container.classList.remove("blurred");
-  setHud();
   isPaused = false;
   pauseMenu.classList.add("hidden");
   gameOverDiv.style.display = "none";
@@ -67,6 +68,7 @@ function restartGame() {
 export function gameOver() {
   isPaused = true;
   gameOverDiv.style.display = "flex";
+  container.style.filter = "";
   container.classList.add("blurred");
   cancelAnimationFrame(gameLoop);
   restartGameOver.style.backgroundColor = "red";
