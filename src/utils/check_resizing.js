@@ -33,6 +33,9 @@ let width;
 //   }, 200)
 // );
 
+const loadText = document.querySelector(".loading-text");
+const container = document.querySelector(".container");
+
 function debounce(func, wait) {
   let timeout;
   return function (...args) {
@@ -41,11 +44,45 @@ function debounce(func, wait) {
   };
 }
 
+window.addEventListener(
+  "resize",
+  debounce(() => {
+    container.style.filter = "blur(0px)";
+  }, 1500)
+);
+
+const scale = (num, in_min, in_max, out_min, out_max) => {
+  return ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
+};
+
+let load = 0;
+let intervalId;
+
+function blurring() {
+  load++;
+  if (load > 99) {
+    clearInterval(intervalId);
+    showGame();
+  }
+  loadText.innerText = `${load}%`;
+  loadText.style.opacity = scale(load, 0, 100, 1, 0);
+  container.style.filter = `blur(${scale(load, 0, 100, 30, 0)}px)`;
+}
+
+function showGame() {
+  if (document.querySelector(".loading-container") != null) {
+    document.querySelector(".loading-container").remove();
+  }
+}
+
 export function checkResizing() {
   document.addEventListener("DOMContentLoaded", () => {
     function checkWindowSize() {
+      container.style.filter = "";
+      intervalId = setInterval(blurring, 30);
       width = document.querySelector(".block").getBoundingClientRect().width;
       TILE_SIZE = width;
+      console.log(TILE_SIZE);
       resizePlayer(width);
       resizeEnemy(width);
     }
@@ -61,7 +98,7 @@ function resizePlayer(width) {
   player.style.backgroundSize = "" + width * 4 + "px " + width * 4 + "px";
   playerState.x = playerState.col * width;
   playerState.y = playerState.row * width;
-  playerState.speed = width *2; 
+  playerState.speed = width * 2;
 }
 
 function resizeEnemy(width) {

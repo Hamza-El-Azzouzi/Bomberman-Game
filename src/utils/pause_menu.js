@@ -11,6 +11,7 @@ const restartButton = document.getElementById("restartButton");
 const restartGameOver = document.getElementById("restartGameOver");
 const winnerScreen = document.getElementById("winnerScreen");
 const playAgainButton = document.getElementById("playAgainButton");
+const container = document.querySelector(".container");
 let menuOptions = [continueButton, restartButton];
 let selectedOptionIndex = 0;
 
@@ -29,6 +30,7 @@ function highlightSelectedOption() {
 export function Winner() {
   isPaused = true;
   winnerScreen.style.display = "flex";
+  container.classList.add("blurred");
   cancelAnimationFrame(gameLoop);
   playAgainButton.style.backgroundColor = "red";
   playAgainButton.style.color = "black";
@@ -37,6 +39,7 @@ export function Winner() {
 export function pauseGame() {
   isPaused = true;
   pauseMenu.classList.remove("hidden");
+  container.classList.add("blurred");
   cancelAnimationFrame(gameLoop);
   selectedOptionIndex = 0;
   highlightSelectedOption();
@@ -45,10 +48,12 @@ export function pauseGame() {
 function continueGame() {
   isPaused = false;
   pauseMenu.classList.add("hidden");
+  container.classList.remove("blurred");
   requestAnimationFrame(gameLoop);
 }
 
 function restartGame() {
+  container.classList.remove("blurred");
   setHud();
   isPaused = false;
   pauseMenu.classList.add("hidden");
@@ -62,6 +67,7 @@ function restartGame() {
 export function gameOver() {
   isPaused = true;
   gameOverDiv.style.display = "flex";
+  container.classList.add("blurred");
   cancelAnimationFrame(gameLoop);
   restartGameOver.style.backgroundColor = "red";
   restartGameOver.style.color = "black";
