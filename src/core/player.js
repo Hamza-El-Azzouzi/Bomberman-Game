@@ -186,7 +186,8 @@ document.addEventListener(
 );
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === " ") {
+  console.log(player.classList.length)
+  if (event.key === " " && player.classList.length === 1) {
     event.preventDefault();
     placeBomb();
   }
