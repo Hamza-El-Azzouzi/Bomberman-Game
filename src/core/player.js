@@ -87,7 +87,7 @@ export function update(deltaTime) {
         } else {
           playerState.x = Math.floor(playerState.x / TILE_SIZE) * TILE_SIZE;
         }
-        playerState.y -= Math.round(playerState.speed * deltaTime);
+        playerState.y -= playerState.speed * deltaTime;
       }
       moving = true;
       break;
@@ -102,7 +102,7 @@ export function update(deltaTime) {
         } else {
           playerState.x = Math.floor(playerState.x / TILE_SIZE) * TILE_SIZE;
         }
-        playerState.y += Math.round(playerState.speed * deltaTime);
+        playerState.y += playerState.speed * deltaTime;
       }
       moving = true;
       break;
@@ -117,7 +117,7 @@ export function update(deltaTime) {
         } else {
           playerState.y = Math.floor(playerState.y / TILE_SIZE) * TILE_SIZE;
         }
-        playerState.x -= Math.round(playerState.speed * deltaTime);
+        playerState.x -= playerState.speed * deltaTime;
       }
       moving = true;
       break;
@@ -132,7 +132,7 @@ export function update(deltaTime) {
         } else {
           playerState.y = Math.floor(playerState.y / TILE_SIZE) * TILE_SIZE;
         }
-        playerState.x += Math.round(playerState.speed * deltaTime);
+        playerState.x += playerState.speed * deltaTime;
       }
       moving = true;
       break;
@@ -153,9 +153,7 @@ export function update(deltaTime) {
 
 export function render() {
   player = document.getElementById("player");
-  player.style.transform = `translate(${Math.round(
-    playerState.x
-  )}px, ${Math.round(playerState.y)}px)`;
+  player.style.transform = `translate(${playerState.x}px, ${playerState.y}px)`;
   const row = spriteDirections[playerState.direction];
   player.style.backgroundPosition = `-${playerState.frame * TILE_SIZE}px -${row * TILE_SIZE
     }px`;
