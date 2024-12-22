@@ -14,18 +14,17 @@ let lastAnimationTime = 0;
 
 export function killPlayer() {
   playerState.isDying = true;
-  decreaseLives();
   player.classList.add("player-death");
   player.addEventListener(
     "animationend",
     () => {
       resetPlayer();
-    },
-    { once: true }
+    }
   );
+  decreaseLives();
 }
 
-function resetPlayer() {
+export function resetPlayer() {
   playerState.isDying = false;
   playerState.x = TILE_SIZE;
   playerState.y = TILE_SIZE;
@@ -80,9 +79,7 @@ export function update(deltaTime) {
     case "ArrowUp":
     case "w":
       playerState.direction = "up";
-
       row = Math.ceil(playerState.y / TILE_SIZE);
-
       surroundings = utils.checkSurroundings(row, col, Tils);
       if (surroundings.up || (surroundings.up && isBlockedByBomb())) {
         if (playerState.x % TILE_SIZE > threshold) {
@@ -156,11 +153,9 @@ export function update(deltaTime) {
 
 export function render() {
   player = document.getElementById("player");
-  console.log(player.style)
   player.style.transform = `translate(${Math.round(
     playerState.x
   )}px, ${Math.round(playerState.y)}px)`;
-  console.log(player.style)
   const row = spriteDirections[playerState.direction];
   player.style.backgroundPosition = `-${playerState.frame * TILE_SIZE}px -${row * TILE_SIZE
     }px`;

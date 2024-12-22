@@ -1,6 +1,7 @@
 import { init } from "../main.js";
 import { playerState } from "../utils/check_resizing.js";
 import { gameLoop } from "../engine/game_loop.js";
+import { resetPlayer } from "../core/player.js";
 
 export let isPaused = false;
 const pauseMenu = document.getElementById("pauseMenu");
@@ -62,6 +63,7 @@ function restartGame() {
   winnerScreen.style.display = "none";
   document.querySelector(".map").remove();
   playerState.direction = "down";
+  resetPlayer();
   init();
 }
 
