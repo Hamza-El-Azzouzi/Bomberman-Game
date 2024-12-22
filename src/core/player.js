@@ -155,7 +155,6 @@ export function update(deltaTime) {
 }
 
 export function render() {
-  console.log("rendering")
   player.style.transform = `translate(${Math.round(
     playerState.x
   )}px, ${Math.round(playerState.y)}px)`;

@@ -16,23 +16,6 @@ export const playerState = {
 
 let width;
 
-// window.addEventListener("blur", () => {
-//   const enemiesElements = document.querySelectorAll(".enemy");
-//   for (const enemy of enemiesElements) {
-//     enemy.style.display = "none";
-//   }
-// });
-
-// window.addEventListener(
-//   "focus",
-//   debounce(() => {
-//     const enemiesElements = document.querySelectorAll(".enemy");
-//     for (const enemy of enemiesElements) {
-//       enemy.style.display = "none";
-//     }
-//   }, 200)
-// );
-
 const loadText = document.querySelector(".loading-text");
 const container = document.querySelector(".container");
 
