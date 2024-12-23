@@ -30,6 +30,8 @@ export function resetPlayer() {
   playerState.isDying = false;
   playerState.x = TILE_SIZE;
   playerState.y = TILE_SIZE;
+  playerState.col = 1;
+  playerState.row = 1;
   playerState.direction = "down";
   playerState.frame = 0;
   player.classList.remove("player-death");
