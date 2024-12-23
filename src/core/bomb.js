@@ -1,9 +1,9 @@
 import { Tils } from "../main.js";
 import {
+  checkSurroundings,
   checkSurroundingsBombs,
   checkSurroundingsBombsByEnemy,
   checkSurroundingsBombsByPlayer,
-  checkSurroundingsPlayerByEnemy,
 } from "../utils/collision.js";
 import { enemies } from "../constants/constants.js";
 import { TILE_SIZE, playerState } from "../utils/check_resizing.js";
@@ -36,27 +36,41 @@ export function placeBomb() {
   activeBomb = bomb;
   setTimeout(() => {
     bomb.remove();
+    const surroundings = checkSurroundings(bombY, bombX, Tils);
+    const surroundingEnemy = checkSurroundingsBombsByEnemy(bombY, bombX, Tils);
+    if (surroundings.up || surroundingEnemy.up) {
+      explode(bombX,bombY - 1);
+    }
+    if (surroundings.down || surroundingEnemy.down) {
+      explode(bombX, bombY + 1);
+    }
+    if (surroundings.left || surroundingEnemy.left) {
+      explode(bombX - 1, bombY);
+    }
+    if (surroundings.right || surroundingEnemy.right) {
+      explode(bombX + 1, bombY);
+    }
     showExplosionEffect(bombX, bombY);
     activeBomb = null;
     Tils[bombY][bombX] = 0;
   }, 1500);
 }
 function getElementFromGrid(row, col) {
-  let rows = document.querySelectorAll(".row");
+  let rowElements = document.querySelectorAll(".row");
   let decider = "lands";
   if (row < 0 || row >= rows || col < 0 || col >= cols) {
     throw new Error("Invalid row or column index");
   }
-  if (rows[row].children[col].className === "rock") {
+  if (rowElements[row].children[col].className === "rock") {
     if (Tils[row][col] === 4) {
       decider = "door";
-      rows[row].children[col].setAttribute("y", row * TILE_SIZE);
-      rows[row].children[col].setAttribute("x", col * TILE_SIZE);
+      rowElements[row].children[col].setAttribute("y", row * TILE_SIZE);
+      rowElements[row].children[col].setAttribute("x", col * TILE_SIZE);
     }
     Tils[row][col] = 0;
-    rows[row].children[col].classList.remove("rock");
+    rowElements[row].children[col].classList.remove("rock");
     increaseScore(100);
-    rows[row].children[col].classList.add(decider);
+    rowElements[row].children[col].classList.add(decider);
   }
 }
 export function getElementByTranslate(row, col, element) {
@@ -93,7 +107,6 @@ export function getElementByTranslate(row, col, element) {
 }
 
 function showExplosionEffect(bombX, bombY) {
-  const explosion = document.createElement("div");
   const surroundingBombe = checkSurroundingsBombs(bombY, bombX, Tils);
   const surroundingEnemy = checkSurroundingsBombsByEnemy(bombY, bombX, Tils);
   const surroundingPlayer = checkSurroundingsBombsByPlayer(bombY, bombX, Tils);
@@ -150,7 +163,11 @@ function showExplosionEffect(bombX, bombY) {
       }
     });
   }
+  explode(bombX,bombY);
+}
 
+function explode(bombX,bombY){
+  const explosion = document.createElement("div");
   explosion.className = "explosion";
   explosion.style.width = TILE_SIZE + "px";
   explosion.style.height = TILE_SIZE + "px";

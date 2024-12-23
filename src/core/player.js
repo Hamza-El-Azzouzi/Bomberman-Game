@@ -78,7 +78,7 @@ export function update(deltaTime) {
       playerState.direction = "up";
       row = Math.ceil(playerState.y / TILE_SIZE);
       surroundings = utils.checkSurroundings(row, col, Tils);
-      if (surroundings.up || (surroundings.up && isBlockedByBomb())) {
+      if (surroundings.up || (Tils[row - 1][col] === 7 && isBlockedByBomb())) {
         if (playerState.x % TILE_SIZE > threshold) {
           playerState.x = Math.ceil(playerState.x / TILE_SIZE) * TILE_SIZE;
         } else {
@@ -93,7 +93,10 @@ export function update(deltaTime) {
       playerState.direction = "down";
       row = Math.floor(playerState.y / TILE_SIZE);
       surroundings = utils.checkSurroundings(row, col, Tils);
-      if (surroundings.down || (surroundings.down && isBlockedByBomb())) {
+      if (
+        surroundings.down ||
+        (Tils[row + 1][col] === 7 && isBlockedByBomb())
+      ) {
         if (playerState.x % TILE_SIZE > threshold) {
           playerState.x = Math.ceil(playerState.x / TILE_SIZE) * TILE_SIZE;
         } else {
@@ -108,7 +111,10 @@ export function update(deltaTime) {
       playerState.direction = "left";
       col = Math.ceil(playerState.x / TILE_SIZE);
       surroundings = utils.checkSurroundings(row, col, Tils);
-      if (surroundings.left || (surroundings.left && isBlockedByBomb())) {
+      if (
+        surroundings.left ||
+        (Tils[row][col - 1] === 7 && isBlockedByBomb())
+      ) {
         if (playerState.y % TILE_SIZE > threshold) {
           playerState.y = Math.ceil(playerState.y / TILE_SIZE) * TILE_SIZE;
         } else {
@@ -124,7 +130,10 @@ export function update(deltaTime) {
       col = Math.floor(playerState.x / TILE_SIZE);
       surroundings = utils.checkSurroundings(row, col, Tils);
 
-      if (surroundings.right || (surroundings.right && isBlockedByBomb())) {
+      if (
+        surroundings.right ||
+        (Tils[row][col + 1] === 7 && isBlockedByBomb())
+      ) {
         if (playerState.y % TILE_SIZE > threshold) {
           playerState.y = Math.ceil(playerState.y / TILE_SIZE) * TILE_SIZE;
         } else {
