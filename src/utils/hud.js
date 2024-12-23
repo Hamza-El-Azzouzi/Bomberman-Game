@@ -28,6 +28,12 @@ function updateHUD() {
   const elapsed = Date.now() - startTime; 
   const remainingTime = timer - elapsed;
 
+  if (remainingTime <= 0) {
+    timerElement.textContent = "Timer: 00:00:000";
+    gameOver();
+    return;
+  }
+
   minutes = Math.floor(remainingTime / 60000);
   seconds = Math.floor((remainingTime % 60000) / 1000); 
   milliseconds = remainingTime % 1000; 
@@ -36,11 +42,7 @@ function updateHUD() {
   seconds = seconds < 10 ? "0" + seconds : seconds;
   milliseconds = milliseconds < 100 ? "0" + milliseconds : milliseconds; 
 
-  timerElement.innerHTML = `Timer: ${minutes}:${seconds}<span hidden>${milliseconds}</span>`;
-
-  if (timer <= 0) {
-    gameOver();
-  }
+  timerElement.innerHTML = `Timer: ${minutes}:${seconds}<span hidden>:${milliseconds}</span>`;
 }
 
 setInterval(() => {
