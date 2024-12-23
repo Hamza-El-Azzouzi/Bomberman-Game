@@ -35,11 +35,10 @@ export function resetPlayer() {
 export function update(deltaTime) {
   if (playerState.isDying) return;
   const surroundingPlayerByEnemy = checkSurroundingsPlayerByEnemy(
-    Math.floor(playerState.y / TILE_SIZE),
-    Math.floor(playerState.x / TILE_SIZE),
-    Tils
+    
   );
   if (Object.values(surroundingPlayerByEnemy).some((item) => item)) {
+    console.log(surroundingPlayerByEnemy)
     killPlayer();
   }
 
