@@ -27,7 +27,7 @@ function updateHUD() {
   minutes = minutes < 10 ? "0" + minutes : minutes;
   seconds = seconds < 10 ? "0" + seconds : seconds;
 
-  timerElement.textContent = "game ends in: " + minutes + ":" + seconds;
+  timerElement.textContent = "Timer: " + minutes + ":" + seconds;
 
   if (timer === 0) {
     gameOver();
