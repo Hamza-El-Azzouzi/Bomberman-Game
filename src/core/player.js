@@ -38,7 +38,6 @@ export function update(deltaTime) {
     
   );
   if (Object.values(surroundingPlayerByEnemy).some((item) => item)) {
-    console.log(surroundingPlayerByEnemy)
     killPlayer();
   }
 
