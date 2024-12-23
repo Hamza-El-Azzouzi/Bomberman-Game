@@ -34,8 +34,9 @@ export function placeEnemies() {
     enemy.className = "enemy";
     enemy.style.width = TILE_SIZE + "px";
     enemy.style.height = TILE_SIZE + "px";
-    enemy.style.transform = `translate(${col * TILE_SIZE}px, ${row * TILE_SIZE
-      }px)`;
+    enemy.style.transform = `translate(${col * TILE_SIZE}px, ${
+      row * TILE_SIZE
+    }px)`;
     map.insertBefore(enemy, map.firstChild);
 
     enemies.push({

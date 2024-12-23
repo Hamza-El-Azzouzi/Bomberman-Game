@@ -3,10 +3,10 @@ import {
   checkSurroundingsBombs,
   checkSurroundingsBombsByEnemy,
   checkSurroundingsBombsByPlayer,
-  checkSurroundingsPlayerByEnemy
+  checkSurroundingsPlayerByEnemy,
 } from "../utils/collision.js";
 import { enemies } from "../constants/constants.js";
-import { TILE_SIZE,playerState } from "../utils/check_resizing.js";
+import { TILE_SIZE, playerState } from "../utils/check_resizing.js";
 import { killPlayer } from "./player.js";
 import { increaseScore, score } from "../utils/hud.js";
 
@@ -27,8 +27,9 @@ export function placeBomb() {
   bomb.className = "bomb";
   bomb.style.width = TILE_SIZE + "px";
   bomb.style.height = TILE_SIZE + "px";
-  bomb.style.transform = `translate(${bombX * TILE_SIZE}px, ${bombY * TILE_SIZE
-    }px)`;
+  bomb.style.transform = `translate(${bombX * TILE_SIZE}px, ${
+    bombY * TILE_SIZE
+  }px)`;
   container.insertBefore(bomb, container.firstChild);
 
   Tils[bombY][bombX] = 7;
@@ -41,7 +42,7 @@ export function placeBomb() {
   }, 1500);
 }
 function getElementFromGrid(row, col) {
-  let rows = document.querySelectorAll(".row")
+  let rows = document.querySelectorAll(".row");
   let decider = "lands";
   if (row < 0 || row >= rows || col < 0 || col >= cols) {
     throw new Error("Invalid row or column index");
@@ -96,7 +97,7 @@ function showExplosionEffect(bombX, bombY) {
   const surroundingBombe = checkSurroundingsBombs(bombY, bombX, Tils);
   const surroundingEnemy = checkSurroundingsBombsByEnemy(bombY, bombX, Tils);
   const surroundingPlayer = checkSurroundingsBombsByPlayer(bombY, bombX, Tils);
- 
+
   if (surroundingBombe.up) {
     getElementFromGrid(bombY - 1, bombX);
   }
@@ -151,12 +152,14 @@ function showExplosionEffect(bombX, bombY) {
   }
 
   explosion.className = "explosion";
-  explosion.style.width = TILE_SIZE+"px";
-  explosion.style.height = TILE_SIZE+"px";
-  explosion.style.backgroundSize = "" + TILE_SIZE * 4 + "px " + TILE_SIZE * 4 + "px";
-  explosion.style.transform = `translate(${bombX * TILE_SIZE}px, ${bombY * TILE_SIZE
-    }px)`;
-    container.insertBefore(explosion, container.firstChild);
+  explosion.style.width = TILE_SIZE + "px";
+  explosion.style.height = TILE_SIZE + "px";
+  explosion.style.backgroundSize =
+    "" + TILE_SIZE * 4 + "px " + TILE_SIZE * 4 + "px";
+  explosion.style.transform = `translate(${bombX * TILE_SIZE}px, ${
+    bombY * TILE_SIZE
+  }px)`;
+  container.insertBefore(explosion, container.firstChild);
 
   let frame = 0;
   let row = 0;
@@ -173,8 +176,9 @@ function showExplosionEffect(bombX, bombY) {
       row++;
       frame = 0;
     }
-    explosion.style.backgroundPosition = `-${frame * TILE_SIZE}px -${row * TILE_SIZE
-      }px`;
+    explosion.style.backgroundPosition = `-${frame * TILE_SIZE}px -${
+      row * TILE_SIZE
+    }px`;
     frame++;
   }, frameInterval);
 }

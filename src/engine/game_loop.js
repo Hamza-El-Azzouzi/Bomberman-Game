@@ -1,12 +1,12 @@
 import { render, update } from "../core/player.js";
 import { enemies } from "../constants/constants.js";
 import { playerState } from "../utils/check_resizing.js";
-//import { FPSMonitor } from "./fps_monitor.js";
+import { FPSMonitor } from "./fps_monitor.js";
 import { updateEnemies } from "../core/enemy.js";
 import { isPaused, Winner } from "../utils/pause_menu.js";
 
 let lastTime = performance.now();
-//const fpsMonitor = new FPSMonitor();
+const fpsMonitor = new FPSMonitor();
 
 export function gameLoop(currentTime, tils) {
   const door = document.querySelector(".door");
@@ -25,7 +25,7 @@ export function gameLoop(currentTime, tils) {
   updateEnemies(deltaTime);
   render();
 
-  //fpsMonitor.update(currentTime);
+  fpsMonitor.update(currentTime);
   if (!isPaused) {
     requestAnimationFrame(gameLoop);
   }

@@ -4,12 +4,12 @@ import { placeEnemies } from "./core/enemy.js";
 import { gameLoop } from "./engine/game_loop.js";
 import { setHud } from "./utils/hud.js";
 
-export let Tils
+export let Tils;
 
 export function init() {
   setInterval(() => {
     if (document.querySelector(".loading-container") == null) {
-      return
+      return;
     }
   }, 1000);
   initMap();

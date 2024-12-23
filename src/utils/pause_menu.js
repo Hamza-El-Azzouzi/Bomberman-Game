@@ -105,13 +105,13 @@ playAgainButton.addEventListener("click", restartGame);
 
 document.addEventListener("keydown", (event) => {
   if (gameOverScreen.style.display === "flex") {
-    if (event.key === "Enter"){
+    if (event.key === "Enter") {
       restartGameOver.click();
     }
     return;
   }
-  if (!winnerScreen.classList.contains("hidden")){
-    if (event.key === "Enter"){
+  if (!winnerScreen.classList.contains("hidden")) {
+    if (event.key === "Enter") {
       playAgainButton.click();
     }
     return;

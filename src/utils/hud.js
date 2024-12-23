@@ -1,4 +1,4 @@
-import { isPaused,gameOver } from "./pause_menu.js";
+import { isPaused, gameOver } from "./pause_menu.js";
 
 export let score;
 export let lives;
@@ -10,7 +10,7 @@ const scoreElement = document.getElementById("score");
 const livesElement = document.getElementById("lives");
 const timerElement = document.getElementById("timer");
 
-export function setHud(){
+export function setHud() {
   score = 0;
   lives = 5;
   minutes = 5;
@@ -48,7 +48,7 @@ export function increaseScore(amount) {
 
 export function decreaseLives() {
   lives -= 1;
-  if (lives === 0){
+  if (lives === 0) {
     gameOver();
   }
   updateHUD();

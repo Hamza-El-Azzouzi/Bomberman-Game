@@ -88,28 +88,6 @@ body {
   animation: bomb-fuse 3s steps(3) infinite;
 }
 
-@keyframes bomb-fuse {
-  0% {
-    filter: brightness(1);
-  }
-
-  25% {
-    filter: brightness(2);
-  }
-
-  50% {
-    filter: brightness(3);
-  }
-
-  75% {
-    filter: brightness(2);
-  }
-
-  100% {
-    filter: brightness(1);
-  }
-}
-
 .explosion {
   position: absolute;
   background: url("../assets/exp2.png") no-repeat;
@@ -233,6 +211,10 @@ body {
   text-align: center;width: 75vw;
 }
 
+.player-death {
+  animation: playerDeath 2s forwards; 
+}
+
 @keyframes playerDeath {
   0% {
     transform: scale(1) translate3d(50, 50, 0);
@@ -248,8 +230,26 @@ body {
   }
 }
 
-.player-death {
-  animation: playerDeath 2s forwards; 
+@keyframes bomb-fuse {
+  0% {
+    filter: brightness(1);
+  }
+
+  25% {
+    filter: brightness(2);
+  }
+
+  50% {
+    filter: brightness(3);
+  }
+
+  75% {
+    filter: brightness(2);
+  }
+
+  100% {
+    filter: brightness(1);
+  }
 }
 
 @media (max-width: 800px) {

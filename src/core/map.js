@@ -1,21 +1,21 @@
-import { TILE_SIZE,playerState } from "../utils/check_resizing.js";
+import { TILE_SIZE, playerState } from "../utils/check_resizing.js";
 
 export function initMap() {
   const container = document.querySelector(".container");
-  const map = document.createElement('div');
+  const map = document.createElement("div");
   map.id = "map";
   map.className = "map";
-  const player = document.createElement('div');
+  const player = document.createElement("div");
   player.id = "player";
   player.className = "player";
   player.style.width = "50px";
   player.style.height = "50px";
-  map.append(player)
+  map.append(player);
   container.appendChild(map);
 }
 
 export function MapGenerator() {
-  const map = document.querySelector('.map');
+  const map = document.querySelector(".map");
   const ROWS = 13;
   const COLS = 15;
 
@@ -34,11 +34,19 @@ export function MapGenerator() {
   function countConsecutiveBlocks(row, col, isHorizontal) {
     let count = 0;
     if (isHorizontal) {
-      for (let j = Math.max(1, col - 2); j <= Math.min(COLS - 2, col + 2); j++) {
+      for (
+        let j = Math.max(1, col - 2);
+        j <= Math.min(COLS - 2, col + 2);
+        j++
+      ) {
         if (tils[row][j] === 2) count++;
       }
     } else {
-      for (let i = Math.max(1, row - 2); i <= Math.min(ROWS - 2, row + 2); i++) {
+      for (
+        let i = Math.max(1, row - 2);
+        i <= Math.min(ROWS - 2, row + 2);
+        i++
+      ) {
         if (tils[i][col] === 2) count++;
       }
     }
@@ -63,10 +71,15 @@ export function MapGenerator() {
   }
 
   const safeZones = [
-    [1, 1], [1, 2], [2, 1],
-    [1, COLS - 2], [2, COLS - 2],
-    [ROWS - 2, 1], [ROWS - 3, 1],
-    [ROWS - 2, COLS - 2], [ROWS - 3, COLS - 2],
+    [1, 1],
+    [1, 2],
+    [2, 1],
+    [1, COLS - 2],
+    [2, COLS - 2],
+    [ROWS - 2, 1],
+    [ROWS - 3, 1],
+    [ROWS - 2, COLS - 2],
+    [ROWS - 3, COLS - 2],
   ];
 
   safeZones.forEach(([row, col]) => {
@@ -76,7 +89,6 @@ export function MapGenerator() {
   const [startRow, startCol] = safeZones[0];
   playerState.x = startCol * TILE_SIZE;
   playerState.y = startRow * TILE_SIZE;
-
 
   let doorPlaced = false;
   const potentialDoorSpots = [];
@@ -90,32 +102,30 @@ export function MapGenerator() {
   }
 
   if (potentialDoorSpots.length > 0) {
-    const [doorRow, doorCol] = potentialDoorSpots[
-      Math.floor(Math.random() * potentialDoorSpots.length)
-    ];
+    const [doorRow, doorCol] =
+      potentialDoorSpots[Math.floor(Math.random() * potentialDoorSpots.length)];
     tils[doorRow][doorCol] = 4;
     doorPlaced = true;
   }
 
-
   for (let i = 0; i < ROWS; i++) {
-    const row = document.createElement('div');
+    const row = document.createElement("div");
     row.className = "row";
     for (let j = 0; j < COLS; j++) {
-      const block = document.createElement('div');
+      const block = document.createElement("div");
       switch (tils[i][j]) {
         case 0:
-          block.className = 'lands';
+          block.className = "lands";
           break;
         case 1:
-          block.className = 'block';
+          block.className = "block";
           break;
         case 2:
-          block.className = 'rock';
+          block.className = "rock";
           break;
         case 4:
-          block.className = 'rock';
-          block.textContent = "1 "
+          block.className = "rock";
+          block.textContent = "1 ";
           break;
       }
       row.appendChild(block);

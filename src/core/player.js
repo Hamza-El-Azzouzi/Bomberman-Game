@@ -5,9 +5,7 @@ import { placeBomb } from "./bomb.js";
 import * as utils from "../utils/collision.js";
 import { bombX, bombY } from "./bomb.js";
 import { decreaseLives, lives } from "../utils/hud.js";
-import {
-  checkSurroundingsPlayerByEnemy
-} from "../utils/collision.js";
+import { checkSurroundingsPlayerByEnemy } from "../utils/collision.js";
 let player;
 
 const activeKeys = [];
@@ -17,12 +15,9 @@ let lastAnimationTime = 0;
 export function killPlayer() {
   playerState.isDying = true;
   player.classList.add("player-death");
-  player.addEventListener(
-    "animationend",
-    () => {
-      resetPlayer();
-    }
-  );
+  player.addEventListener("animationend", () => {
+    resetPlayer();
+  });
   decreaseLives();
 }
 
@@ -42,7 +37,8 @@ export function update(deltaTime) {
   const surroundingPlayerByEnemy = checkSurroundingsPlayerByEnemy(
     Math.floor(playerState.y / TILE_SIZE),
     Math.floor(playerState.x / TILE_SIZE),
-    Tils)
+    Tils
+  );
   if (Object.values(surroundingPlayerByEnemy).some((item) => item)) {
     killPlayer();
   }
@@ -157,8 +153,9 @@ export function render() {
   player = document.getElementById("player");
   player.style.transform = `translate(${playerState.x}px, ${playerState.y}px)`;
   const row = spriteDirections[playerState.direction];
-  player.style.backgroundPosition = `-${playerState.frame * TILE_SIZE}px -${row * TILE_SIZE
-    }px`;
+  player.style.backgroundPosition = `-${playerState.frame * TILE_SIZE}px -${
+    row * TILE_SIZE
+  }px`;
 }
 
 document.addEventListener(

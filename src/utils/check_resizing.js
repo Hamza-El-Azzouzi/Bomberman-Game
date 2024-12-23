@@ -57,17 +57,17 @@ function checkWindowSize() {
   resizeEnemy(width);
 }
 
-export function checkResizing(){
-    load = 0;
-    intervalId = setInterval(blurring, 30);
-    checkWindowSize();
+export function checkResizing() {
+  load = 0;
+  intervalId = setInterval(blurring, 30);
+  checkWindowSize();
 }
 
 window.addEventListener(
-    "resize",
-    debounce(() => {
-        container.style.filter = "blur(0px)";
-    }, 1500)
+  "resize",
+  debounce(() => {
+    container.style.filter = "blur(0px)";
+  }, 1500)
 );
 
 window.addEventListener("resize", checkWindowSize);

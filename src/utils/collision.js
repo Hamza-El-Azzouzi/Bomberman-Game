@@ -37,8 +37,7 @@ export function checkSurroundingsBombsByEnemy(row, col, tils) {
       row < tils.length - 1 &&
       checkEnemy(col, row + 1, "down") &&
       Tils[row + 1][col] != 1,
-    left:
-      col > 1 && checkEnemy(col - 1, row) && Tils[row][col - 1] != 1,
+    left: col > 1 && checkEnemy(col - 1, row) && Tils[row][col - 1] != 1,
     right:
       col < tils[0].length - 1 &&
       checkEnemy(col + 1, row) &&
@@ -97,8 +96,7 @@ export function checkSurroundingsBombsByPlayer(row, col, tils) {
       row < tils.length - 1 &&
       checkPlayer(col, row + 1) &&
       Tils[row + 1][col] != 1,
-    left:
-      col > 1 && checkPlayer(col - 1, row) && Tils[row][col - 1] != 1,
+    left: col > 1 && checkPlayer(col - 1, row) && Tils[row][col - 1] != 1,
     right:
       col < tils[0].length - 1 &&
       checkPlayer(col + 1, row) &&
@@ -130,16 +128,21 @@ function checkPlayer(col, row) {
 
 export function checkSurroundingsPlayerByEnemy(row, col, tils) {
   return {
-    up: row > 1 && checkPlayer(col, row) &&
-      checkEnemy(col, row) && Tils[row - 1][col] != 1,
+    up:
+      row > 1 &&
+      checkPlayer(col, row) &&
+      checkEnemy(col, row) &&
+      Tils[row - 1][col] != 1,
     down:
       row < tils.length - 1 &&
       checkPlayer(col, row) &&
       checkEnemy(col, row) &&
       Tils[row + 1][col] != 1,
     left:
-      col > 1 && checkPlayer(col, row) &&
-      checkEnemy(col, row) && Tils[row][col - 1] != 1,
+      col > 1 &&
+      checkPlayer(col, row) &&
+      checkEnemy(col, row) &&
+      Tils[row][col - 1] != 1,
     right:
       col < tils[0].length - 1 &&
       checkPlayer(col, row) &&
