@@ -22,7 +22,6 @@ export function gameLoop(currentTime, tils) {
   update(deltaTime, tils);
   updateEnemies(deltaTime);
   render();
-  
   if (!isPaused) {
     requestAnimationFrame(gameLoop);
   }
