@@ -5,7 +5,9 @@ import { placeBomb } from "./bomb.js";
 import * as utils from "../utils/collision.js";
 import { bombX, bombY } from "./bomb.js";
 import { decreaseLives, lives } from "../utils/hud.js";
-
+import {
+  checkSurroundingsPlayerByEnemy
+} from "../utils/collision.js";
 let player;
 
 const activeKeys = [];
@@ -35,14 +37,14 @@ export function resetPlayer() {
 
 export function update(deltaTime) {
   if (playerState.isDying) return;
-
-  const surroundingPlayer = utils.checkSurroundingsByPlayer(
+  const surroundingPlayerByEnemy = checkSurroundingsPlayerByEnemy(
     Math.floor(playerState.y / TILE_SIZE),
     Math.floor(playerState.x / TILE_SIZE),
-    Tils
-  );
+    Tils)
+    console.log(surroundingPlayerByEnemy)
 
-  if (Object.values(surroundingPlayer).some((item) => item)) {
+
+  if (Object.values(surroundingPlayerByEnemy).some((item) => item)) {
     killPlayer();
   }
 
@@ -126,6 +128,7 @@ export function update(deltaTime) {
       playerState.direction = "right";
       col = Math.floor(playerState.x / TILE_SIZE);
       surroundings = utils.checkSurroundings(row, col, Tils);
+
       if (surroundings.right || (surroundings.right && isBlockedByBomb())) {
         if (playerState.y % TILE_SIZE > threshold) {
           playerState.y = Math.ceil(playerState.y / TILE_SIZE) * TILE_SIZE;

@@ -3,6 +3,7 @@ import {
   checkSurroundingsBombs,
   checkSurroundingsBombsByEnemy,
   checkSurroundingsBombsByPlayer,
+  checkSurroundingsPlayerByEnemy
 } from "../utils/collision.js";
 import { enemies } from "../constants/constants.js";
 import { TILE_SIZE,playerState } from "../utils/check_resizing.js";
@@ -95,6 +96,7 @@ function showExplosionEffect(bombX, bombY) {
   const surroundingBombe = checkSurroundingsBombs(bombY, bombX, Tils);
   const surroundingEnemy = checkSurroundingsBombsByEnemy(bombY, bombX, Tils);
   const surroundingPlayer = checkSurroundingsBombsByPlayer(bombY, bombX, Tils);
+ 
   if (surroundingBombe.up) {
     getElementFromGrid(bombY - 1, bombX);
   }
