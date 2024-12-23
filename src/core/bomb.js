@@ -3,7 +3,6 @@ import {
   checkSurroundingsBombs,
   checkSurroundingsBombsByEnemy,
   checkSurroundingsBombsByPlayer,
-  checkSurroundingsPlayerByEnemy
 } from "../utils/collision.js";
 import { enemies } from "../constants/constants.js";
 import { TILE_SIZE,playerState } from "../utils/check_resizing.js";
@@ -12,7 +11,6 @@ import { increaseScore, score } from "../utils/hud.js";
 
 let activeBomb = null;
 let container;
-var rows = 13;
 var cols = 15;
 export let bombX = 0;
 export let bombY = 0;
@@ -41,21 +39,21 @@ export function placeBomb() {
   }, 1500);
 }
 function getElementFromGrid(row, col) {
-  let rows = document.querySelectorAll(".row")
+  let rowsElements = document.querySelectorAll(".row")
   let decider = "lands";
-  if (row < 0 || row >= rows || col < 0 || col >= cols) {
+  if (row < 0 || row >= rowsElements || col < 0 || col >= cols) {
     throw new Error("Invalid row or column index");
   }
-  if (rows[row].children[col].className === "rock") {
+  if (rowsElements[row].children[col].className === "rock") {
     if (Tils[row][col] === 4) {
       decider = "door";
-      rows[row].children[col].setAttribute("y", row * TILE_SIZE);
-      rows[row].children[col].setAttribute("x", col * TILE_SIZE);
+      rowsElements[row].children[col].setAttribute("y", row * TILE_SIZE);
+      rowsElements[row].children[col].setAttribute("x", col * TILE_SIZE);
     }
     Tils[row][col] = 0;
-    rows[row].children[col].classList.remove("rock");
+    rowsElements[row].children[col].classList.remove("rock");
     increaseScore(100);
-    rows[row].children[col].classList.add(decider);
+    rowsElements[row].children[col].classList.add(decider);
   }
 }
 export function getElementByTranslate(row, col, element) {
