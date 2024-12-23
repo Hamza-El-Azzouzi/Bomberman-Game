@@ -54,11 +54,11 @@ export function MapGenerator() {
       const horizontalCount = countConsecutiveBlocks(i, j, true);
       const verticalCount = countConsecutiveBlocks(i, j, false);
 
-      // if (horizontalCount < 2 && verticalCount < 2) {
-      //   if (Math.random() < 0.6) {
-      //     tils[i][j] = 2;
-      //   }
-      // }
+      if (horizontalCount < 2 && verticalCount < 2) {
+        if (Math.random() < 0.6) {
+          tils[i][j] = 2;
+        }
+      }
     }
   }
 
