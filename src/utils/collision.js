@@ -62,7 +62,9 @@ function checkEnemy(col, row) {
     if (transform && transform.includes("matrix")) {
       const match = transform.match(/matrix\((.+?)\)/);
       if (match) {
-        const [a, b, c, d, tx, ty] = match[1].split(", ").map(parseFloat);
+        const coords = match[1].split(", ").map(parseFloat);
+        const tx = coords[4];
+        const ty = coords[5];
         if (tx >= minX && tx <= maxX && ty >= minY && ty <= maxY) {
           return true;
         }
@@ -117,7 +119,9 @@ function checkPlayer(col, row) {
   if (transform && transform.includes("matrix")) {
     const match = transform.match(/matrix\((.+?)\)/);
     if (match) {
-      const [a, b, c, d, tx, ty] = match[1].split(", ").map(parseFloat);
+      const coords = match[1].split(", ").map(parseFloat);
+      const tx = coords[4];
+      const ty = coords[5];
       if (tx >= minX && tx <= maxX && ty >= minY && ty <= maxY) {
         return true;
       }
