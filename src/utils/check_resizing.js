@@ -50,7 +50,6 @@ function showGame() {
 }
 
 function checkWindowSize() {
-  console.log("3");
   container.style.filter = "";
   width = document.querySelector(".block").getBoundingClientRect().width;
   TILE_SIZE = width;

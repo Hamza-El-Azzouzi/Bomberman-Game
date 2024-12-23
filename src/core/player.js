@@ -43,9 +43,6 @@ export function update(deltaTime) {
     Math.floor(playerState.y / TILE_SIZE),
     Math.floor(playerState.x / TILE_SIZE),
     Tils)
-    console.log(surroundingPlayerByEnemy)
-
-
   if (Object.values(surroundingPlayerByEnemy).some((item) => item)) {
     killPlayer();
   }

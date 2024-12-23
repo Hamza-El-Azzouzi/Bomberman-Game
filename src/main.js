@@ -16,7 +16,6 @@ export function init() {
   setHud();
   Tils = MapGenerator();
   placeEnemies();
-  console.log("2")
   checkResizing();
   gameLoop();
 }
