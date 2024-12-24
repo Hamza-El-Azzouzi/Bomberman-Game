@@ -1,6 +1,6 @@
 import { playerState, TILE_SIZE } from "./check_resizing.js";
 import { Tils } from "../main.js";
-import { enemies } from "../constants/constants.js";
+import { enemies } from "../core/bomb.js";
 
 export function checkSurroundings(row, col, tils) {
   if (!Array.isArray(tils) || tils.length === 0 || !Array.isArray(tils[0])) {
@@ -144,14 +144,11 @@ function collisionPlayerWithEnemy(direction) {
   for (const enemy of enemies){
     if (direction === "up" && playerState.x === enemy.x && playerState.y > enemy.y && playerState.y - (TILE_SIZE / 1.3) < enemy.y) {
       return true;
-    }
-    if (direction === "down" && playerState.x === enemy.x && playerState.y < enemy.y && playerState.y + (TILE_SIZE / 1.3) > enemy.y) {
+    }else if (direction === "down" && playerState.x === enemy.x && playerState.y < enemy.y && playerState.y + (TILE_SIZE / 1.3) > enemy.y) {
       return true;
-    }
-    if (direction === "left" && playerState.y === enemy.y && playerState.x > enemy.x && playerState.x - (TILE_SIZE / 1.9) < enemy.x) {
+    }else if (direction === "left" && playerState.y === enemy.y && playerState.x > enemy.x && playerState.x - (TILE_SIZE / 1.9) < enemy.x) {
       return true;
-    }
-    if (direction === "right" && playerState.y === enemy.y && playerState.x < enemy.x && playerState.x + (TILE_SIZE / 1.9) > enemy.x) {
+    }else if (direction === "right" && playerState.y === enemy.y && playerState.x < enemy.x && playerState.x + (TILE_SIZE / 1.9) > enemy.x) {
       return true;
     }
   }

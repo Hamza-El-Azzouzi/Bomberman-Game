@@ -125,6 +125,7 @@ export function MapGenerator() {
           break;
         case 4:
           block.className = "rock";
+          block.textContent = "1"
           break;
       }
       row.appendChild(block);

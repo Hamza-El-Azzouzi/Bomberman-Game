@@ -1,4 +1,4 @@
-import { enemies } from "../constants/constants.js";
+import { enemies } from "../core/bomb.js";
 
 export let TILE_SIZE = 50;
 

@@ -1,5 +1,6 @@
 import { Tils } from "../main.js";
-import { spriteDirections, enemies } from "../constants/constants.js";
+import { enemies } from "./bomb.js";
+import { spriteDirections } from "../constants/constants.js";
 import { TILE_SIZE, playerState } from "../utils/check_resizing.js";
 import { checkSurroundings } from "../utils/collision.js";
 
@@ -31,7 +32,8 @@ export function placeEnemies() {
     const { row, col } = getRandomValidPosition();
 
     const enemy = document.createElement("div");
-    enemy.className = "enemy";
+    enemy.classList.add("enemy");
+    enemy.classList.add(`id-${i}`);
     enemy.style.width = TILE_SIZE + "px";
     enemy.style.height = TILE_SIZE + "px";
     enemy.style.transform = `translate(${col * TILE_SIZE}px, ${

@@ -5,11 +5,11 @@ import {
   checkSurroundingsBombsByEnemy,
   checkSurroundingsBombsByPlayer,
 } from "../utils/collision.js";
-import { enemies } from "../constants/constants.js";
 import { TILE_SIZE, playerState } from "../utils/check_resizing.js";
 import { killPlayer } from "./player.js";
 import { increaseScore, score } from "../utils/hud.js";
 
+export var enemies = [];
 let activeBomb = null;
 let container;
 var rows = 13;
@@ -39,7 +39,7 @@ export function placeBomb() {
     const surroundings = checkSurroundings(bombY, bombX, Tils);
     const surroundingEnemy = checkSurroundingsBombsByEnemy(bombY, bombX, Tils);
     if (surroundings.up || surroundingEnemy.up) {
-      explode(bombX,bombY - 1);
+      explode(bombX, bombY - 1);
     }
     if (surroundings.down || surroundingEnemy.down) {
       explode(bombX, bombY + 1);
@@ -73,6 +73,7 @@ function getElementFromGrid(row, col) {
     rowElements[row].children[col].classList.add(decider);
   }
 }
+
 export function getElementByTranslate(row, col, element) {
   const allElement = document.querySelectorAll(element);
   for (const elem of allElement) {
@@ -92,7 +93,9 @@ export function getElementByTranslate(row, col, element) {
         ) {
           if (element === ".enemy") {
             elem.remove();
-            enemies.pop();
+            enemies = enemies.filter((enemy) => {
+              return enemy.element.classList[1] !== elem.classList[1];
+            });
             increaseScore(500);
           } else {
             killPlayer();
@@ -163,10 +166,10 @@ function showExplosionEffect(bombX, bombY) {
       }
     });
   }
-  explode(bombX,bombY);
+  explode(bombX, bombY);
 }
 
-function explode(bombX,bombY){
+function explode(bombX, bombY) {
   const explosion = document.createElement("div");
   explosion.className = "explosion";
   explosion.style.width = TILE_SIZE + "px";

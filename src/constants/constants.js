@@ -1,5 +1,3 @@
-export const enemies = [];
-
 export const spriteDirections = {
   down: 0,
   left: 1,
