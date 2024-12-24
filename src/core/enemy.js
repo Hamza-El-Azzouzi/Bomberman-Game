@@ -69,8 +69,8 @@ function animateEnemy(enemy) {
   enemy.element.style.backgroundPosition = `-${frameX}px -${frameY}px`;
 }
 
-function moveEnemy(enemy) {
-  const frequence = 0.0166;
+function moveEnemy(enemy,frequence) {
+  // const frequence = 0.0166;
   let currentRow = Math.round(enemy.y / TILE_SIZE);
   let currentCol = Math.round(enemy.x / TILE_SIZE);
   switch (enemy.direction) {
@@ -131,8 +131,8 @@ function moveEnemy(enemy) {
   )}px, ${Math.round(enemy.y)}px)`;
 }
 
-export function updateEnemies() {
+export function updateEnemies(frequence) {
   enemies.forEach((enemy) => {
-    moveEnemy(enemy);
+    moveEnemy(enemy,frequence);
   });
 }
