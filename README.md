@@ -13,12 +13,14 @@ This is a vanilla JavaScript implementation of the classic Bomberman game, built
 ## Game Features
 
 ### Core Mechanics
+
 - Keyboard-controlled player movement
 - Bomb placement and explosion mechanics
 - Smooth, non-spammy key controls
 - Performance-optimized rendering
 
 ### Game UI
+
 - Pause menu with:
   - Continue game
   - Restart game
@@ -30,13 +32,16 @@ This is a vanilla JavaScript implementation of the classic Bomberman game, built
 ## Technical Requirements
 
 ### Performance Constraints
+
 - Maintain 60 FPS at all times
 - Minimize layer usage
 - Use `requestAnimationFrame` for smooth animations
 - No frame drops during game state changes
 
 ### Development Tools
+
 Recommended browser developer tools:
+
 - Page Inspector
 - Web Console
 - Performance Tool
@@ -48,19 +53,33 @@ Recommended browser developer tools:
 │
 ├── src/
 │   ├── engine/
-│   │   ├── gameLoop.js        # Main game loop & RAF implementation
-│   │   └── performance.js     # Performance monitoring utilities
+│   │   └── gameLoop.js        # Main game loop & RAF implementation
 │   │
 │   ├── core/
+│   │   ├── bombe.js           # bombe mechanics and interactions
+│   │   ├── enemy.js           # enemy mechanics and interactions
 │   │   ├── player.js          # Player mechanics and interactions
 │   │   └── map.js             # Game grid system and map generation
 │   │
 │   ├── utils/
+│   │   ├── check_resizing.js  # Check resizing for responsive
+│   │   ├── hud.js             # The HUD to visualize game statistics.
 │   │   └── collision.js       # Collision detection utilities
 │   │
 │   ├── assets/
+│   │   ├── altima2.png
+│   │   ├── block.png
+│   │   ├── bomb_sprite.png
+│   │   ├── door.png
+│   │   ├── empty_space.png
+│   │   ├── exp.png
+│   │   ├── favico.png
+│   │   ├── ifirit.png
+│   │   ├── rock.png
 │   │   └── styles.css         # Game styling
 │   │
+│   ├── assets/
+│   │   └── constants.js       # game constants
 │   ├── index.html             # Main HTML file
 │   └── main.js                # Game initialization and main script
 │
@@ -85,6 +104,7 @@ Recommended browser developer tools:
 ## Performance Monitoring
 
 Use browser developer tools, specifically the Performance Tool, to:
+
 - Analyze FPS
 - Check for frame drops
 - Monitor function execution times
