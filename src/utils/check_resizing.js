@@ -92,5 +92,6 @@ function resizeEnemy(width) {
   enemies.forEach((enemy) => {
     enemy.x = enemy.col * width;
     enemy.y = enemy.row * width;
+    enemy.speed = width;
   });
 }

@@ -47,7 +47,7 @@ export function placeEnemies() {
       y: row * TILE_SIZE,
       row: row,
       col: col,
-      speed: 60,
+      speed: TILE_SIZE,
       direction: "down",
       frame: 0,
       lastUpdateTime: performance.now(),
