@@ -51,10 +51,10 @@ function checkEnemy(col, row) {
 
   const baseX = col * TILE_SIZE;
   const baseY = row * TILE_SIZE;
-  const minX = baseX - TILE_SIZE / 5;
-  const maxX = baseX + TILE_SIZE / 5;
-  const minY = baseY - TILE_SIZE / 5;
-  const maxY = baseY + TILE_SIZE / 5;
+  const minX = baseX - TILE_SIZE / 1.9;
+  const maxX = baseX + TILE_SIZE / 1.9;
+  const minY = baseY - TILE_SIZE / 1.9;
+  const maxY = baseY + TILE_SIZE / 1.9;
 
   for (const enemy of allEnemies) {
     const style = window.getComputedStyle(enemy);

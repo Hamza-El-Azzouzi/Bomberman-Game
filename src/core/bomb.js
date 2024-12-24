@@ -82,9 +82,9 @@ export function getElementByTranslate(row, col, element) {
     if (transform && transform.includes("matrix")) {
       const match = transform.match(/matrix\((.+?)\)/);
       if (match) {
-        const [a, b, c, d, tx, ty] = match[1]
-          .split(", ")
-          .map((v) => parseFloat(v));
+        const coords = match[1].split(", ").map(parseFloat);
+        const tx = coords[4];
+        const ty = coords[5];
         if (
           tx < (col + 2) * TILE_SIZE &&
           tx > (col - 2) * TILE_SIZE &&
@@ -142,7 +142,6 @@ function showExplosionEffect(bombX, bombY) {
       getElementByTranslate(bombY, bombX, ".player");
     }
   }
-
   if (surroundingEnemy.up) {
     getElementByTranslate(bombY - 1, bombX, ".enemy");
   }
