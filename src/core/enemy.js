@@ -54,6 +54,41 @@ export function placeEnemies() {
   }
 }
 
+function smoothMoveEnemy(enemy, direction, steps, stepSize, onComplete) {
+  let stepCount = 0;
+
+  function moveStep() {
+    if (stepCount >= steps) {
+      if (onComplete) onComplete();
+      return;
+    }
+
+    switch (direction) {
+      case "up":
+        enemy.y -= stepSize;
+        break;
+      case "down":
+        enemy.y += stepSize;
+        break;
+      case "left":
+        enemy.x -= stepSize;
+        break;
+      case "right":
+        enemy.x += stepSize;
+        break;
+    }
+    animateEnemy(enemy);
+    enemy.element.style.transform = `translate(${Math.round(
+      enemy.x
+    )}px, ${Math.round(enemy.y)}px)`;
+
+    stepCount++;
+    setTimeout(moveStep, 60);
+  }
+
+  moveStep();
+}
+
 function animateEnemy(enemy) {
   const currentTime = performance.now();
 
@@ -69,70 +104,72 @@ function animateEnemy(enemy) {
   enemy.element.style.backgroundPosition = `-${frameX}px -${frameY}px`;
 }
 
-function moveEnemy(enemy,frequence) {
-  // const frequence = 0.0166;
-  let currentRow = Math.round(enemy.y / TILE_SIZE);
-  let currentCol = Math.round(enemy.x / TILE_SIZE);
-  switch (enemy.direction) {
-    case "up":
-      currentRow = Math.ceil(enemy.y / TILE_SIZE);
-      break;
-    case "down":
-      currentRow = Math.floor(enemy.y / TILE_SIZE);
-      break;
-    case "left":
-      currentCol = Math.ceil(enemy.x / TILE_SIZE);
-      break;
-    case "right":
-      currentCol = Math.floor(enemy.x / TILE_SIZE);
-      break;
-  }
+function moveEnemy(enemy) {
+  const TILE_STEP_COUNT = 20;
+  const STEP_SIZE = TILE_SIZE / TILE_STEP_COUNT;
+
+  if (enemy.isMoving) return;
+
+  const currentRow = Math.floor(enemy.y / TILE_SIZE);
+  const currentCol = Math.floor(enemy.x / TILE_SIZE);
   const surroundings = checkSurroundings(currentRow, currentCol, Tils);
+
   const possibleMoves = [];
   for (const move in surroundings) {
     if (surroundings[move]) possibleMoves.push(move);
   }
-  if (possibleMoves.includes(enemy.direction)) {
-    switch (enemy.direction) {
-      case "up":
-        enemy.y -= enemy.speed * frequence;
-        break;
-      case "down":
-        enemy.y += enemy.speed * frequence;
-        break;
-      case "left":
-        enemy.x -= enemy.speed * frequence;
-        break;
-      case "right":
-        enemy.x += enemy.speed * frequence;
-        break;
+
+  if (possibleMoves.length > 2) {
+    if (!surroundings[enemy.direction]) {
+      enemy.direction =
+        possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+    } else if (Math.random() < 0.2) {
+      enemy.direction =
+        possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
     }
   } else {
-    if (possibleMoves.length > 2) {
-      if (!surroundings[enemy.direction]) {
-        enemy.direction =
-          possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-      } else {
-        enemy.direction =
-          possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-      }
-    } else {
-      if (!surroundings[enemy.direction]) {
-        enemy.direction =
-          possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-      }
+    if (!surroundings[enemy.direction]) {
+      enemy.direction =
+        possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
     }
   }
-  enemy.row = Math.round(enemy.y/ TILE_SIZE)
-  enemy.col = Math.round(enemy.x/ TILE_SIZE)
-  animateEnemy(enemy);
-  enemy.element.style.transform = `translate(${Math.round(
-    enemy.x
-  )}px, ${Math.round(enemy.y)}px)`;
+
+  enemy.row = currentRow;
+  enemy.col = currentCol;
+
+  switch (enemy.direction) {
+    case "up":
+      enemy.row -= 1;
+      break;
+    case "down":
+      enemy.row += 1;
+      break;
+    case "left":
+      enemy.col -= 1;
+      break;
+    case "right":
+      enemy.col += 1;
+      break;
+  }
+
+  if (
+    enemy.row >= 0 &&
+    enemy.row < Tils.length &&
+    enemy.col >= 0 &&
+    enemy.col < Tils[0].length &&
+    Tils[enemy.row][enemy.col] === 0
+  ) {
+    enemy.isMoving = true;
+    smoothMoveEnemy(enemy, enemy.direction, TILE_STEP_COUNT, STEP_SIZE, () => {
+      enemy.isMoving = false;
+      enemy.x = enemy.col * TILE_SIZE;
+      enemy.y = enemy.row * TILE_SIZE;
+    });
+  }
 }
 
-export function updateEnemies(frequence) {
+export function updateEnemies() {
   enemies.forEach((enemy) => {
-    moveEnemy(enemy,frequence);
+    moveEnemy(enemy);
   });
 }
