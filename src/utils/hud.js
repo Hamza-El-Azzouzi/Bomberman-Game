@@ -51,41 +51,6 @@ setInterval(() => {
   }
 }, 1);
 
-
-// export function setHud() {
-//   score = 0;
-//   lives = 5;
-//   minutes = 5;
-//   seconds = 60;
-//   timer = minutes * seconds * 1000;
-// }
-
-// function updateHUD() {
-//   scoreElement.textContent = `Score: ${score}`;
-//   livesElement.textContent = `Lives: ${lives}`;
-//   minutes = parseInt(timer / 60000, 10);
-//   seconds = parseInt(timer % 60, 10);
-
-//   minutes = minutes < 10 ? "0" + minutes : minutes;
-//   seconds = seconds < 10 ? "0" + seconds : seconds;
-//   const milliseconds = Math.floor((timer % 1000) / 10);
-//   // timerElement.textContent = "Timer: " + minutes + ":" + seconds;
-//   timerElement.textContent = `Time: ${minutes.toString().padStart(2, "0")}:${seconds
-//     .toString()
-//     .padStart(2, "0")}:${milliseconds.toString().padStart(2, "0")}`;
-
-//   if (timer === 0) {
-//     gameOver();
-//   }
-// }
-
-// setInterval(() => {
-//   if (!isPaused) {
-//     timer -= 10;
-//     updateHUD();
-//   }
-// }, 10);
-
 export function increaseScore(amount) {
   score += amount;
   updateHUD();
