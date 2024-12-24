@@ -18,9 +18,8 @@ export function gameLoop(currentTime, tils) {
 
   const deltaTime = (currentTime - lastTime) / 1000;
   lastTime = currentTime;
-
   update(deltaTime, tils);
-  updateEnemies(deltaTime);
+  updateEnemies();
   render();
   if (!isPaused) {
     requestAnimationFrame(gameLoop);

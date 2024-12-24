@@ -46,9 +46,7 @@ function updateHUD() {
 }
 
 setInterval(() => {
-  if (!isPaused) {
     updateHUD();
-  }
 }, 1);
 
 export function increaseScore(amount) {
