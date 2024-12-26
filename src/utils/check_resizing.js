@@ -7,7 +7,7 @@ export const playerState = {
   y: TILE_SIZE,
   row: 1,
   col: 1,
-  speed: 100,
+  speed: TILE_SIZE * 2,
   direction: "down",
   frame: 0,
   isDying: false,

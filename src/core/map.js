@@ -8,8 +8,8 @@ export function initMap() {
   const player = document.createElement("div");
   player.id = "player";
   player.className = "player";
-  player.style.width = "50px";
-  player.style.height = "50px";
+  player.style.width = TILE_SIZE + "px";
+  player.style.height = TILE_SIZE + "px";
   map.append(player);
   container.appendChild(map);
 }
