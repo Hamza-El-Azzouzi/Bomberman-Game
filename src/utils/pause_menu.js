@@ -41,7 +41,7 @@ export function pauseGame() {
   isPaused = true;
   pauseMenu.classList.remove("hidden");
   container.classList.add("blurred");
-  //cancelAnimationFrame(gameLoop);
+  cancelAnimationFrame(gameLoop);
   selectedOptionIndex = 0;
   highlightSelectedOption();
 }
